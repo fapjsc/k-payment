@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
 
+// Router
+import { withRouter } from 'react-router-dom';
+
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -164,4 +167,4 @@ Payment.defaultProps = {
   }),
 };
 
-export default Payment;
+export default withRouter(Payment);
