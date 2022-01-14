@@ -1,27 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
-// Chat Socket
-// import { useSelector, useDispatch } from 'react-redux';
 import { isWidgetOpened, Widget } from 'react-chat-widget';
-// import { sendMessage, sendImg } from '../../lib/chatSocket';
-
-// Redux
-
-// Actions
-// import { removeUnreadMessageCount } from '../../store/actions/messageActions';
 
 import 'react-chat-widget/lib/styles.css';
-
-// import buyerLogo from '../../asset/buyer.png';
-// import csLogo from '../../asset/cs.png';
-// import sellLogo from '../../asset/seller.png';
 
 const ChatWidget = () => {
   const [show, setShow] = useState(false);
 
+  const btnRef = useRef(null);
+  const sendMessageIconRef = useRef(null);
+  const sendImagIconRef = useRef(null);
+
   useEffect(() => {
-    const btnEl = document.querySelector('.rcw-launcher');
-    btnEl.addEventListener('click', () => {
+    btnRef.current = document.querySelector('.rcw-launcher');
+    btnRef.current.addEventListener('click', () => {
       const isOpen = !isWidgetOpened();
       setShow(isOpen);
     });
@@ -30,16 +22,17 @@ const ChatWidget = () => {
   useEffect(() => {
     if (!show) return;
 
-    const sendImgIconEl = document.querySelector('.sendImgIcon');
-
-    if (sendImgIconEl) return;
-
     setTimeout(() => {
-      const sendMessageBtn = document.querySelector('.rcw-send');
-      sendMessageBtn.insertAdjacentHTML(
+      sendMessageIconRef.current = document.querySelector('.rcw-send');
+      sendMessageIconRef.current.insertAdjacentHTML(
         'afterend',
         '<div class="sendImgIcon" />',
       );
+
+      sendImagIconRef.current = document.querySelector('.sendImgIcon');
+      sendImagIconRef.current.addEventListener('click', () => {
+        document.getElementById('file1').click();
+      });
     }, 0);
   }, [show]);
 
@@ -47,7 +40,7 @@ const ChatWidget = () => {
     <div>
       <Widget title="Chat" />
       <input
-        // onChange={(e) => sendImg(e, selectToken)}
+        onChange={(e) => console.log(e)}
         id="file1"
         type="file"
         style={{ display: 'none' }}

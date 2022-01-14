@@ -1,21 +1,24 @@
-// import ReconnectingWebSocket from 'reconnecting-websocket';
-import { w3cwebsocket as W3CWebsocket } from 'websocket';
+import ReconnectingWebSocket from 'reconnecting-websocket';
+// import { w3cwebsocket as W3CWebsocket } from 'websocket';
 
 // import store from '../store';
 
 let client;
 
 export const buyConnectWs = (id, orderToken) => {
+  console.log('call');
+  //   console.log(orderToken, 'token');
   if (!id || !orderToken) return;
 
-  const uri = `wss://www.k100u.com/j/ws_orderstatus.ashx?login_session=${id}&order_token=${orderToken}`;
+  const uri = `wss://www.k100u.com/j/ws_orderstatus.ashx?di_order=${id}&order_token=${orderToken}`;
+
   console.log(uri);
 
-  client = new W3CWebsocket(uri);
+  client = new ReconnectingWebSocket(uri);
 
   // 1.建立連接
   client.onopen = () => {
-    console.log('websocket client connected success');
+    console.log('websocket connected success');
   };
 
   // 2.收到server回復

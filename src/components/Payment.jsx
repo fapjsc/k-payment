@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card, Spin } from 'antd';
 import ProForm, { ProFormText, ProFormMoney } from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
+import { TrademarkCircleFilled } from '@ant-design/icons';
 
 // Actions
 import {
@@ -21,7 +22,7 @@ import {
 } from '../store/actions/orderActions';
 
 // Websocket
-import { buyConnectWs } from '../utils/webSocket';
+// import { buyConnectWs } from '../utils/webSocket';
 
 // Styles
 import styles from './Payment.module.scss';
@@ -45,8 +46,6 @@ const Payment = ({ match }) => {
     error: rateError,
     loading: rateLoading,
   } = useSelector((state) => state.exRate);
-
-  const { orderToken } = useSelector((state) => state.orderToken);
 
   const { Client_CName: clientName, RequestedAmt } = orderInfo || {};
   const { RMB_BUY: rmbBuy } = rateInfo || {};
@@ -88,6 +87,13 @@ const Payment = ({ match }) => {
     return <span style={{ color: '#ff4d4f' }}>{rateError}</span>;
   };
 
+  const labelRender = (
+    <div className={styles['label-container']}>
+      <TrademarkCircleFilled className={styles.icon} />
+      <span className={styles['label-title']}>Rate</span>
+    </div>
+  );
+
   const rateText = () => {
     if (rateError || !rmbBuy) return null;
     return <span className={styles['rmb-text']}>{rmbBuy}</span>;
@@ -100,11 +106,22 @@ const Payment = ({ match }) => {
     return <span />;
   };
 
-  // connect to websocket after get token
-  useEffect(() => {
-    if (!id || !orderToken) return;
-    buyConnectWs(id, orderToken);
-  }, [orderToken, id]);
+  const buttonRender = (props, doms) => {
+    const { form } = props || {};
+    console.log(doms);
+    return [
+      <div className={styles['button-box']}>
+        <button
+          type="button"
+          key="submit"
+          className={styles.button}
+          onClick={() => form?.submit?.()}
+        >
+          確認
+        </button>
+      </div>,
+    ];
+  };
 
   return (
     <Card className={styles.card}>
@@ -117,7 +134,7 @@ const Payment = ({ match }) => {
           <ProDescriptions>
             <ProDescriptions.Item
               labelStyle={{ color: '#4b70e2' }}
-              label="Rate"
+              label={labelRender}
               valueType="string"
             >
               {rateErrorMessage() || rateText()}
@@ -127,6 +144,9 @@ const Payment = ({ match }) => {
           <ProForm
             onFinish={onFinishHandler}
             className={styles['insert-shadow']}
+            submitter={{
+              render: buttonRender,
+            }}
           >
             <ProFormText
               name="name"
