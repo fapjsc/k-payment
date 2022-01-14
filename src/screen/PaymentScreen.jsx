@@ -7,15 +7,21 @@ import { useSelector } from 'react-redux';
 
 // Components
 import Payment from '../components/Payment';
+import BuyForm from '../components/buy-form/BuyForm';
+// import PairModal from '../components/PairModal';
 
 // websocket
-// eslint-disable-next-line
 import { buyConnectWs } from '../utils/webSocket';
-// eslint-disable-next-line
 import { chatConnectWs } from '../utils/chatSocket';
 
 const PaymentScreen = ({ match }) => {
+  // Init State
+  //   const [showModal, setShowModal] = useState(false);
+
+  // Redux
   const { orderToken } = useSelector((state) => state.orderToken);
+  const { sessions } = useSelector((state) => state.diOrderSession);
+  const { data: sessionData } = sessions || {};
   const {
     params: { id },
   } = match;
@@ -24,12 +30,22 @@ const PaymentScreen = ({ match }) => {
     if (!orderToken || !id) return;
 
     buyConnectWs(id, orderToken);
-    // chatConnectWs(id, orderToken);
+    chatConnectWs(id, orderToken);
   }, [orderToken, id]);
+
   return (
     <div>
       <h1>Payment screen</h1>
-      <Payment />
+      {/* <PairModal
+        isModalVisible={sessionData?.Order_StatusID === 31 || false}
+        usdt={sessionData?.UsdtAmt}
+        cny={sessionData?.D2}
+      /> */}
+      {sessionData?.Order_StatusID !== 31 && sessions?.code === 200 ? (
+        <BuyForm />
+      ) : (
+        <Payment />
+      )}
     </div>
   );
 };

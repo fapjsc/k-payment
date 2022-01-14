@@ -9,10 +9,12 @@ import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Antd
-import { Card, Spin } from 'antd';
+// eslint-disable-next-line
+import { Card, Spin, Button } from 'antd';
 import ProForm, { ProFormText, ProFormMoney } from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import { TrademarkCircleFilled } from '@ant-design/icons';
+// eslint-disable-next-line
+import { TrademarkCircleFilled, LoadingOutlined } from '@ant-design/icons';
 
 // Actions
 import {
@@ -46,6 +48,11 @@ const Payment = ({ match }) => {
     error: rateError,
     loading: rateLoading,
   } = useSelector((state) => state.exRate);
+
+  // eslint-disable-next-line
+  const { loading: orderTokenLoading } = useSelector(
+    (state) => state.orderToken,
+  );
 
   const { Client_CName: clientName, RequestedAmt } = orderInfo || {};
   const { RMB_BUY: rmbBuy } = rateInfo || {};
@@ -106,23 +113,6 @@ const Payment = ({ match }) => {
     return <span />;
   };
 
-  const buttonRender = (props, doms) => {
-    const { form } = props || {};
-    console.log(doms);
-    return [
-      <div className={styles['button-box']}>
-        <button
-          type="button"
-          key="submit"
-          className={styles.button}
-          onClick={() => form?.submit?.()}
-        >
-          確認
-        </button>
-      </div>,
-    ];
-  };
-
   return (
     <Card className={styles.card}>
       {orderInfoLoading || rateLoading ? (
@@ -145,7 +135,24 @@ const Payment = ({ match }) => {
             onFinish={onFinishHandler}
             className={styles['insert-shadow']}
             submitter={{
-              render: buttonRender,
+              // eslint-disable-next-line
+              render: (props, doms) => {
+                return [
+                  <div className={styles['button-box']}>
+                    <button
+                      loading={orderTokenLoading}
+                      type="submit"
+                      key="submit"
+                      className={styles.button}
+                      // eslint-disable-next-line
+                      onClick={() => props.form?.submit?.()}
+                    >
+                      {orderTokenLoading && <LoadingOutlined />}
+                      確認
+                    </button>
+                  </div>,
+                ];
+              },
             }}
           >
             <ProFormText

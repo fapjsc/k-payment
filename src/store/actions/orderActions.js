@@ -91,3 +91,44 @@ export const getOrderToken = (id, orderData) => async (dispatch) => {
     });
   }
 };
+
+export const setDiOrder = (sessions) => ({
+  type: orderActionTypes.DI_ORDER_SESSION,
+  payload: sessions,
+});
+
+export const confirmBuy = (id, orderToken) => async (dispatch) => {
+  dispatch({ type: orderActionTypes.CONFIRM_BUY_REQUEST });
+  try {
+    const headers = getHeaders(id);
+    const url = '/j/DI_Buy2.aspx';
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        Token: orderToken,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.msg || 'Could not fetch buy2');
+    }
+
+    if (data.code !== 200) {
+      throw new Error(data.msg || 'Fetch buy2 fail.');
+    }
+
+    dispatch({
+      type: orderActionTypes.CONFIRM_BUY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: orderActionTypes.CONFIRM_BUY_FAIL,
+      payload: error.message || 'Something went wrong.',
+    });
+  }
+};

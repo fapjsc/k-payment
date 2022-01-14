@@ -1,18 +1,15 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 // import { w3cwebsocket as W3CWebsocket } from 'websocket';
 
-// import store from '../store';
+import store from '../store';
+import { setDiOrder } from '../store/actions/orderActions';
 
 let client;
 
 export const buyConnectWs = (id, orderToken) => {
-  console.log('call');
-  //   console.log(orderToken, 'token');
   if (!id || !orderToken) return;
 
   const uri = `wss://www.k100u.com/j/ws_orderstatus.ashx?di_order=${id}&order_token=${orderToken}`;
-
-  console.log(uri);
 
   client = new ReconnectingWebSocket(uri);
 
@@ -23,8 +20,11 @@ export const buyConnectWs = (id, orderToken) => {
 
   // 2.收到server回復
   client.onmessage = (message) => {
-    console.log('message from server');
-    console.log(message);
+    if (!message.data) return;
+    const dataFromServer = JSON.parse(message.data);
+    // console.log('got reply!', dataFromServer, 'buy');
+
+    store.dispatch(setDiOrder(dataFromServer));
   };
 
   // 3. 連線關閉

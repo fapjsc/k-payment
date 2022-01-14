@@ -95,3 +95,41 @@ export const orderTokenReducer = (state = getOrderInitialState, action) => {
       return state;
   }
 };
+
+export const diOrderSessionReducer = (state = { sessions: {} }, action) => {
+  switch (action.type) {
+    case orderActionTypes.DI_ORDER_SESSION:
+      return {
+        ...state,
+        sessions: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const confirmBuyReducer = (state = {}, action) => {
+  switch (action.type) {
+    case orderActionTypes.CONFIRM_BUY_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case orderActionTypes.CONFIRM_BUY_SUCCESS:
+      return {
+        loading: false,
+        rateInfo: action.payload,
+        error: '',
+      };
+
+    case orderActionTypes.CONFIRM_BUY_FAIL:
+      return {
+        loading: false,
+        rateInfo: null,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};

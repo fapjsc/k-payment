@@ -8,12 +8,16 @@ import {
   orderReducer,
   exRateReducer,
   orderTokenReducer,
+  diOrderSessionReducer,
+  confirmBuyReducer,
 } from './reducers/orderReducers';
 
 const reducer = combineReducers({
   openOrder: orderReducer,
   exRate: exRateReducer,
   orderToken: orderTokenReducer,
+  diOrderSession: diOrderSessionReducer,
+  confirmBuy: confirmBuyReducer,
 });
 
 const middleware = [thunk];
