@@ -10,25 +10,13 @@ import {
   Col, Divider, Typography, Space, Spin,
 } from 'antd';
 
-// import Note from '../Note';
+// Components
 import PaymentForm from './PaymentForm';
 
+// Layout
+import { wrapLayout, mobileWrapLayout, dividerLayout } from '../../layout/layout-span';
+
 const { Title } = Typography;
-
-const wrapLayout = {
-  span: 6,
-  offset: 9,
-};
-
-const mobileWrapLayout = {
-  span: 20,
-  offset: 2,
-};
-
-const dividerLayout = {
-  span: 12,
-  offset: 6,
-};
 
 const Payment = ({ id }) => {
   const { rateInfo } = useSelector((state) => state.exRate);

@@ -13,6 +13,9 @@ import {
 // Layout
 import ContentLayout from '../layout/ContentLayout';
 import HeaderLayout from '../layout/header/HeaderLayout';
+import {
+  mobileWrapLayout, dividerLayout, noteLayout,
+} from '../layout/layout-span';
 
 // Components
 import PairModal from '../components/PairModal';
@@ -26,21 +29,6 @@ import { chatConnectWs } from '../utils/chatSocket';
 
 // Actions
 import { openOrder, getExRate } from '../store/actions/orderActions';
-
-const wrapLayout = {
-  span: 6,
-  offset: 9,
-};
-
-const mobileWrapLayout = {
-  span: 20,
-  offset: 2,
-};
-
-const dividerLayout = {
-  span: 12,
-  offset: 6,
-};
 
 const PaymentScreen = ({ match }) => {
   // Router Props
@@ -69,6 +57,7 @@ const PaymentScreen = ({ match }) => {
   return (
     <Layout className="layout">
       <PairModal isModalVisible={false} usdt={1234} cny={333} />
+
       <HeaderLayout />
 
       <ContentLayout>
@@ -86,11 +75,16 @@ const PaymentScreen = ({ match }) => {
           </Col>
 
           <Col
-            span={wrapLayout.span}
-            offset={wrapLayout.offset}
-            md={{ ...dividerLayout }}
+            span={noteLayout.span}
+            offset={noteLayout.offset}
+            md={{ ...noteLayout }}
             sm={{ ...mobileWrapLayout }}
             xs={{ ...mobileWrapLayout }}
+            // span={wrapLayout.span}
+            // offset={wrapLayout.offset}
+            // md={{ ...dividerLayout }}
+            // sm={{ ...mobileWrapLayout }}
+            // xs={{ ...mobileWrapLayout }}
           >
             <Note />
           </Col>
