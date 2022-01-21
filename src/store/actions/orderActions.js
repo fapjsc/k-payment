@@ -57,12 +57,12 @@ export const getExRate = (id) => async (dispatch) => {
 export const getOrderToken = (id, orderData) => async (dispatch) => {
   dispatch({ type: orderActionTypes.ORDER_TOKEN_REQUEST });
   try {
-    const { name, amount } = orderData || {};
+    const { clientName, buyAmount } = orderData || {};
     const headers = getHeaders(id);
     const url = '/j/DI_Buy1.aspx';
     const body = JSON.stringify({
-      ClientName: name,
-      UsdtAmt: amount,
+      ClientName: clientName,
+      UsdtAmt: buyAmount,
     });
 
     const response = await fetch(url, {

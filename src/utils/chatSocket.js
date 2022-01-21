@@ -6,14 +6,11 @@ import ReconnectingWebSocket from 'reconnecting-websocket';
 let client;
 
 export const chatConnectWs = (id, orderToken) => {
-  console.log('call');
   //   console.log(orderToken, 'token');
   if (!id || !orderToken) return;
 
   //   const uri = `wss://chat.k100u.com/WS_ChatOrder.ashx?di_order=${id}&order_token=${orderToken}`;
   const uri = `wss://chat.k100u.com/WS_ChatOrder.ashx?order_token=${orderToken}`;
-
-  console.log(uri);
 
   client = new ReconnectingWebSocket(uri);
 

@@ -1,88 +1,86 @@
-@import '@ant-design/pro-card/dist/card.css';
-@import '~antd/dist/antd.dark.css';
-*,
-*::after,
-*::before {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  user-select: none;
-}
+// *,
+// *::after,
+// *::before {
+//   margin: 0;
+//   padding: 0;
+//   box-sizing: border-box;
+//   user-select: none;
+// }
 
-body {
-  padding: 1rem;
-  background-color: #edf2f0 !important;
-}
+// body {
+//   padding: 1rem;
+//   background-color: #edf2f0 !important;
+// }
 
-.rcw-conversation-container {
-  .rcw-header {
-    color: black;
-    height: 5rem;
+// .rcw-conversation-container {
+//   .rcw-header {
+//     color: black;
+//     height: 5rem;
 
-    span {
-      display: none;
-    }
-  }
+//     span {
+//       display: none;
+//     }
+//   }
 
-  input {
-    color: black;
-  }
+//   input {
+//     color: black;
+//   }
 
-  .rcw-message-text {
-    color: black;
-  }
+//   .rcw-message-text {
+//     color: black;
+//   }
 
-  .rcw-send {
-    cursor: pointer;
-  }
-}
+//   .rcw-send {
+//     cursor: pointer;
+//   }
+// }
 
-.rcw-sender {
-  display: flex;
-}
+// .rcw-sender {
+//   display: flex;
+// }
 
-.rcw-timestamp {
-  color: grey;
-}
+// .rcw-timestamp {
+//   color: grey;
+// }
 
-.sendImgIcon {
-  background-image: url('./asset/attach_icon.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 25px;
-  width: 25px;
-  order: -1;
-  border: none;
-  cursor: pointer;
-  background-color: inherit;
+// .sendImgIcon {
+//   background-image: url('./asset/attach_icon.png');
+//   background-size: contain;
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   height: 25px;
+//   width: 25px;
+//   order: -1;
+//   border: none;
+//   cursor: pointer;
+//   background-color: inherit;
 
-  &:focus,
-  &:active {
-    outline: none;
-  }
-}
+//   &:focus,
+//   &:active {
+//     outline: none;
+//   }
+// }
 
-.rcw-response {
-  span {
-    height: 1rem;
-  }
-}
+// .rcw-response {
+//   span {
+//     height: 1rem;
+//   }
+// }
 
-.rcw-message {
-  .rcw-avatar {
-    margin-top: auto;
-    margin-bottom: 1.1rem;
-  }
-}
+// .rcw-message {
+//   .rcw-avatar {
+//     margin-top: auto;
+//     margin-bottom: 1.1rem;
+//   }
+// }
 
-.rcw-message-client {
-  // background-color: red;
-  margin-left: auto !important;
-  display: flex;
+// .rcw-message-client {
+//   // background-color: red;
+//   margin-left: auto !important;
+//   display: flex;
 
-  .rcw-avatar {
-    order: 1;
-    margin-left: 0.5rem;
-  }
-}
+//   .rcw-avatar {
+//     order: 1;
+//     margin-left: 0.5rem;
+//   }
+// }

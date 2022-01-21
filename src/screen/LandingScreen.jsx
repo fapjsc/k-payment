@@ -34,7 +34,7 @@ const HomeScreen = ({ match, history }) => {
 
   useEffect(() => {
     if (orderInfo && id) {
-      history.push(`/payment/${id}`);
+      history.push(`/home/${id}`);
     }
   }, [orderInfo, id, history]);
 

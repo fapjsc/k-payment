@@ -15,7 +15,7 @@ export const buyConnectWs = (id, orderToken) => {
 
   // 1.建立連接
   client.onopen = () => {
-    console.log('websocket connected success');
+    console.log('order websocket connected success');
   };
 
   // 2.收到server回復

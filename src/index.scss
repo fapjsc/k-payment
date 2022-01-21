@@ -1,1 +1,9 @@
-@import '~antd/dist/antd.compact.css';
+@import 'antd/dist/antd.css';
+
+.site-layout-background {
+  min-height: calc(100vh - 64px - 1.5rem);
+}
+
+.ant-modal-content {
+    border-radius: 17px;
+}
