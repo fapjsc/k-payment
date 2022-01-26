@@ -1,16 +1,25 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 // import { w3cwebsocket as W3CWebsocket } from 'websocket';
 
-// import store from '../store';
+import Resizer from 'react-image-file-resizer'; // 圖片壓縮
+
+// Redux
+import store from '../store';
+
+// actions
+import { setChatSession } from '../store/actions/chatActions';
 
 let client;
 
 export const chatConnectWs = (id, orderToken) => {
+  if (client) return;
   //   console.log(orderToken, 'token');
   if (!id || !orderToken) return;
 
   //   const uri = `wss://chat.k100u.com/WS_ChatOrder.ashx?di_order=${id}&order_token=${orderToken}`;
   const uri = `wss://chat.k100u.com/WS_ChatOrder.ashx?order_token=${orderToken}`;
+
+  console.log(uri);
 
   client = new ReconnectingWebSocket(uri);
 
@@ -21,8 +30,9 @@ export const chatConnectWs = (id, orderToken) => {
 
   // 2.收到server回復
   client.onmessage = (message) => {
-    console.log('chat message from server');
-    console.log(message);
+    const dataFromServer = JSON.parse(message.data);
+    console.log(dataFromServer);
+    store.dispatch(setChatSession(dataFromServer));
   };
 
   // 3. 連線關閉
@@ -35,26 +45,65 @@ export const chatConnectWs = (id, orderToken) => {
   };
 };
 
+const resizeFile = (file) => new Promise((resolve) => {
+  Resizer.imageFileResizer(
+    file,
+    1024,
+    1024,
+    'JPEG',
+    100,
+    0,
+    (uri) => {
+      resolve(uri);
+    },
+    'base64',
+  );
+});
+
 //** Send Image */
 export const sendImg = async (e, token) => {
   console.log(token);
   try {
     const file = e.target.files[0]; // get image
 
-    if (!file) {
-      return;
+    if (!file) return;
+
+    const image = await resizeFile(file);
+
+    if (client) {
+      client.send(
+        JSON.stringify({
+          Message_Type: 2,
+          Message: image,
+        }),
+      );
     }
 
-    //   const image = await resizeFile(file);
-
-    // client.send(
-    //   JSON.stringify({
-    //     Message_Type: 2,
-    //     Message: image,
-    //     token,
-    //   }),
-    // );
+    return {
+      ok: true,
+      message: 'success',
+    };
   } catch (error) {
-    alert(error);
+    return {
+      ok: false,
+      message: error.message || 'Something went wrong!',
+    };
   }
+};
+
+// export const closeChatWebsocket = () => {
+//   if (client) {
+//     client.close();
+//   }
+// };
+
+export const sendMessage = (message) => {
+  if (!client) return;
+
+  client.send(
+    JSON.stringify({
+      Message_Type: 1,
+      Message: message.toString().trim(),
+    }),
+  );
 };

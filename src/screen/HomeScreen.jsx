@@ -1,112 +1,116 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import PropTypes from 'prop-types';
-
-// Redux
-import { useSelector, useDispatch } from 'react-redux';
+// Router
+import { useHistory } from 'react-router-dom';
 
 // Antd
-import {
-  Layout, Row, Col, Divider,
-} from 'antd';
+import { Row, Col, Divider } from 'antd';
 
-// Layout
-import ContentLayout from '../layout/ContentLayout';
-import HeaderLayout from '../layout/header/HeaderLayout';
-import {
-  mobileWrapLayout, dividerLayout, noteLayout,
-} from '../layout/layout-span';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
 
-// Components
-import PairModal from '../components/PairModal';
-import Payment from '../components/payment/Payment';
-import Buy from '../components/Buy/Buy';
-import Note from '../components/Note';
+// Actions
+// eslint-disable-next-line
+import { getExRate, openOrder } from '../store/actions/orderActions';
 
 // websocket
 import { buyConnectWs } from '../utils/webSocket';
-import { chatConnectWs } from '../utils/chatSocket';
+// import { chatConnectWs } from '../utils/chatSocket';
 
-// Actions
-import { openOrder, getExRate } from '../store/actions/orderActions';
+// Components
+import Payment from '../components/payment/Payment';
+import Note from '../components/Note';
+import PairModal from '../components/PairModal';
 
-const PaymentScreen = ({ match }) => {
-  // Router Props
-  const {
-    params: { id },
-  } = match;
+import {
+  mobileWrapLayout,
+  dividerLayout,
+  noteLayout,
+} from '../layout/layout-span';
+
+const HomeScreen = () => {
+  const id = localStorage.getItem('id');
+
+  // Router
+  const history = useHistory();
 
   // Redux
   const dispatch = useDispatch();
-
+  // eslint-disable-next-line
+  const { orderInfo, error: orderInfoError } = useSelector(
+    (state) => state.openOrder,
+  );
+  const { rateInfo } = useSelector((state) => state.exRate);
   const { orderToken } = useSelector((state) => state.orderToken);
+  const { sessions } = useSelector((state) => state.diOrderSession);
+  const { data } = sessions || {};
 
-  // 拿到token後自動連接websocket
+  // Init State
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (!orderInfo) {
+      dispatch(openOrder(id));
+    }
+
+    if (!rateInfo) {
+      dispatch(getExRate(id));
+    }
+  }, [dispatch, id, orderInfo, rateInfo]);
+
+  useEffect(() => {
+    if (!orderInfoError) return;
+    history.replace('/not-found');
+  }, [orderInfoError, history]);
+
+  //**  Di Order */
+  useEffect(() => {
+    if (orderToken) {
+      setShowModal(true);
+      localStorage.setItem('orderToken', orderToken);
+    }
+  }, [orderToken]);
+
+  // 拿到token後連接websocket
   useEffect(() => {
     if (!orderToken || !id) return;
 
     buyConnectWs(id, orderToken);
-    chatConnectWs(id, orderToken);
+    // chatConnectWs(id, orderToken);
   }, [orderToken, id]);
 
   useEffect(() => {
-    dispatch(getExRate(id));
-    dispatch(openOrder(id));
-  }, [dispatch, id]);
+    if (!data) return;
+    const { Order_StatusID: orderStatus } = data || {};
+    if (orderStatus === 33) {
+      history.replace('/auth/payment');
+    }
+  }, [data, history]);
 
   return (
-    <Layout className="layout">
-      <PairModal isModalVisible={false} usdt={1234} cny={333} />
+    <Row>
+      <PairModal isModalVisible={showModal} />
+      <Payment id={id} />
 
-      <HeaderLayout />
+      <Col
+        span={dividerLayout.span}
+        offset={dividerLayout.offset}
+        style={{ marginTop: '1rem' }}
+      >
+        <Divider />
+      </Col>
 
-      <ContentLayout>
-        <Row>
-          {orderToken && <Buy />}
-
-          {!orderToken && <Payment id={id} />}
-
-          <Col
-            span={dividerLayout.span}
-            offset={dividerLayout.offset}
-            style={{ marginTop: '1rem' }}
-          >
-            <Divider />
-          </Col>
-
-          <Col
-            span={noteLayout.span}
-            offset={noteLayout.offset}
-            md={{ ...noteLayout }}
-            sm={{ ...mobileWrapLayout }}
-            xs={{ ...mobileWrapLayout }}
-            // span={wrapLayout.span}
-            // offset={wrapLayout.offset}
-            // md={{ ...dividerLayout }}
-            // sm={{ ...mobileWrapLayout }}
-            // xs={{ ...mobileWrapLayout }}
-          >
-            <Note />
-          </Col>
-        </Row>
-      </ContentLayout>
-    </Layout>
+      <Col
+        span={noteLayout.span}
+        offset={noteLayout.offset}
+        md={{ ...noteLayout }}
+        sm={{ ...mobileWrapLayout }}
+        xs={{ ...mobileWrapLayout }}
+      >
+        <Note />
+      </Col>
+    </Row>
   );
 };
 
-PaymentScreen.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }),
-};
-
-PaymentScreen.defaultProps = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: '',
-    }),
-  }),
-};
-export default PaymentScreen;
+export default HomeScreen;

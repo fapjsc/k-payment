@@ -21,7 +21,7 @@ import { getOrderToken } from '../../store/actions/orderActions';
 import towWayImage from '../../asset/i_twoways.png';
 
 const PaymentForm = ({
-  buyRate, clientName, RequestedAmt, id, getFormData,
+  buyRate, clientName, RequestedAmt, id,
 }) => {
   // Redux
   const dispatch = useDispatch();
@@ -30,7 +30,6 @@ const PaymentForm = ({
 
   const onFinish = (values) => {
     dispatch(getOrderToken(id, values));
-    getFormData(values);
   };
 
   useEffect(() => {
@@ -128,7 +127,6 @@ PaymentForm.propTypes = {
   clientName: PropTypes.string,
   RequestedAmt: PropTypes.number,
   id: PropTypes.string.isRequired,
-  getFormData: PropTypes.func.isRequired,
 };
 
 PaymentForm.defaultProps = {

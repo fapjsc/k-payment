@@ -25,9 +25,6 @@ const Payment = ({ id }) => {
   const { orderInfo } = useSelector((state) => state.openOrder);
   const { Client_CName: clientName, RequestedAmt } = orderInfo || {};
 
-  const getFormData = (values) => {
-    console.log(values);
-  };
   return (
     <>
       <Col
@@ -59,7 +56,6 @@ const Payment = ({ id }) => {
             clientName={clientName}
             RequestedAmt={RequestedAmt}
             id={id}
-            getFormData={getFormData}
           />
         ) : (
           <Space

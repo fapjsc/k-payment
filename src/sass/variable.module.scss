@@ -1,0 +1,24 @@
+$color-primary: #3f80fa;
+$color-secondary: #707070;
+
+$color-dark-blue: #242e47; // header
+$color-dark-grey: #212529;
+
+$color-light-grey: #d7e2f3; // Border
+$color-light-blue: #EDF4FC;
+
+$color-gold: #F09314;
+
+/* stylelint-disable  */
+:export {
+  color-primary: $color-primary;
+  color-secondary: $color-secondary;
+  
+  color-dark-blue: $color-dark-blue;
+  color-dark-grey: $color-dark-blue;
+
+  color-light-grey: $color-light-grey;
+  color-light-blue: $color-light-blue;
+
+  color-gold: $color-gold;
+}

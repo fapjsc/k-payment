@@ -9,7 +9,7 @@ import footerIcon from '../asset/footer_icon.png';
 
 const Note = () => (
   <>
-    <Descriptions title="注意事項">
+    <Descriptions>
       <Descriptions.Item>
         <li>
           本平台目前只提供USDT交易，其他数字货币交易将不予受理。

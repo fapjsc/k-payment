@@ -1,67 +1,84 @@
 import React from 'react';
+
+// Redux
+import { useSelector } from 'react-redux';
+
+// Antd
 import {
-  // eslint-disable-next-line
-  Modal, Avatar, Typography,Space
+  Modal, Avatar, Typography, Space,
 } from 'antd';
 import PropTypes from 'prop-types';
 
+// Helpers
+import { thousandsFormat } from '../utils/helpers';
+
 // Image
-// eslint-disable-next-line
 import searchImage from '../asset/icon_search.gif';
+import closeImage from '../asset/close.png';
 
-const { Title } = Typography;
+// Style
+import variable from '../sass/variable.module.scss';
 
-const PairModal = ({ isModalVisible, cny, usdt }) => (
-  <Modal
-    visible={isModalVisible}
-    footer={null}
-    width={320}
-    style={{ top: 300, borderRadius: '30px' }}
-    bodyStyle={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+const { Title, Text } = Typography;
 
-    // onOk={handleOk}
-    // onCancel={() => console.log('tests')}
-  >
-    <Avatar
-      style={{
-        backgroundColor: '#fff',
-        borderRadius: '100%',
-        width: '35%',
-        height: '35%',
-        transform: 'translateY(-70%)',
+const PairModal = ({ isModalVisible }) => {
+  const { orderInfo } = useSelector((state) => state.openOrder);
+  const { rateInfo } = useSelector((state) => state.exRate);
+
+  const { RequestedAmt } = orderInfo || {};
+  const { RMB_BUY } = rateInfo || {};
+  return (
+    <Modal
+      visible={isModalVisible}
+      footer={null}
+      width={400}
+      style={{ top: 300, borderRadius: '30px' }}
+      bodyStyle={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
       }}
-      shape="square"
-      src={searchImage}
-    />
-
-    <div style={{
-      marginTop: '-20%',
-      textAlign: 'start',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    }}
+      closeIcon={<img style={{ width: '1.6rem' }} src={closeImage} alt="134" />}
     >
-      <Title level={3}>正為您找尋賣方</Title>
 
-      <div style={{ width: '90%', fontSize: '.9rem' }}>
-        <p style={{ marginBottom: '5px' }}>{`購買數量: ${usdt} USDT`}</p>
-        <p>{`支付金額: ${cny} CNY`}</p>
+      <Avatar
+        style={{
+          backgroundColor: '#fff',
+          borderRadius: '100%',
+          width: '35%',
+          height: '35%',
+          transform: 'translateY(-60%)',
+        }}
+        shape="square"
+        src={searchImage}
+      />
+
+      <div style={{
+        marginTop: '-20%',
+        textAlign: 'start',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+      >
+        <Title style={{ color: variable['color-primary'] }} level={2}>正為您找尋賣方</Title>
+
+        <Space direction="vertical">
+          <Text style={{ marginBottom: '5px', color: variable['color-dark-blue'] }}>{`購買數量: ${thousandsFormat(RequestedAmt)} USDT`}</Text>
+          <Text style={{ color: variable['color-dark-blue'] }}>{`支付金額: ${thousandsFormat(RequestedAmt * RMB_BUY)} CNY`}</Text>
+        </Space>
       </div>
-    </div>
-  </Modal>
-);
+    </Modal>
+  );
+};
 
 PairModal.propTypes = {
   isModalVisible: PropTypes.bool,
-  cny: PropTypes.number,
-  usdt: PropTypes.number,
-  //   handleCancel: PropTypes.func.isRequired,
 };
 
 PairModal.defaultProps = {
-  cny: 0,
-  usdt: 0,
+  // cny: 0,
+  // usdt: 0,
   isModalVisible: false,
 };
 

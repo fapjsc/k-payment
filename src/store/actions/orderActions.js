@@ -132,3 +132,15 @@ export const confirmBuy = (id, orderToken) => async (dispatch) => {
     });
   }
 };
+
+export const confirmBuyStatusClear = () => ({
+  type: orderActionTypes.CONFIRM_BUY_STATUS_CLEAR,
+});
+
+export const openOrderClear = () => ({
+  type: orderActionTypes.OPEN_ORDER_STATUS_CLEAR,
+});
+
+export const exRateClear = () => ({
+  type: orderActionTypes.EX_RATE_STATUS_CLEAR,
+});

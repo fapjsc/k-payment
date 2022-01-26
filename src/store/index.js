@@ -12,12 +12,18 @@ import {
   confirmBuyReducer,
 } from './reducers/orderReducers';
 
+import { cancelOrderReducer } from './reducers/cancelOrderReducer';
+
+import { chatReducers } from './reducers/chatReducers';
+
 const reducer = combineReducers({
   openOrder: orderReducer,
   exRate: exRateReducer,
   orderToken: orderTokenReducer,
+  cancelOrder: cancelOrderReducer,
   diOrderSession: diOrderSessionReducer,
   confirmBuy: confirmBuyReducer,
+  chat: chatReducers,
 });
 
 const middleware = [thunk];

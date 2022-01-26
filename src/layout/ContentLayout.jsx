@@ -9,7 +9,10 @@ const { Content } = Layout;
 
 // eslint-disable-next-line
 const ContentLayout = ({ children }) => (
-  <Layout style={{ paddingTop: '1.5rem' }}>
+  <Layout style={{
+    paddingTop: '1.5rem',
+  }}
+  >
     <Content>
       <div className="site-layout-background">
         {children}

@@ -1,75 +1,57 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+
+// Redux
 import { useDispatch, useSelector } from 'react-redux';
 
 // Antd
 import { Spin } from 'antd';
 
+// Router
+import { Link, useParams, useHistory } from 'react-router-dom';
+
+// Actions
 import { openOrder } from '../store/actions/orderActions';
 
-// const { Header, Footer, Content } = Layout;
+const LandingScreen = () => {
+  const params = useParams();
+  const history = useHistory();
 
-const HomeScreen = ({ match, history }) => {
-  console.log('landing');
+  const { id } = params || {};
+
+  // Redux
   const dispatch = useDispatch();
-  const { error, orderInfo } = useSelector((state) => state.openOrder);
-
-  const {
-    params: { id },
-  } = match;
+  const { orderInfo, error } = useSelector((state) => state.openOrder);
 
   useEffect(() => {
-    if (id) {
-      dispatch(openOrder(id));
-    } else {
-      history.push('/not-found');
-    }
-  }, [id, dispatch, history]);
+    if (!id) return;
+    dispatch(openOrder(id));
+  }, [dispatch, id]);
 
   useEffect(() => {
-    if (error) {
-      history.push('/not-found');
-    }
-  }, [error, history]);
-
-  useEffect(() => {
-    if (orderInfo && id) {
-      history.push(`/home/${id}`);
-    }
+    if (!orderInfo) return;
+    localStorage.setItem('id', id);
   }, [orderInfo, id, history]);
+
+  useEffect(() => {
+    if (!error) return;
+    history.replace('/not-found');
+  }, [error, history]);
 
   return (
     <div
       style={{
-        height: '100vh',
-        width: '100vw',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: '20vh',
       }}
     >
       <Spin size="large" />
+      <Link to="/t308V%2bOFafSZj0eTXZZiXWpgufwq8Hg1StfpAvn5cMmyQzwNVWpDf6wQMiY3Dbb4O0XuENyA1RSWnYSP8kH99xnXYFUetonCPQXwWMS8%2bhY%3d">
+        HOME
+      </Link>
     </div>
   );
 };
 
-HomeScreen.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
-
-HomeScreen.defaultProps = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: '',
-    }),
-  }),
-};
-
-export default HomeScreen;
+export default LandingScreen;

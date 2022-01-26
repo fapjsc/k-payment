@@ -39,6 +39,9 @@ export const orderReducer = (state = openOrderInitialState, action) => {
         orderInfo: null,
         error: action.payload,
       };
+
+    case orderActionTypes.OPEN_ORDER_STATUS_CLEAR:
+      return openOrderInitialState;
     default:
       return state;
   }
@@ -65,6 +68,9 @@ export const exRateReducer = (state = exRateInitialState, action) => {
         rateInfo: null,
         error: action.payload,
       };
+
+    case orderActionTypes.EX_RATE_STATUS_CLEAR:
+      return exRateInitialState;
     default:
       return state;
   }
@@ -129,6 +135,10 @@ export const confirmBuyReducer = (state = {}, action) => {
         rateInfo: null,
         error: action.payload,
       };
+
+    case orderActionTypes.CONFIRM_BUY_STATUS_CLEAR:
+      return {};
+
     default:
       return state;
   }

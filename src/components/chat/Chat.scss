@@ -1,0 +1,90 @@
+button {
+  cursor: pointer !important;
+}
+
+.cs-conversation-header {
+  background-color: transparent;
+}
+
+.cs-message-separator {
+  color: #707070;
+  margin: 1rem 0;
+
+  &::before,
+  &::after {
+    background-color: transparent;
+  }
+}
+
+.text-message {
+  .cs-message__content-wrapper {
+    width: 70%;
+    min-height: 4.8rem;
+  }
+}
+
+.cs-message__content {
+  height: 100% !important;
+  display: flex;
+  align-items: center;
+}
+
+.cs-message--incoming {
+  .cs-message__content {
+    background-color: #f6f6f6 !important;
+  }
+}
+
+.cs-message--outgoing {
+  .cs-message__content {
+    background-color: #d7e2f3 !important;
+  }
+}
+
+.cs-message-input {
+  background-color: #edf4fc !important;
+
+  .cs-message-input__content-editor-wrapper {
+    background-color: #edf4fc;
+    flex-grow: 2;
+
+    .cs-message-input__content-editor-container {
+      background-color: #edf4fc !important;
+    }
+  }
+
+  .cs-message-input__content-editor {
+    padding: 1rem 0 !important;
+    font-size: 1.6rem !important;
+    background-color: #fff;
+    border-radius: 50px;
+    padding-left: 2rem !important;
+  }
+
+  .cs-message-input__tools {
+    flex-grow: 0.2;
+    padding: 1rem 0 !important;
+    padding: 0 !important;
+
+    .cs-button {
+      background-size: 50%;
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 100%;
+    }
+
+    .cs-button--attachment {
+      background-image: url(../../asset/attach_icon.png);
+      background-size: 30%;
+    }
+
+    .cs-button--send {
+      background-image: url(../../asset/send_icon.png);
+    }
+
+    svg {
+      display: none;
+    }
+  }
+}
