@@ -38,16 +38,23 @@ import chatImage from '../../asset/chat_icon.png';
 // Websocket
 import { sendMessage, sendImg } from '../../utils/chatSocket';
 
+// Hooks
+import useRwd from '../../hooks/useRwd';
+
 // Styles
 import variable from '../../sass/variable.module.scss';
 import './Chat.scss';
 
 console.log(styles);
 
-const Chat = () => {
+// eslint-disable-next-line
+const Chat = ({refHeight}) => {
   // InitState
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomIndex, setZoomIndex] = useState(null);
+
+  // Hooks
+  const { isMobile } = useRwd();
 
   // Redux
   const dispatch = useDispatch();
@@ -78,29 +85,42 @@ const Chat = () => {
     setZoomIndex(index);
   };
 
+  // eslint-disable-next-line
+  const mobileH = `${((window.innerHeight / 10 - 15) - (refHeight / 10) )}rem`;
+  console.log(mobileH, 'chat');
+
   return (
-    <div style={{ position: 'relative', height: '83.25rem', border: `1px solid ${variable['color-light-grey']}` }}>
+    <div style={{
+      position: 'relative',
+      height: isMobile ? mobileH : '83.25rem',
+      border: `1px solid ${variable['color-light-grey']}`,
+      marginTop: 'auto',
+    }}
+    >
       <MainContainer>
         <ChatContainer>
-          <ConversationHeader style={{ height: '6.3rem' }}>
-            <ConversationHeader.Content>
-              <Space>
-                <img style={{ width: '4.2rem' }} src={chatImage} alt="chat" />
-                <span
-                  style={{
-                    fontSize: '1.6rem',
-                    color: variable['color-primary'],
-                  }}
-                >
-                  對話紀錄
-                </span>
-              </Space>
-            </ConversationHeader.Content>
-          </ConversationHeader>
+          {
+            !isMobile && (
+              <ConversationHeader style={{ height: '6.3rem' }}>
+                <ConversationHeader.Content>
+                  <Space>
+                    <img style={{ width: '4.2rem' }} src={chatImage} alt="chat" />
+                    <span
+                      style={{
+                        fontSize: '1.6rem',
+                        color: variable['color-primary'],
+                      }}
+                    >
+                      對話紀錄
+                    </span>
+                  </Space>
+                </ConversationHeader.Content>
+              </ConversationHeader>
+            )
+          }
 
           <MessageList
             autoScrollToBottomOnMount
-            // loading={!chatSessions?.length}
           >
             <MessageSeparator content={`今天${moment().format('HH:mm')}`} />
 

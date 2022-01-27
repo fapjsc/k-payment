@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 // Antd
 import {
+  // eslint-disable-next-line
   Result, Typography, Space, Divider, Row, Col,
 } from 'antd';
 
@@ -33,6 +34,7 @@ const BuyResult = () => {
 
   const {
     Order_StatusID: status,
+    // eslint-disable-next-line
     Tx_HASH: hash,
     UsdtAmt: usdt,
     D2: cny,
@@ -97,19 +99,19 @@ const BuyResult = () => {
             alt="success"
           />
         )}
-        extra={(
-          <Space>
-            <span style={{ color: variable['color-secondary'] }}>
-              交易回執：
-            </span>
-            <Typography.Text
-              copyable
-              style={{ fontSize: '1.4rem', color: variable['color-dark-grey'] }}
-            >
-              {hash}
-            </Typography.Text>
-          </Space>
-        )}
+        // extra={(
+        //   <Space>
+        //     <span style={{ color: variable['color-secondary'] }}>
+        //       交易回執：
+        //     </span>
+        //     <Typography.Text
+        //       copyable
+        //       style={{ fontSize: '1.4rem', color: variable['color-dark-grey'] }}
+        //     >
+        //       {hash}
+        //     </Typography.Text>
+        //   </Space>
+        // )}
       />
       <Row>
         <Col md={{ ...spanLayout }}>

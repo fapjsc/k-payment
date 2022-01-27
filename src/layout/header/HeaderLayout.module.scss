@@ -1,17 +1,27 @@
 .header {
-  @media only screen and(max-width: 767px) {
-    min-height: 12rem !important;
-    position: relative;
-  }
-
   .logo {
     float: left;
-    width: 120px;
-    height: 31px;
+    width: 12rem;
+    height: 3rem;
     margin: 16px 24px 16px 0;
     background-image: url('../../asset/logo_easy.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+  }
+}
+
+@media only screen and(max-width: 767px) {
+  .header {
+    min-height: 12rem !important;
+  }
+
+  .logo {
+    background-image: url('../../asset/logo_easy.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 12rem;
+    height: 3rem;
   }
 }

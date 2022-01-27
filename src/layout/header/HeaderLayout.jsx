@@ -1,13 +1,15 @@
 import React from 'react';
 
-// Media Query
-import { useMediaQuery } from 'react-responsive';
+// Redux
+import { useSelector } from 'react-redux';
 
 // Antd
-import { Layout } from 'antd';
+import { Layout, Row } from 'antd';
+
+// Hooks
+import useRwd from '../../hooks/useRwd';
 
 // Components
-// eslint-disable-next-line
 import BuyHeader from '../../components/Buy/BuyHeader';
 
 // Styles
@@ -16,13 +18,69 @@ import styles from './HeaderLayout.module.scss';
 const { Header } = Layout;
 
 const HeaderLayout = () => {
-  // Media query
-// eslint-disable-next-line
-  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  const { isMobile, isSmallScreen, isTinyScreen } = useRwd();
+
+  const { sessions } = useSelector((state) => state.diOrderSession);
+  const { data } = sessions || {};
+  const { Tx_HASH: hash } = data || {};
+
+  if (isMobile) {
+    return (
+      <Header
+        className=""
+        style={{
+          lineHeight: '1rem',
+          minHeight: isTinyScreen ? '20rem' : '15rem',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          gap: '1.4rem',
+          padding: isSmallScreen && '0.9rem',
+        }}
+      >
+        <Row justify="space-between" align="middle">
+          <div className={styles.logo} />
+          <span style={{ color: '#fff' }}>交易條款</span>
+        </Row>
+
+        <div style={{
+          color: '#fff',
+          fontSize: '1.2rem',
+          lineHeight: '1.5',
+          display: 'flex',
+          flexWrap: 'wrap',
+          wordBreak: 'break-all',
+        }}
+        >
+          <span style={{}}>訂單編號：</span>
+          <span>{hash}</span>
+        </div>
+
+        <div
+          style={{
+            backgroundColor: '#fff',
+            border: '1px solid grey',
+            minHeight: '3.7rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: isTinyScreen ? 'flex-start' : 'center',
+            flexWrap: 'wrap',
+            padding: '0.5rem 0',
+            wordBreak: 'break-all',
+          }}
+        >
+          <BuyHeader />
+        </div>
+      </Header>
+    );
+  }
   return (
-    <Header className={styles.header}>
+    <Header className={styles.header} style={{}}>
       <div className={styles.logo} />
-      {isMobile && <BuyHeader />}
+      <span style={{ color: '#fff', fontSize: '1.2rem' }}>
+        訂單編號：
+        {hash}
+      </span>
     </Header>
   );
 };

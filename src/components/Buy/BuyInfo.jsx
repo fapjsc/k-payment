@@ -33,6 +33,7 @@ const BuyInfo = () => {
     const sourceData = [
       {
         付款金額: `${cnyAmount}CNY`,
+        id: 1,
       },
       {
         收款方姓名: payeeName,
@@ -45,9 +46,7 @@ const BuyInfo = () => {
       },
       {
         所在省市: city,
-      },
-      {
-        訂單編號: hash,
+        id: 2,
       },
     ];
 
@@ -70,29 +69,39 @@ const BuyInfo = () => {
     </div>
   );
 
-  const list = (item) => (
-    <div
-      style={{
-        padding: '1rem',
-        paddingBottom: 0,
-        backgroundColor: 'rgba(215,226,243,0.20)',
-        borderRadius: '5px',
-      }}
-    >
-      <List.Item style={{}}>
-        <List.Item.Meta
-          avatar={(
-            <p className="avatar-p" style={{ width: '10rem' }}>
-              {`${Object.keys(item)[0]}：`}
-            </p>
-          )}
-          description={
-            <Typography.Text copyable>{Object.values(item)[0]}</Typography.Text>
-          }
-        />
-      </List.Item>
-    </div>
-  );
+  const list = (item, index) => {
+    console.log(index, item);
+
+    return (
+      <div
+        style={{
+          backgroundColor: 'rgba(215,226,243,0.20)',
+          borderRadius:
+            (item.id === 1 && '8px 8px 0 0')
+            || (item.id === 2 && '0 0 8px 8px '),
+          lineHeight: '1.2',
+          paddingTop: item.id === 1 && '1.5rem',
+          paddingLeft: '.8rem',
+          letterSpacing: '1.5px',
+        }}
+      >
+        <List.Item style={{}}>
+          <List.Item.Meta
+            avatar={(
+              <p className="avatar-p" style={{ width: '11rem' }}>
+                {`${Object.keys(item)[0]}：`}
+              </p>
+            )}
+            description={(
+              <Typography.Text copyable>
+                {Object.values(item)[0]}
+              </Typography.Text>
+            )}
+          />
+        </List.Item>
+      </div>
+    );
+  };
 
   return (
     <List

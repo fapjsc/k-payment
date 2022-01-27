@@ -9,11 +9,11 @@ import { Result } from 'antd';
 // Actions
 import { openOrderClear, exRateClear } from '../store/actions/orderActions';
 
-// styles
-import variable from '../sass/variable.module.scss';
-
 // Image
 import notFoundImage from '../asset/notfound.png';
+
+// styles
+import variable from '../sass/variable.module.scss';
 
 const NotfoundImg = () => (
   <img src={notFoundImage} alt="not found" />
