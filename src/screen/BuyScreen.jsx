@@ -11,6 +11,7 @@ import {
   Row,
   Col,
   Divider,
+  Skeleton,
   // eslint-disable-next-line
   Spin,
   message,
@@ -44,6 +45,8 @@ import ConfirmModal from '../components/ConfirmModal';
 import WaitConfirm from '../components/WaitConfirm';
 import Chat from '../components/chat/Chat';
 
+const statusArr = [31, 33, 34];
+
 const BuyScreen = () => {
   const id = localStorage.getItem('id');
   const orderToken = localStorage.getItem('orderToken');
@@ -63,6 +66,7 @@ const BuyScreen = () => {
   const { rateInfo } = useSelector((state) => state.exRate);
 
   const {
+    // eslint-disable-next-line
     loading: cancelLoading,
     error: cancelError,
     data: cancelData,
@@ -72,7 +76,8 @@ const BuyScreen = () => {
   const { Order_StatusID: paymentStatus } = data || {};
 
   useEffect(() => {
-    if (paymentStatus === 1) {
+    const resultArr = [1, 99, 98];
+    if (resultArr.includes(paymentStatus)) {
       history.replace('/auth/result');
     }
   }, [paymentStatus, history]);
@@ -114,62 +119,65 @@ const BuyScreen = () => {
   };
 
   return (
-    <Spin tip="訂單取消中..." spinning={cancelLoading}>
-      <Row
-        align="start"
-        justify="center"
-        style={{ maxWidth: '1140px', margin: 'auto' }}
+    <Row
+      align="start"
+      justify="center"
+      style={{ maxWidth: '1140px', margin: 'auto' }}
+    >
+      <ConfirmModal
+        title={modalShow.title}
+        text={modalShow.text}
+        visible={modalShow.show}
+        setModalShow={setModalShow}
+        actionCall={
+          modalShow.type === 'payment' ? confirmBuyHandler : cancelOrderHandler
+        }
+      />
+
+      <Col
+        md={{ span: 15 }}
+        span={22}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
       >
-        <ConfirmModal
-          title={modalShow.title}
-          text={modalShow.text}
-          visible={modalShow.show}
-          setModalShow={setModalShow}
-          actionCall={
-            modalShow.type === 'payment'
-              ? confirmBuyHandler
-              : cancelOrderHandler
-          }
-        />
+        <div style={{}}>
+          {!isMobile && <BuyHeader />}
+          <Divider />
+        </div>
 
-        <Col md={{ span: 15 }} span={22}>
-          <>
-            {!isMobile && (
-              <>
-                <BuyHeader />
-                <Divider />
-              </>
-            )}
-          </>
+        <Skeleton
+          paragraph={{ rows: 6 }}
+          loading={!statusArr.includes(paymentStatus)}
+          style={{ minHeight: '40rem', padding: 0 }}
+        >
 
-          <>
-            {(paymentStatus === 31 || paymentStatus === 33) && (
-              <>
-                <BuyInfo />
-                <BuyAction setModalShow={setModalShow} />
-              </>
-            )}
+          {(paymentStatus === 31 || paymentStatus === 33) && (
+            <>
+              <BuyInfo />
+              <BuyAction setModalShow={setModalShow} />
+            </>
+          )}
 
-            {paymentStatus === 34 && (
-              <WaitConfirm setModalShow={setModalShow} />
-            )}
-          </>
+          {paymentStatus === 34 && <WaitConfirm setModalShow={setModalShow} />}
+        </Skeleton>
 
-          <>
-            {!isMobile && (
-              <>
-                <Divider />
-                <Note />
-              </>
-            )}
-          </>
-        </Col>
+        <div style={{}}>
+          {!isMobile && (
+            <>
+              <Divider />
+              <Note />
+            </>
+          )}
+        </div>
+      </Col>
 
-        <Col md={{ span: 8, offset: 1 }} span={22}>
-          <Chat />
-        </Col>
-      </Row>
-    </Spin>
+      <Col md={{ span: 8, offset: 1 }} span={22}>
+        <Chat />
+      </Col>
+    </Row>
   );
 };
 

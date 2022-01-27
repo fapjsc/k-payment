@@ -65,10 +65,11 @@ export const sendImg = async (e, token) => {
   console.log(token);
   try {
     const file = e.target.files[0]; // get image
-
+    console.log(file);
     if (!file) return;
 
     const image = await resizeFile(file);
+    console.log(image);
 
     if (client) {
       client.send(

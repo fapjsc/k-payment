@@ -4,14 +4,16 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Antd
-import { Row, Col, Divider } from 'antd';
+import {
+  Row, Col, Divider, message,
+} from 'antd';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 
 // Actions
-// eslint-disable-next-line
 import { getExRate, openOrder } from '../store/actions/orderActions';
+import { cancelOrder } from '../store/actions/cancelActions';
 
 // websocket
 import { buyConnectWs } from '../utils/webSocket';
@@ -19,6 +21,7 @@ import { buyConnectWs } from '../utils/webSocket';
 
 // Components
 import Payment from '../components/payment/Payment';
+// eslint-disable-next-line
 import Note from '../components/Note';
 import PairModal from '../components/PairModal';
 
@@ -30,16 +33,19 @@ import {
 
 const HomeScreen = () => {
   const id = localStorage.getItem('id');
+  console.log(id, 'home');
 
   // Router
   const history = useHistory();
 
   // Redux
   const dispatch = useDispatch();
-  // eslint-disable-next-line
   const { orderInfo, error: orderInfoError } = useSelector(
     (state) => state.openOrder,
   );
+
+  const { data: cancelData, error: cancelError } = useSelector((state) => state.cancelOrder);
+
   const { rateInfo } = useSelector((state) => state.exRate);
   const { orderToken } = useSelector((state) => state.orderToken);
   const { sessions } = useSelector((state) => state.diOrderSession);
@@ -87,9 +93,25 @@ const HomeScreen = () => {
     }
   }, [data, history]);
 
+  useEffect(() => {
+    if (cancelError) {
+      message.error('訂單取消失敗');
+      return;
+    }
+
+    if (cancelData) {
+      history.replace('/auth/result');
+    }
+  }, [cancelData, cancelError, history]);
+
+  const cancelHandler = () => {
+    dispatch(cancelOrder(id, orderToken));
+    setShowModal(false);
+  };
+
   return (
     <Row>
-      <PairModal isModalVisible={showModal} />
+      <PairModal isModalVisible={showModal} cancelHandler={cancelHandler} />
       <Payment id={id} />
 
       <Col
@@ -101,6 +123,7 @@ const HomeScreen = () => {
       </Col>
 
       <Col
+        style={{}}
         span={noteLayout.span}
         offset={noteLayout.offset}
         md={{ ...noteLayout }}

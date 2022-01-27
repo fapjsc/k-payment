@@ -40,7 +40,8 @@ const BuyResult = () => {
   } = data || {};
 
   if (status === 1) type = 'success';
-  if (status === 99) type = 'cancel';
+  // if (status === 99 || status === 98) type = 'cancel';
+  if (type !== 'success') type = 'cancel';
 
   useEffect(() => {
     localStorage.clear();
@@ -50,7 +51,7 @@ const BuyResult = () => {
     <div>
       <Row>
         <Col md={{ ...spanLayout }}>
-          <Row justify="space-between">
+          <Row justify="start" gutter={[40, 16]}>
             <Col>
               <Space>
                 <span style={{ color: variable['color-dark-blue'] }}>
@@ -65,7 +66,7 @@ const BuyResult = () => {
                   購買數量:
                 </span>
                 <span style={{ color: variable['color-primary'] }}>
-                  {`${usdt}USDT`}
+                  {`${usdt}  USDT`}
                 </span>
               </Space>
             </Col>

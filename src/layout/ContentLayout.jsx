@@ -1,24 +1,25 @@
 import React from 'react';
 
+// Redux
+import { useSelector } from 'react-redux';
+
 // Antd
-import {
-  Layout,
-} from 'antd';
+import { Layout, Spin } from 'antd';
 
 const { Content } = Layout;
 
 // eslint-disable-next-line
-const ContentLayout = ({ children }) => (
-  <Layout style={{
-    paddingTop: '1.5rem',
-  }}
-  >
-    <Content>
-      <div className="site-layout-background">
-        {children}
-      </div>
-    </Content>
-  </Layout>
-);
+const ContentLayout = ({ children }) => {
+  const { loading } = useSelector((state) => state.cancelOrder);
+  return (
+    <Spin tip="訂單取消中..." spinning={loading}>
+      <Layout style={{ marginTop: '1.8rem', backgroundColor: 'transparent' }}>
+        <Content>
+          <div className="site-layout-background">{children}</div>
+        </Content>
+      </Layout>
+    </Spin>
+  );
+};
 
 export default ContentLayout;

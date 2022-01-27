@@ -4,20 +4,24 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 // Antd
-import { Button, Result } from 'antd';
+import { Result } from 'antd';
 
 // Actions
 import { openOrderClear, exRateClear } from '../store/actions/orderActions';
 
+// styles
+import variable from '../sass/variable.module.scss';
+
+// Image
+import notFoundImage from '../asset/notfound.png';
+
+const NotfoundImg = () => (
+  <img src={notFoundImage} alt="not found" />
+);
+
 const NoFoundPage = () => {
   // Redux
   const dispatch = useDispatch();
-
-  const extraEl = (
-    <Button type="primary" onClick={() => alert('redirect')}>
-      Back
-    </Button>
-  );
 
   useEffect(() => {
     localStorage.clear();
@@ -26,10 +30,8 @@ const NoFoundPage = () => {
   }, [dispatch]);
   return (
     <Result
-      status="404"
-      title="404"
-      subTitle="Sorry, the page you visited does not exist."
-      extra={extraEl}
+      title={<h4 style={{ fontSize: '20px', color: variable['color-primary'] }}>找不到訂單</h4>}
+      icon={<NotfoundImg />}
     />
   );
 };

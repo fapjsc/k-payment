@@ -48,10 +48,11 @@ const WaitConfirm = ({setModalShow}) => {
       </Row>
 
       <Row style={{ textAlign: 'center', color: variable['color-dark-grey'] }} align="center">
-        <Col span={24}>
+
+        <Col md={{ span: 24 }}>
           <img style={{ width: '17rem' }} src={waitImage} alt="wait" />
           <h4 style={{ fontSize: '2rem', color: variable['color-primary'] }}>等候確定中</h4>
-          <Space>
+          <Space style={{ maxWidth: '100%' }} direction="vertical">
             <span>訂單編號：</span>
             <Typography.Text copyable style={{ fontSize: '1.4rem', color: variable['color-dark-grey'] }}>
               {hash}
@@ -62,7 +63,7 @@ const WaitConfirm = ({setModalShow}) => {
         <Col style={{ marginTop: '3rem' }}>
           <p>對方確認收款後，系統會自動將數字貨幣匯到您的帳戶內</p>
           <Space direction="vertical" style={{ width: '100%' }}>
-            <Button size="large" type="primary" block>
+            <Button size="large" type="primary" block onClick={() => alert('not yet')}>
               申訴
             </Button>
             <Button size="large" type="link" block onClick={cancelHandler}>

@@ -71,18 +71,27 @@ const BuyInfo = () => {
   );
 
   const list = (item) => (
-    <List.Item>
-      <List.Item.Meta
-        avatar={(
-          <p className="avatar-p" style={{ width: '9rem' }}>
-            {`${Object.keys(item)[0]}:`}
-          </p>
-        )}
-        description={
-          <Typography.Text copyable>{Object.values(item)[0]}</Typography.Text>
-        }
-      />
-    </List.Item>
+    <div
+      style={{
+        padding: '1rem',
+        paddingBottom: 0,
+        backgroundColor: 'rgba(215,226,243,0.20)',
+        borderRadius: '5px',
+      }}
+    >
+      <List.Item style={{}}>
+        <List.Item.Meta
+          avatar={(
+            <p className="avatar-p" style={{ width: '10rem' }}>
+              {`${Object.keys(item)[0]}：`}
+            </p>
+          )}
+          description={
+            <Typography.Text copyable>{Object.values(item)[0]}</Typography.Text>
+          }
+        />
+      </List.Item>
+    </div>
   );
 
   return (

@@ -16,17 +16,20 @@ import { thousandsFormat } from '../utils/helpers';
 import searchImage from '../asset/icon_search.gif';
 import closeImage from '../asset/close.png';
 
+// Actions
+
 // Style
 import variable from '../sass/variable.module.scss';
 
 const { Title, Text } = Typography;
 
-const PairModal = ({ isModalVisible }) => {
+const PairModal = ({ isModalVisible, cancelHandler }) => {
   const { orderInfo } = useSelector((state) => state.openOrder);
   const { rateInfo } = useSelector((state) => state.exRate);
 
   const { RequestedAmt } = orderInfo || {};
   const { RMB_BUY } = rateInfo || {};
+
   return (
     <Modal
       visible={isModalVisible}
@@ -39,6 +42,7 @@ const PairModal = ({ isModalVisible }) => {
         alignItems: 'center',
       }}
       closeIcon={<img style={{ width: '1.6rem' }} src={closeImage} alt="134" />}
+      onCancel={cancelHandler}
     >
 
       <Avatar
@@ -63,8 +67,8 @@ const PairModal = ({ isModalVisible }) => {
       >
         <Title style={{ color: variable['color-primary'] }} level={2}>正為您找尋賣方</Title>
 
-        <Space direction="vertical">
-          <Text style={{ marginBottom: '5px', color: variable['color-dark-blue'] }}>{`購買數量: ${thousandsFormat(RequestedAmt)} USDT`}</Text>
+        <Space direction="vertical" style={{ marginTop: '2rem' }}>
+          <Text style={{ color: variable['color-dark-blue'] }}>{`購買數量: ${thousandsFormat(RequestedAmt)} USDT`}</Text>
           <Text style={{ color: variable['color-dark-blue'] }}>{`支付金額: ${thousandsFormat(RequestedAmt * RMB_BUY)} CNY`}</Text>
         </Space>
       </div>
@@ -74,12 +78,14 @@ const PairModal = ({ isModalVisible }) => {
 
 PairModal.propTypes = {
   isModalVisible: PropTypes.bool,
+  cancelHandler: PropTypes.func,
 };
 
 PairModal.defaultProps = {
   // cny: 0,
   // usdt: 0,
   isModalVisible: false,
+  cancelHandler: null,
 };
 
 export default PairModal;

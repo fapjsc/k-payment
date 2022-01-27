@@ -22,7 +22,7 @@ export const buyConnectWs = (id, orderToken) => {
   client.onmessage = (message) => {
     if (!message.data) return;
     const dataFromServer = JSON.parse(message.data);
-    // console.log('got reply!', dataFromServer, 'buy');
+    console.log('got reply!', dataFromServer);
 
     store.dispatch(setDiOrder(dataFromServer));
   };

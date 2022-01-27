@@ -14,6 +14,6 @@ export const dividerLayout = {
 };
 
 export const noteLayout = {
-  span: 9,
-  offset: 9,
+  span: 12,
+  offset: 6,
 };

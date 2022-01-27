@@ -9,7 +9,7 @@ import { Controlled as ControlledZoom } from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Antd
 import { Space } from 'antd';
@@ -29,6 +29,9 @@ import {
   //   Avatar,
 } from '@chatscope/chat-ui-kit-react';
 
+// Actions
+import { setLoading } from '../../store/actions/chatActions';
+
 // Images
 import chatImage from '../../asset/chat_icon.png';
 
@@ -42,12 +45,13 @@ import './Chat.scss';
 console.log(styles);
 
 const Chat = () => {
-  const [loading, setLoading] = useState(false);
-
-  const { chatSessions } = useSelector((state) => state.chat);
-
+  // InitState
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomIndex, setZoomIndex] = useState(null);
+
+  // Redux
+  const dispatch = useDispatch();
+  const { chatSessions, loading } = useSelector((state) => state.chat);
 
   const handleZoomChange = useCallback((shouldZoom) => {
     setIsZoomed(shouldZoom);
@@ -66,7 +70,7 @@ const Chat = () => {
   };
 
   const imgOnChange = (e) => {
-    setLoading(true);
+    dispatch(setLoading());
     sendImg(e);
   };
 
@@ -75,7 +79,7 @@ const Chat = () => {
   };
 
   return (
-    <div style={{ position: 'relative', height: '600px' }}>
+    <div style={{ position: 'relative', height: '83.25rem', border: `1px solid ${variable['color-light-grey']}` }}>
       <MainContainer>
         <ChatContainer>
           <ConversationHeader style={{ height: '6.3rem' }}>
@@ -98,7 +102,7 @@ const Chat = () => {
             autoScrollToBottomOnMount
             // loading={!chatSessions?.length}
           >
-            <MessageSeparator content="今天 20:00" />
+            <MessageSeparator content={`今天${moment().format('HH:mm')}`} />
 
             {chatSessions?.map((chat, index) => {
               const {

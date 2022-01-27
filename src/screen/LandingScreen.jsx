@@ -10,6 +10,7 @@ import { Spin } from 'antd';
 import { Link, useParams, useHistory } from 'react-router-dom';
 
 // Actions
+// eslint-disable-next-line
 import { openOrder } from '../store/actions/orderActions';
 
 const LandingScreen = () => {
@@ -23,6 +24,7 @@ const LandingScreen = () => {
   const { orderInfo, error } = useSelector((state) => state.openOrder);
 
   useEffect(() => {
+    // eslint-disable-next-line
     if (!id) return;
     dispatch(openOrder(id));
   }, [dispatch, id]);

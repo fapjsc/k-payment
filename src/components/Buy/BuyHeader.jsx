@@ -57,7 +57,7 @@ const BuyHeader = () => {
     height: '100%',
   };
   return (
-    <Row style={isMobile && mobileStyle} justify="space-between">
+    <Row style={isMobile && mobileStyle} justify="start" gutter={[40, 16]}>
       <Col style={colStyle}>
         <Space>
           <span style={{ color: variable['color-dark-blue'] }}>匯率</span>
@@ -77,7 +77,7 @@ const BuyHeader = () => {
       <Col style={colStyle}>
         <Space>
           <span style={{ color: variable['color-dark-blue'] }}>支付金額</span>
-          <span style={{ color: variable['color-primary'] }}>{`${thousandsFormat(cny)}CNY`}</span>
+          <span style={{ color: variable['color-primary'] }}>{`¥${thousandsFormat(cny)}CNY`}</span>
         </Space>
       </Col>
     </Row>

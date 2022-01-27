@@ -9,10 +9,18 @@ export const chatReducers = (state = [], action) => {
       if (_.isArray(action.payload)) {
         return {
           chatSessions: action.payload.reverse(),
+          loading: false,
         };
       }
       return {
         chatSessions: [...state.chatSessions, action.payload],
+        loading: false,
+      };
+
+    case chatActionTypes.SET_LOADING:
+      return {
+        ...state,
+        loading: true,
       };
 
     default:

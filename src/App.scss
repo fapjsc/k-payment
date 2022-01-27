@@ -9,18 +9,20 @@
   }
 }
 
-.ant-typography {
-  color: $color-dark-blue;
-  font-size: 1.6rem;
 
-  @media only screen and(max-width: 767px) {
-    font-size: 1.2rem;
-  }
-}
 
 .txt-12 {
   font-size: 12px;
   letter-spacing: 1.5px;
+}
+
+.txt-12-grey {
+  color: #707070;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  font-weight: normal;
+  margin-bottom: 10px;
+  display: block;
 }
 
 .i-clock {
@@ -34,4 +36,9 @@
 
 .ant-spin-container {
   background-color: transparent !important;
+}
+
+.lightblue-bg {
+  background-color: rgba(215, 226, 243, 0.2);
+  padding: 10px;
 }
