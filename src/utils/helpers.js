@@ -1,7 +1,10 @@
 import CryptoJS from 'crypto-js';
 
 // 千分位加上小數點
-export const thousandsFormat = (text) => String(text).split('').reverse().reduce((prev, next, index) => (index % 3 ? next : `${next},`) + prev);
+export const thousandsFormat = (text) => {
+  if (!text) return;
+  return String(text).split('').reverse().reduce((prev, next, index) => (index % 3 ? next : `${next},`) + prev);
+};
 
 const key = CryptoJS.enc.Utf8.parse('N2841A3412APCD6F'); // 16位進制key
 const iv = CryptoJS.enc.Utf8.parse('AUCDTF12H41P34Y2'); //  16位進制key的偏移量
