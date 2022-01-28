@@ -210,7 +210,7 @@ const BuyScreen = () => {
           }
         }
       >
-        {/* <Chat refHeight={refHeight} /> */}
+        <Chat refHeight={refHeight} />
       </Col>
     </Row>
   );
