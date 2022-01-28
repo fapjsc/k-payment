@@ -50,6 +50,7 @@ const PaymentForm = ({
               type="primary"
               onClick={doms[1].props.onClick}
               loading={loading}
+              className="easy-btn1"
             >
               配對賣家
             </Button>
