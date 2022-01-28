@@ -18,7 +18,7 @@ import { confirmBuyStatusClear } from '../../store/actions/orderActions';
 import variable from '../../sass/variable.module.scss';
 
 // eslint-disable-next-line
-const BuyAction = ({ setModalShow }) => {
+const BuyAction = ({ setModalShow, id, orderToken }) => {
   // Redux
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.confirmBuy);
@@ -32,10 +32,10 @@ const BuyAction = ({ setModalShow }) => {
   };
 
   const confirmHandler = () => {
-    const token = localStorage.getItem('orderToken');
-    const id = localStorage.getItem('id');
-    if (!id || !token) {
-      message.error('session or token invalid');
+    // const token = localStorage.getItem('orderToken');
+    // const id = localStorage.getItem('id');
+    if (!id || !orderToken) {
+      message.error('session or orderToken invalid');
     }
 
     setModalShow({
@@ -47,12 +47,11 @@ const BuyAction = ({ setModalShow }) => {
   };
 
   const cancelHandler = () => {
-    const token = localStorage.getItem('orderToken');
-    const id = localStorage.getItem('id');
-    if (!id || !token) {
-      message.error('session or token invalid');
+    // const token = localStorage.getItem('orderToken');
+    // const id = localStorage.getItem('id');
+    if (!id || !orderToken) {
+      message.error('session or orderToken invalid');
     }
-    console.log('cancel');
 
     setModalShow({
       type: 'cancel',
@@ -123,12 +122,8 @@ const BuyAction = ({ setModalShow }) => {
         >
           我已完成匯款
         </Button>
-        <Button
-          onClick={cancelHandler}
-          type="link"
-        >
+        <Button onClick={cancelHandler} type="link">
           取消交易
-
         </Button>
       </div>
     </Row>

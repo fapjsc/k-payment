@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Space } from 'antd';
 
 // Chat kit
+// eslint-disable-next-line
 import styles from '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 
 import {
@@ -45,7 +46,7 @@ import useRwd from '../../hooks/useRwd';
 import variable from '../../sass/variable.module.scss';
 import './Chat.scss';
 
-console.log(styles);
+// console.log(styles);
 
 // eslint-disable-next-line
 const Chat = ({refHeight}) => {
@@ -85,14 +86,14 @@ const Chat = ({refHeight}) => {
     setZoomIndex(index);
   };
 
-  // eslint-disable-next-line
-  const mobileH = `${((window.innerHeight / 10 - 15) - (refHeight / 10) )}rem`;
-  console.log(mobileH, 'chat');
+  const onChange = (e) => {
+    console.log(e);
+  };
 
   return (
     <div style={{
       position: 'relative',
-      height: isMobile ? mobileH : '83.25rem',
+      height: isMobile ? refHeight / 2 : '83.25rem',
       border: `1px solid ${variable['color-light-grey']}`,
       marginTop: 'auto',
     }}
@@ -189,6 +190,7 @@ const Chat = ({refHeight}) => {
           </MessageList>
 
           <MessageInput
+            onClick={onChange}
             onAttachClick={onAttachClickHandler}
             placeholder="對話..."
             onSend={onSend}

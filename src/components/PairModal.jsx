@@ -36,6 +36,7 @@ const PairModal = ({ isModalVisible, cancelHandler }) => {
       footer={null}
       width={400}
       style={{ top: 300, borderRadius: '30px' }}
+      maskClosable={false}
       bodyStyle={{
         display: 'flex',
         flexDirection: 'column',

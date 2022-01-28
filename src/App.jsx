@@ -3,7 +3,11 @@ import React, { useEffect, useState, Suspense } from 'react';
 // Redux
 import { useSelector } from 'react-redux';
 
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+// Router
+import {
+  // eslint-disable-next-line
+  HashRouter as Router, Switch, Route, useParams,
+} from 'react-router-dom';
 import ProtectedRoutes from './routes/ProtectedRoutes'; //Authenticated routes
 // eslint-disable-next-line
 import PublicRoute from './routes/PublicRoutes';
@@ -22,9 +26,8 @@ import ContentLayout from './layout/ContentLayout';
 import './App.scss';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    !!localStorage.getItem('id'),
-  );
+  // const params = useParams();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { orderInfo } = useSelector((state) => state.openOrder);
 
   useEffect(() => {
@@ -42,7 +45,7 @@ const App = () => {
               <NotFound />
             </Route>
 
-            <PrivateRoute path="/auth" isAuthenticated={isAuthenticated}>
+            <PrivateRoute path="/auth" isAuthenticated={isAuthenticated} test="test">
               <ProtectedRoutes />
             </PrivateRoute>
 

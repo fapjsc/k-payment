@@ -7,11 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Spin } from 'antd';
 
 // Router
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 // Actions
 // eslint-disable-next-line
 import { openOrder } from '../store/actions/orderActions';
+
+// Helpers
+import { _encrypt } from '../utils/helpers';
 
 const LandingScreen = () => {
   const params = useParams();
@@ -31,7 +34,9 @@ const LandingScreen = () => {
 
   useEffect(() => {
     if (!orderInfo) return;
-    localStorage.setItem('id', id);
+    // localStorage.setItem('id', id);
+    const encryptId = _encrypt(id);
+    history.replace(`/auth/home?id=${encryptId}`);
   }, [orderInfo, id, history]);
 
   useEffect(() => {
@@ -49,9 +54,6 @@ const LandingScreen = () => {
       }}
     >
       <Spin size="large" />
-      <Link to="/t308V%2bOFafSZj0eTXZZiXWpgufwq8Hg1StfpAvn5cMmyQzwNVWpDf6wQMiY3Dbb4O0XuENyA1RSWnYSP8kH99xnXYFUetonCPQXwWMS8%2bhY%3d">
-        HOME
-      </Link>
     </div>
   );
 };

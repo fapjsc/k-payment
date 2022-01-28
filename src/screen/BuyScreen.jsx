@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Router props
 import { useHistory } from 'react-router-dom';
@@ -39,6 +39,7 @@ import useRwd from '../hooks/useRwd';
 
 // Components
 import BuyHeader from '../components/Buy/BuyHeader';
+// eslint-disable-next-line
 import BuyInfo from '../components/Buy/BuyInfo';
 import BuyAction from '../components/Buy/BuyAction';
 import Note from '../components/Note';
@@ -48,22 +49,28 @@ import WaitConfirm from '../components/WaitConfirm';
 // eslint-disable-next-line
 import Chat from '../components/chat/Chat';
 
+// Hooks
+import useQuery from '../hooks/useQuery';
+
+// Helpers
+import { _decrypt } from '../utils/helpers';
+
 const statusArr = [31, 33, 34];
 const resultArr = [1, 99, 98];
 
 const BuyScreen = () => {
-  const id = localStorage.getItem('id');
-  const orderToken = localStorage.getItem('orderToken');
+  const query = useQuery();
+  const sessionStr = query.get('session');
+
+  const { orderToken, id } = JSON.parse(_decrypt(sessionStr));
 
   // Hooks
   const { isMobile } = useRwd();
 
-  // Ref
-  const buyRef = useRef();
-
   // Init State
   const [modalShow, setModalShow] = useState({ show: false });
-  const [refHeight, setRefHeight] = useState(null);
+  // eslint-disable-next-line
+  const [refHeight] = useState(window.innerHeight - 150 - 18 - 30);
 
   // Router props
   const history = useHistory();
@@ -83,9 +90,9 @@ const BuyScreen = () => {
 
   useEffect(() => {
     if (resultArr.includes(paymentStatus)) {
-      history.replace('/auth/result');
+      history.replace(`/auth/result?session=${sessionStr}`);
     }
-  }, [paymentStatus, history]);
+  }, [paymentStatus, history, sessionStr]);
 
   useEffect(() => {
     if (!orderInfo) {
@@ -112,15 +119,8 @@ const BuyScreen = () => {
 
   useEffect(() => {
     if (!cancelData) return;
-    history.replace('/auth/result');
-  }, [cancelData, history]);
-
-  useEffect(() => {
-    console.log(buyRef?.current?.clientHeight);
-
-    if (!buyRef.current) return;
-    setRefHeight(buyRef.current.clientHeight);
-  }, [buyRef]);
+    history.replace(`/auth/result?session=${sessionStr}`);
+  }, [cancelData, history, sessionStr]);
 
   const confirmBuyHandler = () => {
     dispatch(confirmBuy(id, orderToken));
@@ -137,7 +137,8 @@ const BuyScreen = () => {
       style={{
         maxWidth: '1140px',
         margin: 'auto',
-        //  backgroundColor: 'blue'
+        height: isMobile && refHeight,
+        // backgroundColor: 'black',
       }}
     >
       <ConfirmModal
@@ -153,11 +154,12 @@ const BuyScreen = () => {
       <Col
         md={{ span: 15 }}
         span={24}
-        ref={buyRef}
         style={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'start',
+          justifyContent: isMobile ? 'space-between' : 'flex-start',
+          // height: isMobile && '50%',
+          // backgroundColor: 'blue',
         }}
       >
         <div style={{}}>
@@ -175,9 +177,13 @@ const BuyScreen = () => {
           style={{ minHeight: '40rem', padding: 0 }}
         >
           {(paymentStatus === 31 || paymentStatus === 33) && (
-            <Space direction="vertical">
+            <Space direction="vertical" style={{}}>
               <BuyInfo />
-              <BuyAction setModalShow={setModalShow} />
+              <BuyAction
+                setModalShow={setModalShow}
+                id={id}
+                orderToken={orderToken}
+              />
             </Space>
           )}
 
@@ -194,8 +200,17 @@ const BuyScreen = () => {
         </div>
       </Col>
 
-      <Col md={{ span: 8, offset: 1 }} span={24} style={{ }}>
-        <Chat refHeight={refHeight} />
+      <Col
+        md={{ span: 8, offset: 1 }}
+        span={24}
+        style={
+          {
+            // height: isMobile && '50%',
+            // backgroundColor: 'red',
+          }
+        }
+      >
+        {/* <Chat refHeight={refHeight} /> */}
       </Col>
     </Row>
   );

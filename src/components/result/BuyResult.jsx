@@ -6,15 +6,35 @@ import { useSelector } from 'react-redux';
 // Antd
 import {
   // eslint-disable-next-line
-  Result, Typography, Space, Divider, Row, Col,
+  Result,
+  // eslint-disable-next-line
+  Typography,
+  Space,
+  Divider,
+  Row,
+  Col,
+  // eslint-disable-next-line
+  Spin,
+  // eslint-disable-next-line
+  Skeleton,
 } from 'antd';
 
 // Components
 import Note from '../Note';
+import LoadingScreen from '../../screen/LoadingScreen';
+
+// Hooks
+import useQuery from '../../hooks/useQuery';
+
+// Helper
+import { _decrypt } from '../../utils/helpers';
 
 // Image
 import successImage from '../../asset/success.png';
 import cancelImage from '../../asset/cancel.png';
+
+// Websocket
+import { buyConnectWs } from '../../utils/webSocket';
 
 // Styles
 import variable from '../../sass/variable.module.scss';
@@ -27,6 +47,11 @@ const spanLayout = {
 let type;
 
 const BuyResult = () => {
+  const query = useQuery();
+  const queryStr = query.get('session') || query.get('id');
+
+  const { id, orderToken } = JSON.parse(_decrypt(queryStr)) || {};
+
   // Redux
   const {
     sessions: { data },
@@ -42,15 +67,23 @@ const BuyResult = () => {
   } = data || {};
 
   if (status === 1) type = 'success';
-  // if (status === 99 || status === 98) type = 'cancel';
-  if (type !== 'success') type = 'cancel';
+  if (status === 99 || status === 98) type = 'cancel';
+  // if (type !== 'success') type = 'cancel';
 
   useEffect(() => {
-    localStorage.clear();
-  }, []);
+    if (status) return;
+
+    if (id && orderToken) {
+      buyConnectWs(id, orderToken);
+    }
+  }, [status, id, orderToken]);
+
+  if (!data) {
+    return <LoadingScreen />;
+  }
 
   return (
-    <div>
+    <>
       <Row>
         <Col md={{ ...spanLayout }}>
           <Row justify="start" gutter={[40, 16]}>
@@ -86,33 +119,26 @@ const BuyResult = () => {
           <Divider />
         </Col>
       </Row>
+
       <Result
-        title={(
-          <h4 style={{ fontSize: '2rem', color: variable['color-primary'] }}>
-            {type === 'cancel' ? '交易取消' : '交易完成'}
-          </h4>
-        )}
-        icon={(
-          <img
-            style={{ width: '20rem' }}
-            src={type === 'cancel' ? cancelImage : successImage}
-            alt="success"
-          />
-        )}
-        // extra={(
-        //   <Space>
-        //     <span style={{ color: variable['color-secondary'] }}>
-        //       交易回執：
-        //     </span>
-        //     <Typography.Text
-        //       copyable
-        //       style={{ fontSize: '1.4rem', color: variable['color-dark-grey'] }}
-        //     >
-        //       {hash}
-        //     </Typography.Text>
-        //   </Space>
-        // )}
+        title={
+          data && (
+            <h4 style={{ fontSize: '2rem', color: variable['color-primary'] }}>
+              {type === 'cancel' ? '交易取消' : '交易完成'}
+            </h4>
+          )
+        }
+        icon={
+          data && (
+            <img
+              style={{ width: '20rem' }}
+              src={type === 'cancel' ? cancelImage : successImage}
+              alt="success"
+            />
+          )
+        }
       />
+
       <Row>
         <Col md={{ ...spanLayout }}>
           <Divider />
@@ -121,7 +147,7 @@ const BuyResult = () => {
           <Note />
         </Col>
       </Row>
-    </div>
+    </>
   );
 };
 

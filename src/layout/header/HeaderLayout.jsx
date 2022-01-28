@@ -30,7 +30,7 @@ const HeaderLayout = () => {
         className=""
         style={{
           lineHeight: '1rem',
-          minHeight: isTinyScreen ? '20rem' : '15rem',
+          height: isTinyScreen ? '14rem' : '15rem',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -45,7 +45,7 @@ const HeaderLayout = () => {
 
         <div style={{
           color: '#fff',
-          fontSize: '1.2rem',
+          fontSize: '1rem',
           lineHeight: '1.5',
           display: 'flex',
           flexWrap: 'wrap',

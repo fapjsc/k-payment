@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Types
 import PropTypes from 'prop-types';
 
 // Redux
@@ -15,6 +16,12 @@ import PaymentForm from './PaymentForm';
 
 // Layout
 import { wrapLayout, mobileWrapLayout, dividerLayout } from '../../layout/layout-span';
+
+// Helpers
+// import { _decrypt } from '../../utils/helpers';
+
+// Styles
+import variable from '../../sass/variable.module.scss';
 
 const { Title } = Typography;
 
@@ -32,7 +39,7 @@ const Payment = ({ id }) => {
         sm={{ ...mobileWrapLayout }}
         xs={{ ...mobileWrapLayout }}
       >
-        <Title level={3}>購買USDT</Title>
+        <Title style={{ color: variable['color-primary'], fontSize: '2.6rem' }} level={3}>購買USDT</Title>
       </Col>
 
       <Col

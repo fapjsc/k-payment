@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 // Router
 import { useHistory } from 'react-router-dom';
@@ -21,9 +21,14 @@ import { buyConnectWs } from '../utils/webSocket';
 
 // Components
 import Payment from '../components/payment/Payment';
-// eslint-disable-next-line
 import Note from '../components/Note';
 import PairModal from '../components/PairModal';
+
+// Hooks
+import useQuery from '../hooks/useQuery';
+
+// Helpers
+import { _encrypt, _decrypt } from '../utils/helpers';
 
 import {
   mobileWrapLayout,
@@ -32,8 +37,13 @@ import {
 } from '../layout/layout-span';
 
 const HomeScreen = () => {
-  const id = localStorage.getItem('id');
-  console.log(id, 'home');
+  const query = useQuery();
+  const queryStr = query.get('id');
+
+  const id = _decrypt(queryStr);
+
+  // Ref
+  const tokenRef = useRef();
 
   // Router
   const history = useHistory();
@@ -44,7 +54,9 @@ const HomeScreen = () => {
     (state) => state.openOrder,
   );
 
-  const { data: cancelData, error: cancelError } = useSelector((state) => state.cancelOrder);
+  const { data: cancelData, error: cancelError } = useSelector(
+    (state) => state.cancelOrder,
+  );
 
   const { rateInfo } = useSelector((state) => state.exRate);
   const { orderToken } = useSelector((state) => state.orderToken);
@@ -71,28 +83,29 @@ const HomeScreen = () => {
 
   //**  Di Order */
   useEffect(() => {
-    if (orderToken) {
+    if (orderToken && id) {
       setShowModal(true);
-      localStorage.setItem('orderToken', orderToken);
+      tokenRef.current = _encrypt(JSON.stringify({ orderToken, id }));
     }
-  }, [orderToken]);
+  }, [orderToken, id]);
 
   // 拿到token後連接websocket
   useEffect(() => {
     if (!orderToken || !id) return;
-
     buyConnectWs(id, orderToken);
     // chatConnectWs(id, orderToken);
   }, [orderToken, id]);
 
+  // 配對成功
   useEffect(() => {
-    if (!data) return;
+    if (!data || !tokenRef.current) return;
     const { Order_StatusID: orderStatus } = data || {};
     if (orderStatus === 33) {
-      history.replace('/auth/payment');
+      history.replace(`/auth/payment?session=${tokenRef.current}`);
     }
-  }, [data, history]);
+  }, [data, history, tokenRef, id]);
 
+  // 取消訂單
   useEffect(() => {
     if (cancelError) {
       message.error('訂單取消失敗');
@@ -100,9 +113,9 @@ const HomeScreen = () => {
     }
 
     if (cancelData) {
-      history.replace('/auth/result');
+      history.replace(`/auth/result?session=${tokenRef.current}`);
     }
-  }, [cancelData, cancelError, history]);
+  }, [cancelData, cancelError, history, queryStr]);
 
   const cancelHandler = () => {
     dispatch(cancelOrder(id, orderToken));
