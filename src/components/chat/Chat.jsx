@@ -49,7 +49,7 @@ import './Chat.scss';
 // console.log(styles);
 
 // eslint-disable-next-line
-const Chat = ({refHeight}) => {
+const Chat = ({refHeight, fullScreenHandler, fullScreen}) => {
   // InitState
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomIndex, setZoomIndex] = useState(null);
@@ -70,6 +70,11 @@ const Chat = ({refHeight}) => {
 
   const onSend = (values) => {
     if (!values) return;
+    if (values.includes('<span')) {
+      const formatStr = values.split('</span>')[0].split(';">')[1];
+      sendMessage(formatStr);
+      return;
+    }
     sendMessage(values);
   };
 
@@ -86,15 +91,16 @@ const Chat = ({refHeight}) => {
     setZoomIndex(index);
   };
 
-  const onChange = (e) => {
-    console.log(e);
+  const onChange = () => {
+    // console.log(e);
+    fullScreenHandler(true);
   };
 
   return (
     <div style={{
       position: 'relative',
-      height: isMobile ? refHeight / 2 : '83.25rem',
-      border: `1px solid ${variable['color-light-grey']}`,
+      // eslint-disable-next-line
+      height:  (fullScreen && isMobile) ? refHeight + 90 - 50 : isMobile ? refHeight / 2 : '75rem',
       marginTop: 'auto',
     }}
     >
@@ -128,6 +134,7 @@ const Chat = ({refHeight}) => {
             {chatSessions?.map((chat, index) => {
               const {
                 Message_Role: role,
+                // eslint-disable-next-line
                 Sysdate: time,
                 Message_Type: type,
                 Message: message,
@@ -181,7 +188,9 @@ const Chat = ({refHeight}) => {
                       textAlign: chat.Message_Role === 1 ? 'left' : 'right',
                     }}
                   >
-                    {moment(time).format('HH:mm')}
+                    {time.split(' ')[1].split(':')[0]}
+                    :
+                    {time.split(' ')[1].split(':')[1]}
                   </p>
                 </Fragment>
               );
@@ -194,6 +203,7 @@ const Chat = ({refHeight}) => {
             onAttachClick={onAttachClickHandler}
             placeholder="對話..."
             onSend={onSend}
+
           />
         </ChatContainer>
       </MainContainer>

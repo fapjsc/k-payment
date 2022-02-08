@@ -1,33 +1,30 @@
 import React, { useEffect } from 'react';
 
+// Router
+import { useHistory } from 'react-router-dom';
+
 // Redux
 import { useSelector } from 'react-redux';
 
 // Antd
 import {
-  // eslint-disable-next-line
   Result,
-  // eslint-disable-next-line
-  Typography,
   Space,
   Divider,
   Row,
   Col,
-  // eslint-disable-next-line
-  Spin,
-  // eslint-disable-next-line
-  Skeleton,
 } from 'antd';
 
 // Components
 import Note from '../Note';
 import LoadingScreen from '../../screen/LoadingScreen';
+// import BuyHeader from '../Buy/BuyHeader';
 
 // Hooks
 import useQuery from '../../hooks/useQuery';
 
 // Helper
-import { _decrypt } from '../../utils/helpers';
+import { _decrypt, thousandsFormat } from '../../utils/helpers';
 
 // Image
 import successImage from '../../asset/success.png';
@@ -35,6 +32,9 @@ import cancelImage from '../../asset/cancel.png';
 
 // Websocket
 import { buyConnectWs } from '../../utils/webSocket';
+
+// Hooks
+import useRwd from '../../hooks/useRwd';
 
 // Styles
 import variable from '../../sass/variable.module.scss';
@@ -50,7 +50,20 @@ const BuyResult = () => {
   const query = useQuery();
   const queryStr = query.get('session') || query.get('id');
 
-  const { id, orderToken } = JSON.parse(_decrypt(queryStr)) || {};
+  const { isMobile } = useRwd();
+
+  const history = useHistory();
+
+  let id;
+  let orderToken;
+
+  try {
+    const { id: idStr, orderToken: token } = JSON.parse(_decrypt(queryStr));
+    id = idStr;
+    orderToken = token;
+  } catch (error) {
+    history.replace('/not-found');
+  }
 
   // Redux
   const {
@@ -84,41 +97,45 @@ const BuyResult = () => {
 
   return (
     <>
-      <Row>
-        <Col md={{ ...spanLayout }}>
-          <Row justify="start" gutter={[40, 16]}>
-            <Col>
-              <Space>
-                <span style={{ color: variable['color-dark-blue'] }}>
-                  匯率:
-                </span>
-                <span style={{ color: variable['color-primary'] }}>{rate}</span>
-              </Space>
-            </Col>
-            <Col>
-              <Space>
-                <span style={{ color: variable['color-dark-blue'] }}>
-                  購買數量:
-                </span>
-                <span style={{ color: variable['color-primary'] }}>
-                  {`${usdt}  USDT`}
-                </span>
-              </Space>
-            </Col>
-            <Col>
-              <Space>
-                <span style={{ color: variable['color-dark-blue'] }}>
-                  支付金額:
-                </span>
-                <span style={{ color: variable['color-primary'] }}>
-                  {`${cny}CNY`}
-                </span>
-              </Space>
-            </Col>
-          </Row>
-          <Divider />
-        </Col>
-      </Row>
+      {!isMobile && (
+        <Row>
+          <Col md={{ ...spanLayout }}>
+            <Row justify="start" gutter={[40, 16]}>
+              <Col>
+                <Space>
+                  <span style={{ color: variable['color-dark-blue'] }}>
+                    匯率:
+                  </span>
+                  <span style={{ color: variable['color-primary'] }}>
+                    {rate}
+                  </span>
+                </Space>
+              </Col>
+              <Col>
+                <Space>
+                  <span style={{ color: variable['color-dark-blue'] }}>
+                    購買數量:
+                  </span>
+                  <span style={{ color: variable['color-primary'] }}>
+                    {`${thousandsFormat(usdt)}  USDT`}
+                  </span>
+                </Space>
+              </Col>
+              <Col>
+                <Space>
+                  <span style={{ color: variable['color-dark-blue'] }}>
+                    支付金額:
+                  </span>
+                  <span style={{ color: variable['color-primary'] }}>
+                    {`${thousandsFormat(cny)}  CNY`}
+                  </span>
+                </Space>
+              </Col>
+            </Row>
+            <Divider />
+          </Col>
+        </Row>
+      )}
 
       <Result
         title={
@@ -139,14 +156,16 @@ const BuyResult = () => {
         }
       />
 
-      <Row>
-        <Col md={{ ...spanLayout }}>
-          <Divider />
-        </Col>
-        <Col md={{ ...spanLayout }}>
-          <Note />
-        </Col>
-      </Row>
+      {!isMobile && (
+        <Row>
+          <Col md={{ ...spanLayout }}>
+            <Divider />
+          </Col>
+          <Col md={{ ...spanLayout }}>
+            <Note />
+          </Col>
+        </Row>
+      )}
     </>
   );
 };

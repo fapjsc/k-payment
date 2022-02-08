@@ -15,6 +15,8 @@ import variable from '../../sass/variable.module.scss';
 // Components
 import Timer from '../Timer';
 
+import copyIcon from '../../asset/copy.png';
+
 const BuyInfo = () => {
   const { isMobile } = useRwd();
 
@@ -37,7 +39,7 @@ const BuyInfo = () => {
   useEffect(() => {
     const sourceData = [
       {
-        付款金額: `${cnyAmount}CNY`,
+        付款金額: cnyAmount,
         id: 1,
       },
       {
@@ -67,7 +69,13 @@ const BuyInfo = () => {
         marginTop: isMobile ? '-1rem' : '-1rem',
       }}
     >
-      <span style={{ fontSize: '1.6rem', color: variable['color-dark-grey'] }}>
+      <span
+        style={{
+          fontSize: '1.6rem',
+          color: variable['color-dark-grey'],
+          paddingLeft: '1rem',
+        }}
+      >
         匯款資料
       </span>
       <Timer />
@@ -79,11 +87,10 @@ const BuyInfo = () => {
       style={{
         backgroundColor: 'rgba(215,226,243,0.20)',
         borderRadius:
-            (item.id === 1 && '8px 8px 0 0')
-            || (item.id === 2 && '0 0 8px 8px '),
+          (item.id === 1 && '8px 8px 0 0') || (item.id === 2 && '0 0 8px 8px '),
         lineHeight: '1.2',
         paddingTop: item.id === 1 && '1.5rem',
-        // paddingLeft: '.8rem',
+        paddingLeft: '1rem',
         letterSpacing: '1.5px',
       }}
     >
@@ -93,12 +100,31 @@ const BuyInfo = () => {
             <p className="avatar-p" style={{ width: '11rem' }}>
               {`${Object.keys(item)[0]}：`}
             </p>
-            )}
+          )}
           description={(
-            <Typography.Text copyable>
-              {Object.values(item)[0]}
-            </Typography.Text>
-            )}
+            <>
+              {item.id === 1 && <span style={{ color: '#242e47' }}>¥</span>}
+              <Typography.Text
+                style={{}}
+                copyable={{
+                  icon: (
+                    <img
+                      style={{
+                        // marginLeft: '1rem',
+                        marginBottom: '.5rem',
+                        width: '1.6rem',
+                        height: '1.6rem',
+                      }}
+                      src={copyIcon}
+                      alt="copy"
+                    />
+                  ),
+                }}
+              >
+                {Object.values(item)[0]}
+              </Typography.Text>
+            </>
+          )}
         />
       </List.Item>
     </div>

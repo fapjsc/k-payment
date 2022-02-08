@@ -1,11 +1,11 @@
 export const wrapLayout = {
-  span: 6,
-  offset: 9,
+  span: 8,
+  offset: 8,
 };
 
 export const mobileWrapLayout = {
-  span: 20,
-  offset: 2,
+  span: 22,
+  offset: 1,
 };
 
 export const dividerLayout = {

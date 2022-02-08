@@ -108,12 +108,14 @@ const BuyAction = ({ setModalShow, id, orderToken }) => {
         }}
       >
         {!isMobile && (
-          <span style={{ color: variable['color-secondary'] }}>
+          <span style={{ color: variable['color-secondary'], textAlign: 'center' }}>
             完成轉帳後，可上傳匯款憑證給收款方確認
           </span>
         )}
         <Button
-          style={{ marginTop: '8px', borderRadius: '5px', height: '54px' }}
+          style={{
+            marginTop: '8px', borderRadius: '5px', height: '54px', width: '40rem',
+          }}
           loading={loading}
           block
           type="primary"

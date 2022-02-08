@@ -10,7 +10,6 @@ import { Spin } from 'antd';
 import { useParams, useHistory } from 'react-router-dom';
 
 // Actions
-// eslint-disable-next-line
 import { openOrder } from '../store/actions/orderActions';
 
 // Helpers
@@ -27,14 +26,12 @@ const LandingScreen = () => {
   const { orderInfo, error } = useSelector((state) => state.openOrder);
 
   useEffect(() => {
-    // eslint-disable-next-line
     if (!id) return;
     dispatch(openOrder(id));
   }, [dispatch, id]);
 
   useEffect(() => {
     if (!orderInfo) return;
-    // localStorage.setItem('id', id);
     const encryptId = _encrypt(id);
     history.replace(`/auth/home?id=${encryptId}`);
   }, [orderInfo, id, history]);

@@ -1,9 +1,10 @@
 .header {
+  display: flex;
+  align-items: center;
+  
   .logo {
-    float: left;
     width: 12rem;
     height: 3rem;
-    margin: 16px 24px 16px 0;
     background-image: url('../../asset/logo_easy.png');
     background-position: center;
     background-repeat: no-repeat;

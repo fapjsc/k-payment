@@ -11,14 +11,17 @@ import ProForm, {
 } from '@ant-design/pro-form';
 
 import {
-  Row, Col, Button, Image, message,
+  Row, Col, Button, message,
 } from 'antd';
 
 // Actions
 import { getOrderToken } from '../../store/actions/orderActions';
 
+// Hooks
+import useRwd from '../../hooks/useRwd';
+
 // Image
-import towWayImage from '../../asset/i_twoways.png';
+// import towWayImage from '../../asset/i_twoways.png';
 
 const PaymentForm = ({
   buyRate, clientName, RequestedAmt, id,
@@ -27,6 +30,8 @@ const PaymentForm = ({
   const dispatch = useDispatch();
 
   const { loading, error } = useSelector((state) => state.orderToken);
+
+  const { isMobile } = useRwd();
 
   const onFinish = (values) => {
     dispatch(getOrderToken(id, values));
@@ -39,11 +44,17 @@ const PaymentForm = ({
   }, [error]);
   return (
     <ProForm
+      style={{ }}
       onFinish={onFinish}
       autoFocusFirstInput
       submitter={{
         render: (props, doms) => (
-          <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+          <div style={{
+            textAlign: 'center',
+            // marginTop: '1rem',
+            padding: '0 20px',
+          }}
+          >
             <Button
               size="large"
               style={{ minWidth: '100%', borderRadius: '5px' }}
@@ -60,54 +71,56 @@ const PaymentForm = ({
       }}
     >
       <Row>
-        <Col
-          sm={24}
-          xs={24}
+        <Row style={{
+          backgroundColor: '#f2f5fa',
+          padding: '20px',
+          borderRadius: '1.3rem',
+          width: '100%',
+          marginBottom: isMobile ? '1rem' : '3rem',
+          paddingBottom: 0,
+        }}
         >
-          <ProFormText
-            label={`購買數量 (匯率：${buyRate || 'loading..'})`}
-            name="buyAmount"
-            suffix="USDT"
-            disabled
-            fieldProps={{ suffix: 'USDT', size: 'large' }}
-            initialValue={RequestedAmt.toFixed(2)}
+          <Col
+            sm={24}
+            xs={24}
+            // style={{ backgroundColor: 'red' }}
+          >
+            <ProFormText
+              label={`購買數量 (匯率：${buyRate || 'loading..'})`}
+              name="buyAmount"
+              suffix="USDT"
+              disabled
+              fieldProps={{ suffix: 'USDT', size: 'large' }}
+              initialValue={RequestedAmt.toFixed(2)}
+            />
+          </Col>
 
-          />
-        </Col>
+          <Col
+            sm={24}
+            xs={24}
+            style={{
+              // backgroundColor: 'blue',
+            }}
+
+          >
+            <ProFormText
+              label="支付金額"
+              name="payAmount"
+              suffix="CNY"
+              disabled
+              fieldProps={{ suffix: 'CNY', size: 'large', precision: 2 }}
+              initialValue={(RequestedAmt * buyRate).toFixed(2)}
+            />
+          </Col>
+        </Row>
 
         <Col
           sm={24}
           xs={24}
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            padding: '0px 20px',
+            // backgroundColor: 'red',
           }}
-        >
-          <Image
-            src={towWayImage}
-            width="10%"
-            style={{ transform: 'rotate(90deg)' }}
-          />
-        </Col>
-
-        <Col
-          sm={24}
-          xs={24}
-        >
-          <ProFormText
-            label="支付金額"
-            name="payAmount"
-            suffix="CNY"
-            disabled
-            fieldProps={{ suffix: 'CNY', size: 'large', precision: 2 }}
-            initialValue={(RequestedAmt * buyRate).toFixed(2)}
-          />
-        </Col>
-
-        <Col
-          sm={24}
-          xs={24}
         >
           <ProFormText
             label="您的姓名"

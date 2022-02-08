@@ -20,6 +20,10 @@ html {
 //   padding: 0.5rem 1rem;
 // }
 
+.ant-divider {
+  border-color: $color-light-grey !important;
+}
+
 .ant-list-item {
   padding: 0 !important;
   border: none !important;
@@ -37,4 +41,38 @@ html {
 
 .ant-list-split .ant-list-header {
   border-bottom: none;
+}
+
+.ant-input-affix-wrapper {
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #fff;
+  border-color: $color-light-grey;
+
+  span {
+    color: $color-light-grey;
+  }
+}
+
+.ant-input {
+  // padding: 15px !important;
+  border-radius: 10px !important;
+}
+
+.ant-btn {
+  padding: 1.5rem;
+  height: 56px;
+  @media only screen and(max-width: 767px) {
+    padding: .8rem
+  }
+}
+
+.ant-btn-primary {
+  background-color: #3E80f9;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.ant-btn-link {
+  color: #3f80fa;
 }

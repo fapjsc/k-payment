@@ -1,10 +1,42 @@
 import CryptoJS from 'crypto-js';
 
 // 千分位加上小數點
-export const thousandsFormat = (text) => {
-  if (!text) return;
-  return String(text).split('').reverse().reduce((prev, next, index) => (index % 3 ? next : `${next},`) + prev);
+export const thousandsFormat = (data, tofixed = 2) => {
+  if (!Number.isNaN(data) && data !== undefined) {
+    if (data > 999 || data < -999) {
+      let dataStr = data.toString();
+      let integer; let
+        decimals;
+      let newdata = '';
+      const flg = ',';
+      if (dataStr.indexOf('.') !== -1) {
+        dataStr = Number(dataStr).toFixed(tofixed);
+        integer = dataStr.split('.')[0];
+        decimals = dataStr.split('.')[1];
+        for (let i = integer.length; i > 0; i -= 3) {
+          const tmp = integer.substring(i - 3, i);
+          if (i - 3 <= 0) {
+            newdata = tmp + newdata;
+          } else newdata = flg + tmp + newdata;
+        }
+        newdata = `${newdata}.${decimals}`;
+      } else {
+        integer = dataStr;
+        for (let i = integer.length; i > 0; i -= 3) {
+          const tmp = integer.substring(i - 3, i);
+          if (i - 3 <= 0) {
+            newdata = `${tmp + newdata}.00`;
+          } else newdata = flg + tmp + newdata;
+        }
+      }
+      return newdata; // 傳入的數字
+    }
+    return data;
+  }
+  return data;
 };
+// export const thousandsFormat =
+//(text) => (text * 1).toFixed(2).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
 
 const key = CryptoJS.enc.Utf8.parse('N2841A3412APCD6F'); // 16位進制key
 const iv = CryptoJS.enc.Utf8.parse('AUCDTF12H41P34Y2'); //  16位進制key的偏移量

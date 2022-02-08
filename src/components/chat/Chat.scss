@@ -2,6 +2,16 @@ button {
   cursor: pointer !important;
 }
 
+.cs-main-container {
+  border-right: none;
+  border-top: none;
+  border-color: #d7e2f3;
+
+  @media only screen and(max-width: 767px) {
+    border: none;
+  }
+}
+
 .cs-conversation-header {
   background-color: transparent;
   border-color: #d7e2f3;
@@ -21,6 +31,7 @@ button {
   .cs-message__content-wrapper {
     width: 70%;
     min-height: 4.8rem;
+    font-size: 1.4rem;
   }
 }
 
@@ -43,14 +54,15 @@ button {
 }
 
 .cs-message-input {
-  background-color: #edf4fc !important;
+  background-color: #d7e2f3 !important;
+  border: none !important;
 
   .cs-message-input__content-editor-wrapper {
-    background-color: #edf4fc;
+    background-color: #d7e2f3 !important;
     flex-grow: 2;
 
     .cs-message-input__content-editor-container {
-      background-color: #edf4fc !important;
+      background-color: #d7e2f3 !important;
     }
   }
 

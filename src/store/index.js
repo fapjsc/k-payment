@@ -14,7 +14,7 @@ import {
 
 import { cancelOrderReducer } from './reducers/cancelOrderReducer';
 
-import { chatReducers } from './reducers/chatReducers';
+import { chatReducers, chatFullScreenReducers } from './reducers/chatReducers';
 
 const reducer = combineReducers({
   openOrder: orderReducer,
@@ -24,6 +24,7 @@ const reducer = combineReducers({
   diOrderSession: diOrderSessionReducer,
   confirmBuy: confirmBuyReducer,
   chat: chatReducers,
+  chatFullScreen: chatFullScreenReducers,
 });
 
 const middleware = [thunk];

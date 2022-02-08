@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 // Antd
 import {
-  Row, Col, Divider, message,
+  Row, Col, message, Divider,
 } from 'antd';
 
 // Redux
@@ -117,13 +117,24 @@ const HomeScreen = () => {
     }
   }, [cancelData, cancelError, history, queryStr]);
 
+  // function quickHideAddressBar() {
+  //   setTimeout(() => {
+  //     if (window.pageYOffset !== 0) return;
+  //     window.scrollTo(0, window.pageYOffset + 1);
+  //   }, 1000);
+  // }
+
+  // useEffect(() => {
+  //   quickHideAddressBar();
+  // }, []);
+
   const cancelHandler = () => {
     dispatch(cancelOrder(id, orderToken));
     setShowModal(false);
   };
 
   return (
-    <Row>
+    <Row style={{ }}>
       <PairModal isModalVisible={showModal} cancelHandler={cancelHandler} />
       <Payment id={id} />
 
@@ -136,7 +147,6 @@ const HomeScreen = () => {
       </Col>
 
       <Col
-        style={{}}
         span={noteLayout.span}
         offset={noteLayout.offset}
         md={{ ...noteLayout }}

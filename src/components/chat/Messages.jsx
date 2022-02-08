@@ -38,6 +38,7 @@ const Messages = () => {
           Message_Type: type,
           Message: message,
         } = chat || {};
+
         return (
           <Fragment
             // eslint-disable-next-line
@@ -80,7 +81,7 @@ const Messages = () => {
                 textAlign: chat.Message_Role === 1 ? 'left' : 'right',
               }}
             >
-              {moment(time).format('HH:mm')}
+              {moment(time).format('HH:mm') }
             </p>
           </Fragment>
         );

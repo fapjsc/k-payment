@@ -1,7 +1,16 @@
 import _ from 'lodash';
 import chatActionTypes from '../types/chatTypes';
 
-export const temp = () => {};
+export const chatFullScreenReducers = (state = { fullScreen: false }, action) => {
+  switch (action.type) {
+    case chatActionTypes.FULL_SCREEN:
+      return {
+        fullScreen: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 
 export const chatReducers = (state = [], action) => {
   switch (action.type) {

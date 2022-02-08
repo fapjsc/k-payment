@@ -14,14 +14,14 @@ import { thousandsFormat } from '../utils/helpers';
 
 // Image
 import searchImage from '../asset/icon_search.gif';
-import closeImage from '../asset/close.png';
+// import closeImage from '../asset/close.png';
 
 // Actions
 
 // Style
 import variable from '../sass/variable.module.scss';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const PairModal = ({ isModalVisible, cancelHandler }) => {
   const { orderInfo } = useSelector((state) => state.openOrder);
@@ -33,16 +33,19 @@ const PairModal = ({ isModalVisible, cancelHandler }) => {
   return (
     <Modal
       visible={isModalVisible}
+      centered
       footer={null}
-      width={400}
-      style={{ top: 300, borderRadius: '30px' }}
+      width={500}
+      style={{ borderRadius: '30px' }}
       maskClosable={false}
+      keyboard={false}
+      closable={false}
       bodyStyle={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
       }}
-      closeIcon={<img style={{ width: '1.6rem' }} src={closeImage} alt="134" />}
+      // closeIcon={<img style={{ width: '1.6rem' }} src={closeImage} alt="134" />}
       onCancel={cancelHandler}
     >
 
@@ -66,11 +69,11 @@ const PairModal = ({ isModalVisible, cancelHandler }) => {
         alignItems: 'center',
       }}
       >
-        <Title style={{ color: variable['color-primary'] }} level={2}>正為您找尋賣方</Title>
+        <span style={{ color: variable['color-primary'], fontSize: '3rem' }}>正為您找尋賣方</span>
 
         <Space direction="vertical" style={{ marginTop: '2rem' }}>
-          <Text style={{ color: variable['color-dark-blue'] }}>{`購買數量: ${thousandsFormat(RequestedAmt)} USDT`}</Text>
-          <Text style={{ color: variable['color-dark-blue'] }}>{`支付金額: ${thousandsFormat(RequestedAmt * RMB_BUY)} CNY`}</Text>
+          <Text style={{ color: variable['color-dark-blue'], fontSize: '1.4rem', fontWeight: 700 }}>{`購買數量: ${thousandsFormat(RequestedAmt)} USDT`}</Text>
+          <Text style={{ color: variable['color-dark-blue'], fontSize: '1.4rem', fontWeight: 700 }}>{`支付金額: ${thousandsFormat(RequestedAmt * RMB_BUY)} CNY`}</Text>
         </Space>
       </div>
     </Modal>

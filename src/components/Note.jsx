@@ -13,7 +13,7 @@ import footerIcon from '../asset/footer_icon.png';
 const Note = () => (
   <div style={{ }}>
     <ul className="txt-12-grey" style={{ paddingLeft: '1.7rem' }}>
-      <Space direction="vertical" size="large">
+      <Space direction="vertical" size="middle">
         <li>本平台目前只提供USDT交易，其他数字货币交易将不予受理。</li>
         <li>本平台钱包地址充值或转出，都是经由 USDT区块链系统网络确认。</li>
         <li>本平台钱包地址可以重复充值或转出；如因系统更新，我们会通过网站或口讯通知。</li>
