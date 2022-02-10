@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+
+  useEffect, useState, useCallback,
+} from 'react';
 
 // Router props
 import { useHistory } from 'react-router-dom';
+
+// eslint-disable-next-line
+import { gsap } from 'gsap';
 
 // Antd
 import {
@@ -37,6 +43,7 @@ import useRwd from '../hooks/useRwd';
 import BuyHeader from '../components/Buy/BuyHeader';
 // eslint-disable-next-line
 import BuyInfo from '../components/Buy/BuyInfo';
+// eslint-disable-next-line
 import BuyAction from '../components/Buy/BuyAction';
 import Note from '../components/Note';
 import ConfirmModal from '../components/ConfirmModal';
@@ -51,10 +58,11 @@ import useQuery from '../hooks/useQuery';
 import { _decrypt } from '../utils/helpers';
 
 // Styles
+// eslint-disable-next-line
 import variable from '../sass/variable.module.scss';
 
 const statusArr = [31, 33, 34];
-const resultArr = [1, 99, 98];
+const resultArr = [1, 99, 98, 35];
 
 const BuyScreen = () => {
   const query = useQuery();
@@ -65,12 +73,11 @@ const BuyScreen = () => {
   // Hooks
   const { isMobile } = useRwd();
 
+  // const infoRef = useRef();
+
   // Init State
   const [modalShow, setModalShow] = useState({ show: false });
-  // eslint-disable-next-line
-  const [refHeight] = useState(window.innerHeight - 95);
-  // eslint-disable-next-line
-  const [chatFullScreen, setChatFullScreen] = useState(false);
+  const [refHeight] = useState(window.innerHeight - 140);
 
   // Router props
   const history = useHistory();
@@ -132,8 +139,17 @@ const BuyScreen = () => {
   };
 
   const fullScreenHandler = (value) => {
+    if (!isMobile) return;
     dispatch(setChatFullscreen(value));
   };
+
+  const [height, setHeight] = useState(0);
+
+  const measuredRef = useCallback((node) => {
+    if (node !== null) {
+      setHeight(node.getBoundingClientRect().height);
+    }
+  }, []);
 
   return (
     <>
@@ -148,102 +164,119 @@ const BuyScreen = () => {
       />
 
       <Row
+        align="top"
         style={{
           maxWidth: '1140px',
           margin: 'auto',
-          height: isMobile && refHeight,
+          height: window.innerHeight - 140,
+          // height: isMobile && refHeight,
+          // backgroundColor: 'green',
+          // height: isMobile && window.innerHeight - 150,
           // backgroundColor: 'green',
         }}
       >
-        {
-  isMobile && fullScreen ? null : (
-    <Col
-      md={{ span: 15 }}
-      span={24}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: isMobile ? 'space-between' : 'flex-start',
-        // backgroundColor: 'red',
-        height: isMobile && refHeight / 2 + 10,
-      }}
-    >
-      <div style={{}}>
-        {!isMobile && (
-        <>
-          <BuyHeader />
-          <Divider />
-        </>
-        )}
-      </div>
+        <Col
+          ref={measuredRef}
+          md={{ span: 15 }}
+          span={24}
+          style={{
+            display: fullScreen ? 'none' : 'flex',
+            flexDirection: 'column',
+            maxHeight: '233px',
+            // transform: fullScreen ? 'translateY(0)' : 'translateY(-1000)',
+            // height: isMobile && window.innerHeight - 140,
+            // justifyContent: isMobile ? 'space-between' : 'flex-start',
+            // backgroundColor: 'grey',
+            // height: isMobile && refHeight / 2,
+            // marginTop: isMobile && '1rem',
+          }}
+        >
+          <div style={{}}>
+            {!isMobile && (
+            <>
+              <BuyHeader />
+              <Divider />
+            </>
+            )}
+          </div>
 
-      <Skeleton
-        paragraph={{ rows: 6 }}
-        loading={!statusArr.includes(paymentStatus)}
-        style={{ minHeight: '40rem', padding: 0 }}
-      >
-        {(paymentStatus === 31 || paymentStatus === 33) && (
-        <Space direction="vertical" style={{}}>
-          <BuyInfo />
-          <BuyAction
-            setModalShow={setModalShow}
-            id={id}
-            orderToken={orderToken}
-          />
-        </Space>
-        )}
+          <Skeleton
+            paragraph={{ rows: 6 }}
+            loading={!statusArr.includes(paymentStatus)}
+            style={{ minHeight: '40rem', padding: 0 }}
+          >
+            {(paymentStatus === 31 || paymentStatus === 33) && (
+              <Space direction="vertical" style={{}}>
+                <BuyInfo />
+                <BuyAction
+                  setModalShow={setModalShow}
+                  id={id}
+                  orderToken={orderToken}
+                />
+              </Space>
+            )}
 
-        {paymentStatus === 34 && (
-        <WaitConfirm setModalShow={setModalShow} />
-        )}
-      </Skeleton>
+            {paymentStatus === 34 && (
+            <WaitConfirm setModalShow={setModalShow} />
+            )}
+          </Skeleton>
 
-      <div>
-        {!isMobile && (
-        <>
-          <Divider />
-          <Note />
-        </>
-        )}
-      </div>
-    </Col>
-
-  )
-}
+          <div>
+            {!isMobile && (
+            <>
+              <Divider />
+              <Note />
+            </>
+            )}
+          </div>
+        </Col>
 
         <Col
           md={{ span: 8, offset: 1 }}
           span={24}
+          // onClick={() => { fullScreenHandler(false); }}
           style={{
             transform: !isMobile && 'translateY(-1.6rem)',
-            // backgroundColor: 'blue',
-            height: isMobile && refHeight / 2,
+            marginTop: fullScreen && isMobile && '1rem',
+            height: fullScreen && isMobile && window.innerHeight - 15,
+            // backgroundColor: 'grey',
           }}
         >
-          {(fullScreen && isMobile) && (
-            <div
+          <div
+            onClick={() => { fullScreenHandler(false); }}
+            onKeyDown={() => { console.log('keydown'); }}
+            role="presentation"
+            style={{
+              height: '50px',
+              borderBottom: `1px solid ${variable['color-light-grey']}`,
+              display: fullScreen && isMobile ? 'flex' : 'none',
+              alignItems: 'center',
+              paddingBottom: '.5rem',
+              // backgroundColor: 'blue',
+              gap: '1rem',
+              // maxWidth: '30rem',
+            }}
+          >
+            <span
               style={{
-                height: '50px',
-                borderBottom: `1px solid ${variable['color-light-grey']}`,
-                display: 'flex',
-                alignItems: 'flex-end',
-                paddingBottom: '.5rem',
+                fontSize: '3rem',
               }}
             >
-              <span
-                onClick={() => fullScreenHandler(false)}
-                onKeyDown={() => fullScreenHandler(false)}
-                role="presentation"
-                style={{ fontSize: '3rem', marginRight: '1rem' }}
-              >
-                V
-              </span>
-              <span style={{ fontSize: '2rem', color: variable['color-dark-blue'] }}>查看匯款資料</span>
-            </div>
-          )}
+              V
+            </span>
+            <span
+              style={{
+                fontSize: '2rem',
+                color: variable['color-dark-blue'],
+                // marginTop: '5px',
+              }}
+            >
+              查看匯款資料
+            </span>
+          </div>
 
           <Chat
-            refHeight={refHeight}
+            refHeight={refHeight - height}
             fullScreen={fullScreen}
             fullScreenHandler={fullScreenHandler}
           />

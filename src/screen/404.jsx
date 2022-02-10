@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
-
 // Redux
 import { useDispatch } from 'react-redux';
 
@@ -14,14 +12,21 @@ import { openOrderClear, exRateClear } from '../store/actions/orderActions';
 // Image
 import notFoundImage from '../asset/notfound.png';
 
+// Hooks
+import useRwd from '../hooks/useRwd';
+
 // styles
 import variable from '../sass/variable.module.scss';
 
+// eslint-disable-next-line
 const NotfoundImg = () => <img src={notFoundImage} alt="not found" />;
 
 const NoFoundPage = () => {
   // Redux
   const dispatch = useDispatch();
+
+  // eslint-disable-next-line
+  const { isMobile } = useRwd();
 
   useEffect(() => {
     localStorage.clear();
@@ -36,10 +41,10 @@ const NoFoundPage = () => {
             找不到訂單
           </h4>
         )}
-        icon={<NotfoundImg />}
-        extra={
-          <Link to="/t308V%2bOFafSZj0eTXZZiXWpgufwq8Hg1StfpAvn5cMmyQzwNVWpDf6wQMiY3Dbb4O0XuENyA1RSWnYSP8kH99xnXYFUetonCPQXwWMS8%2bhY%3d">Test</Link>
-        }
+        icon={
+          <img style={{ width: isMobile && '10.2rem' }} src={notFoundImage} alt="not found" />
+       }
+
       />
     </>
   );

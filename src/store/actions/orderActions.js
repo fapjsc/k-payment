@@ -144,3 +144,8 @@ export const openOrderClear = () => ({
 export const exRateClear = () => ({
   type: orderActionTypes.EX_RATE_STATUS_CLEAR,
 });
+
+export const setOrderToken = (token) => ({
+  type: orderActionTypes.SET_ORDER_TOKEN,
+  payload: token,
+});

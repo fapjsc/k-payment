@@ -18,7 +18,6 @@ const { Countdown } = Statistic;
 
 // eslint-disable-next-line
 const Timer = ({ size }) => {
-
   // Router
   const history = useHistory();
 
@@ -28,7 +27,7 @@ const Timer = ({ size }) => {
   const { data } = sessions || {};
   const { DeltaTime } = data || {};
 
-  const deadline = Date.now() + (1000 * 60 * 30) - (DeltaTime * 1000); // Moment is also OK
+  const deadline = Date.now() + 1000 * 60 * 30 - DeltaTime * 1000; // Moment is also OK
 
   const onFinish = () => {
     console.log('finished!');
@@ -36,17 +35,20 @@ const Timer = ({ size }) => {
   };
 
   return (
-    <Space>
-      <span className="i-clock" />
+    <Space style={{}} align="baseline">
+      <span className="i-clock" style={{}} />
+
       <span
         className="txt-12"
-        style={{ fontSize: size && size, color: variable['color-dark-blue'] }}
+        style={{
+          fontSize: size && size,
+          color: variable['color-dark-blue'],
+        }}
       >
         剩餘交易時間:
       </span>
 
       <Countdown
-        className="txt-12"
         format="mm:ss"
         valueStyle={{
           color: variable['color-gold'],

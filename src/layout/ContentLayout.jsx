@@ -22,7 +22,7 @@ const ContentLayout = ({ children }) => {
       <Layout
         style={{
           marginTop: !isMobile && '1.8rem',
-          padding: isMobile ? '0 1.5rem' : '0 5rem',
+          padding: isMobile ? '0 1rem' : '0 5rem',
           backgroundColor: '#fff',
         }}
       >

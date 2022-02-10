@@ -48,7 +48,6 @@ const PairModal = ({ isModalVisible, cancelHandler }) => {
       // closeIcon={<img style={{ width: '1.6rem' }} src={closeImage} alt="134" />}
       onCancel={cancelHandler}
     >
-
       <Avatar
         style={{
           backgroundColor: '#fff',
@@ -61,19 +60,38 @@ const PairModal = ({ isModalVisible, cancelHandler }) => {
         src={searchImage}
       />
 
-      <div style={{
-        marginTop: '-20%',
-        textAlign: 'start',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
+      <div
+        style={{
+          marginTop: '-20%',
+          textAlign: 'start',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
       >
-        <span style={{ color: variable['color-primary'], fontSize: '3rem' }}>正為您找尋賣方</span>
+        <span style={{ color: variable['color-primary'], fontSize: '3rem' }}>
+          正為您找尋賣方
+        </span>
 
         <Space direction="vertical" style={{ marginTop: '2rem' }}>
-          <Text style={{ color: variable['color-dark-blue'], fontSize: '1.4rem', fontWeight: 700 }}>{`購買數量: ${thousandsFormat(RequestedAmt)} USDT`}</Text>
-          <Text style={{ color: variable['color-dark-blue'], fontSize: '1.4rem', fontWeight: 700 }}>{`支付金額: ${thousandsFormat(RequestedAmt * RMB_BUY)} CNY`}</Text>
+          <Text
+            style={{
+              color: variable['color-dark-blue'],
+              fontSize: '1.4rem',
+              fontWeight: 700,
+            }}
+          >
+            {`購買數量: ${thousandsFormat(RequestedAmt)} USDT`}
+          </Text>
+          <Text
+            style={{
+              color: variable['color-dark-blue'],
+              fontSize: '1.4rem',
+              fontWeight: 700,
+            }}
+          >
+            {`支付金額: ${thousandsFormat(RequestedAmt * RMB_BUY)} CNY`}
+          </Text>
         </Space>
       </div>
     </Modal>

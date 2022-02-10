@@ -6,9 +6,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Antd
-import ProForm, {
-  ProFormText,
-} from '@ant-design/pro-form';
+import ProForm, { ProFormText } from '@ant-design/pro-form';
 
 import {
   Row, Col, Button, message,
@@ -24,7 +22,11 @@ import useRwd from '../../hooks/useRwd';
 // import towWayImage from '../../asset/i_twoways.png';
 
 const PaymentForm = ({
-  buyRate, clientName, RequestedAmt, id,
+  // eslint-disable-next-line
+  buyRate,
+  clientName,
+  RequestedAmt,
+  id,
 }) => {
   // Redux
   const dispatch = useDispatch();
@@ -44,16 +46,17 @@ const PaymentForm = ({
   }, [error]);
   return (
     <ProForm
-      style={{ }}
+      style={{}}
       onFinish={onFinish}
       autoFocusFirstInput
       submitter={{
         render: (props, doms) => (
-          <div style={{
-            textAlign: 'center',
-            // marginTop: '1rem',
-            padding: '0 20px',
-          }}
+          <div
+            style={{
+              textAlign: 'center',
+              // marginTop: '1rem',
+              padding: '0 20px',
+            }}
           >
             <Button
               size="large"
@@ -66,19 +69,19 @@ const PaymentForm = ({
               配對賣家
             </Button>
           </div>
-
         ),
       }}
     >
       <Row>
-        <Row style={{
-          backgroundColor: '#f2f5fa',
-          padding: '20px',
-          borderRadius: '1.3rem',
-          width: '100%',
-          marginBottom: isMobile ? '1rem' : '3rem',
-          paddingBottom: 0,
-        }}
+        <Row
+          style={{
+            backgroundColor: '#f2f5fa',
+            padding: '20px',
+            borderRadius: '1.3rem',
+            width: '100%',
+            marginBottom: isMobile ? '1rem' : '3rem',
+            paddingBottom: 0,
+          }}
         >
           <Col
             sm={24}
@@ -98,10 +101,11 @@ const PaymentForm = ({
           <Col
             sm={24}
             xs={24}
-            style={{
-              // backgroundColor: 'blue',
-            }}
-
+            style={
+              {
+                // backgroundColor: 'blue',
+              }
+            }
           >
             <ProFormText
               label="支付金額"
@@ -129,9 +133,9 @@ const PaymentForm = ({
             initialValue={clientName}
             rules={[{ required: true, message: '請填寫姓名!' }]}
           />
+          {/* <input type="text" /> */}
         </Col>
       </Row>
-
     </ProForm>
   );
 };

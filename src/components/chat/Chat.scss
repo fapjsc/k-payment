@@ -1,14 +1,11 @@
-button {
-  cursor: pointer !important;
-}
-
 .cs-main-container {
   border-right: none;
   border-top: none;
   border-color: #d7e2f3;
-
+  max-width: 38rem;
   @media only screen and(max-width: 767px) {
     border: none;
+    max-width: 100%;
   }
 }
 
@@ -29,15 +26,14 @@ button {
 
 .text-message {
   .cs-message__content-wrapper {
-    width: 70%;
-    min-height: 4.8rem;
+    min-width: 70%;
     font-size: 1.4rem;
   }
 }
 
 .cs-message__content {
-  height: 100% !important;
   display: flex;
+  min-height: 4.8rem;
   align-items: center;
 }
 
@@ -56,22 +52,27 @@ button {
 .cs-message-input {
   background-color: #d7e2f3 !important;
   border: none !important;
+  padding: 1rem 0 !important;
 
   .cs-message-input__content-editor-wrapper {
-    background-color: #d7e2f3 !important;
-    flex-grow: 2;
+    background-color: #fff;
+    padding: 1rem 0.9rem !important;
+    font-size: 1.6rem !important;
+    width: 50% !important;
+    border-radius: 30px;
 
     .cs-message-input__content-editor-container {
-      background-color: #d7e2f3 !important;
+      background-color: #fff;
     }
   }
 
   .cs-message-input__content-editor {
-    padding: 1rem 0 !important;
-    font-size: 1.6rem !important;
     background-color: #fff;
-    border-radius: 50px;
-    padding-left: 2rem !important;
+    // padding: 1.2rem .9rem !important;
+    // font-size: 1.6rem !important;
+    // border-radius: 10px;
+    // // padding-left: 1rem !important;
+    // line-height: 1.2;
   }
 
   .cs-message-input__tools {

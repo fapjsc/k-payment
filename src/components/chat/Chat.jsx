@@ -1,5 +1,9 @@
 import React, {
-  useRef, Fragment, useState, useCallback,
+  useRef,
+  Fragment,
+  useState,
+  useCallback,
+  useEffect,
 } from 'react';
 
 // Moment
@@ -48,12 +52,21 @@ import './Chat.scss';
 
 // console.log(styles);
 
-// eslint-disable-next-line
-const Chat = ({refHeight, fullScreenHandler, fullScreen}) => {
+const Chat = ({
+  // eslint-disable-next-line
+  refHeight,
+  // eslint-disable-next-line
+  fullScreenHandler,
+  // eslint-disable-next-line
+  fullScreen,
+  // eslint-disable-next-line
+  status,
+}) => {
   // InitState
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomIndex, setZoomIndex] = useState(null);
-
+  // const [messageText, setMessageText] = useState('');
+  console.log(refHeight);
   // Hooks
   const { isMobile } = useRwd();
 
@@ -70,11 +83,7 @@ const Chat = ({refHeight, fullScreenHandler, fullScreen}) => {
 
   const onSend = (values) => {
     if (!values) return;
-    if (values.includes('<span')) {
-      const formatStr = values.split('</span>')[0].split(';">')[1];
-      sendMessage(formatStr);
-      return;
-    }
+
     sendMessage(values);
   };
 
@@ -93,42 +102,58 @@ const Chat = ({refHeight, fullScreenHandler, fullScreen}) => {
 
   const onChange = () => {
     // console.log(e);
-    fullScreenHandler(true);
+    // fullScreenHandler(true);
   };
 
+  useEffect(() => {
+    document.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const text = e.clipboardData.getData('text/plain');
+      document.execCommand('insertText', false, text);
+    });
+
+    return () => {
+      document.removeEventListener('paste');
+    };
+  }, []);
+
   return (
-    <div style={{
-      position: 'relative',
-      // eslint-disable-next-line
-      height:  (fullScreen && isMobile) ? refHeight + 90 - 50 : isMobile ? refHeight / 2 : '75rem',
-      marginTop: 'auto',
-    }}
+    <div
+      onClick={() => { fullScreenHandler(true); }}
+      onKeyDown={() => { console.log('keydonw'); }}
+      role="presentation"
+      style={{
+        position: 'relative',
+        height:
+          // eslint-disable-next-line
+          fullScreen && isMobile
+            ? window.innerHeight - 50 - 10
+            : isMobile
+              ? refHeight || window.innerHeight - 140 - 50 - 5
+              : '75rem',
+      }}
     >
       <MainContainer>
         <ChatContainer>
-          {
-            !isMobile && (
-              <ConversationHeader style={{ height: '6.3rem' }}>
-                <ConversationHeader.Content>
-                  <Space>
-                    <img style={{ width: '4.2rem' }} src={chatImage} alt="chat" />
-                    <span
-                      style={{
-                        fontSize: '1.6rem',
-                        color: variable['color-primary'],
-                      }}
-                    >
-                      對話紀錄
-                    </span>
-                  </Space>
-                </ConversationHeader.Content>
-              </ConversationHeader>
-            )
-          }
+          {!isMobile && (
+            <ConversationHeader style={{ height: '6.3rem' }}>
+              <ConversationHeader.Content>
+                <Space>
+                  <img style={{ width: '4.2rem' }} src={chatImage} alt="chat" />
+                  <span
+                    style={{
+                      fontSize: '1.6rem',
+                      color: variable['color-primary'],
+                    }}
+                  >
+                    對話紀錄
+                  </span>
+                </Space>
+              </ConversationHeader.Content>
+            </ConversationHeader>
+          )}
 
-          <MessageList
-            autoScrollToBottomOnMount
-          >
+          <MessageList autoScrollToBottomOnMount>
             <MessageSeparator content={`今天${moment().format('HH:mm')}`} />
 
             {chatSessions?.map((chat, index) => {
@@ -151,7 +176,7 @@ const Chat = ({refHeight, fullScreenHandler, fullScreen}) => {
                       style={{ width: '70%' }}
                       model={{
                         message: message,
-                        direction: role === 1 ? 'incoming' : 'outgoing',
+                        direction: role === 1 ? 'outgoing' : 'incoming',
                       }}
                     />
                   )}
@@ -169,7 +194,7 @@ const Chat = ({refHeight, fullScreenHandler, fullScreen}) => {
                         <Message
                           style={{ width: isZoomed ? '100%' : '70%' }}
                           model={{
-                            direction: role === 1 ? 'incoming' : 'outgoing',
+                            direction: role === 1 ? 'outgoing' : 'incoming',
                           }}
                         >
                           <Message.ImageContent
@@ -185,7 +210,7 @@ const Chat = ({refHeight, fullScreenHandler, fullScreen}) => {
                   <p
                     style={{
                       color: variable['color-secondary'],
-                      textAlign: chat.Message_Role === 1 ? 'left' : 'right',
+                      textAlign: chat.Message_Role === 1 ? 'right' : 'left',
                     }}
                   >
                     {time.split(' ')[1].split(':')[0]}
@@ -196,6 +221,9 @@ const Chat = ({refHeight, fullScreenHandler, fullScreen}) => {
               );
             })}
             {loading && <Loader>Loading</Loader>}
+            {(status === 1 || status > 90) && (
+              <MessageSeparator content="對話結束" />
+            )}
           </MessageList>
 
           <MessageInput
@@ -203,7 +231,7 @@ const Chat = ({refHeight, fullScreenHandler, fullScreen}) => {
             onAttachClick={onAttachClickHandler}
             placeholder="對話..."
             onSend={onSend}
-
+            disabled={status === 1 || status > 90}
           />
         </ChatContainer>
       </MainContainer>

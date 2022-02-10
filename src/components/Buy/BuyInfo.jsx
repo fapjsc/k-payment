@@ -15,6 +15,9 @@ import variable from '../../sass/variable.module.scss';
 // Components
 import Timer from '../Timer';
 
+// Helpers
+import { thousandsFormat } from '../../utils/helpers';
+
 import copyIcon from '../../asset/copy.png';
 
 const BuyInfo = () => {
@@ -67,6 +70,7 @@ const BuyInfo = () => {
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: isMobile ? '-1rem' : '-1rem',
+        // backgroundColor: 'red',
       }}
     >
       <span
@@ -107,6 +111,8 @@ const BuyInfo = () => {
               <Typography.Text
                 style={{}}
                 copyable={{
+                  tooltips: ['複製', '已複製!!'],
+                  onCopy: (e) => console.log(e),
                   icon: (
                     <img
                       style={{
@@ -121,7 +127,9 @@ const BuyInfo = () => {
                   ),
                 }}
               >
-                {Object.values(item)[0]}
+                {item?.id === 1
+                  ? thousandsFormat(Object.values(item)[0])
+                  : Object.values(item)[0]}
               </Typography.Text>
             </>
           )}

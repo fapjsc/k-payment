@@ -97,6 +97,12 @@ export const orderTokenReducer = (state = getOrderInitialState, action) => {
         orderToken: null,
         error: action.payload,
       };
+
+    case orderActionTypes.SET_ORDER_TOKEN:
+      return {
+        ...state,
+        orderToken: action.payload,
+      };
     default:
       return state;
   }

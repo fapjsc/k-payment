@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 // Actions
-import { getExRate, openOrder } from '../store/actions/orderActions';
+import { getExRate, openOrder, setOrderToken } from '../store/actions/orderActions';
 import { cancelOrder } from '../store/actions/cancelActions';
 
 // websocket
@@ -37,6 +37,7 @@ import {
 } from '../layout/layout-span';
 
 const HomeScreen = () => {
+  console.log('home');
   const query = useQuery();
   const queryStr = query.get('id');
 
@@ -57,6 +58,9 @@ const HomeScreen = () => {
   const { data: cancelData, error: cancelError } = useSelector(
     (state) => state.cancelOrder,
   );
+
+  const { orderInfo: openOrderInfo } = useSelector((state) => state.openOrder);
+  const { order_token: openToken } = openOrderInfo || {};
 
   const { rateInfo } = useSelector((state) => state.exRate);
   const { orderToken } = useSelector((state) => state.orderToken);
@@ -81,17 +85,22 @@ const HomeScreen = () => {
     history.replace('/not-found');
   }, [orderInfoError, history]);
 
+  useEffect(() => {
+    if (!openToken) return;
+    dispatch(setOrderToken(openToken));
+  }, [openToken, dispatch]);
+
   //**  Di Order */
   useEffect(() => {
-    if (orderToken && id) {
+    if ((openToken && id) || (orderToken && id)) {
       setShowModal(true);
       tokenRef.current = _encrypt(JSON.stringify({ orderToken, id }));
     }
-  }, [orderToken, id]);
+  }, [orderToken, id, openToken]);
 
   // 拿到token後連接websocket
   useEffect(() => {
-    if (!orderToken || !id) return;
+    if (!id || !orderToken) return;
     buyConnectWs(id, orderToken);
     // chatConnectWs(id, orderToken);
   }, [orderToken, id]);
@@ -100,7 +109,7 @@ const HomeScreen = () => {
   useEffect(() => {
     if (!data || !tokenRef.current) return;
     const { Order_StatusID: orderStatus } = data || {};
-    if (orderStatus === 33) {
+    if (orderStatus >= 1 && orderStatus !== 31) {
       history.replace(`/auth/payment?session=${tokenRef.current}`);
     }
   }, [data, history, tokenRef, id]);

@@ -23,6 +23,17 @@
   display: block;
 }
 
+.txt-20-blue {
+  color: #242e47;
+  font-size: 20px;
+  letter-spacing: 1.5px;
+  font-weight: 400;
+  margin-top: -20px;
+  display: inline-block;
+  margin-left: -10px;
+  margin-right: 5px;
+}
+
 .i-clock {
   background-image: url(./asset/i_clock.png);
   background-size: contain;
@@ -43,6 +54,27 @@
 
 .easy-btn1 {
   background-color: #3e80f9 !important;
+  border-radius: 5px !important;
+
+  @media only screen and(max-width: 767px) {
+    font-size: 1.4rem !important;
+  }
+}
+
+.easy-btn2 {
+  border-radius: 5px !important;
+  border-color: #3e80f9 !important;
+  transition: all 3s ease;
+
+  @media only screen and(max-width: 767px) {
+    font-size: 1.4rem !important;
+  }
+}
+
+button {
+  @media only screen and(max-width: 767px) {
+    font-size: 1.4rem !important;
+  }
 }
 
 .btn-close {
@@ -56,4 +88,53 @@
   transition: 0.3s;
   cursor: pointer;
   background-color: #568ef4;
+
+  @media only screen and(max-width: 767px) {
+    font-size: 1.4rem !important;
+  }
+}
+
+.fixed-btn {
+  background-color: #3e80f9;
+  font-size: 16px;
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  position: fixed;
+  display: block;
+  bottom: 20px;
+  right: 18px;
+  margin-bottom: 0;
+  box-shadow: rgb(99 99 99 / 20%) 0px 2px 8px 0px;
+}
+
+.chat-back {
+  background-image: url(./asset/back.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: auto;
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+  display: inline-block;
+  border: none;
+  background-color: #fff;
+}
+
+.easy-btn {
+  @media only screen and (max-width: 767px) {
+    background-color: #3e80f9;
+    border-radius: 5px;
+    color: #fff;
+    width: 50%;
+    padding: 10px;
+    float: right;
+    margin: 10px auto 15px;
+    margin-top: 10px;
+    margin-right: -10px;
+    border: none;
+    transition: 0.3s;
+    cursor: pointer;
+  }
 }

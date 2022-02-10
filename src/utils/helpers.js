@@ -31,9 +31,9 @@ export const thousandsFormat = (data, tofixed = 2) => {
       }
       return newdata; // 傳入的數字
     }
-    return data;
+    return data?.toFixed(2);
   }
-  return data;
+  return data?.toFixed(2);
 };
 // export const thousandsFormat =
 //(text) => (text * 1).toFixed(2).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');

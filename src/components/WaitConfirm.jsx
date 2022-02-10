@@ -5,7 +5,7 @@ import React from 'react';
 
 // Antd
 import {
-  Space, Row, Col, Button, message,
+  Row, Col, Button, message,
 } from 'antd';
 
 // Components
@@ -47,32 +47,44 @@ const WaitConfirm = ({setModalShow}) => {
 
   return (
     <>
-      <Timer size="1.4rem" />
+      <div style={{ textAlign: 'right' }}>
+        <Timer size="1.4rem" />
+      </div>
 
       <Row style={{ textAlign: 'center', color: variable['color-dark-grey'] }} align="center">
 
         <Col md={{ span: 24 }}>
-          <img style={{ width: isMobile ? '17rem' : '20rem' }} src={waitImage} alt="wait" />
+          <img style={{ width: isMobile ? '7.3rem' : '20rem' }} src={waitImage} alt="wait" />
           <h4 style={{ fontSize: '2rem', color: variable['color-primary'] }}>等候確定中</h4>
-          {/* <Space style={{ maxWidth: '100%' }} direction="vertical">
-            <span>訂單編號：</span>
-            <Typography.Text copyable
-            style={{ fontSize: '1.4rem', color: variable['color-dark-grey'] }}>
-              {hash}
-            </Typography.Text>
-          </Space> */}
         </Col>
 
         <Col style={{ }}>
           <p>對方確認收款後，系統會自動將數字貨幣匯到您的帳戶內</p>
-          <Space direction="vertical" style={{ width: '100%' }}>
-            <Button size="large" type="primary" block onClick={() => alert('not yet')}>
-              申訴
-            </Button>
-            <Button size="large" type="link" block onClick={cancelHandler}>
-              取消交易
-            </Button>
-          </Space>
+          <Row direction={isMobile ? 'horizontal' : 'vertical'} style={{ width: '100%' }}>
+            <Col md={24} sm={12} xs={12} order={isMobile && 2} style={{ }}>
+              <Button
+                size="large"
+                type="primary"
+                block
+                onClick={() => alert('not yet')}
+                style={{ height: isMobile && '4rem', maxWidth: isMobile && '17rem' }}
+              >
+                申訴
+              </Button>
+            </Col>
+            <Col md={24} sm={12} xs={12}>
+              <Button
+                className={isMobile && 'easy-btn2'}
+                size="large"
+                type={!isMobile ? 'link' : 'default'}
+                block
+                onClick={cancelHandler}
+                style={{ height: isMobile && '4rem', maxWidth: isMobile && '17rem' }}
+              >
+                取消交易
+              </Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </>
