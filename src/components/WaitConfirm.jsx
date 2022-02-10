@@ -5,7 +5,7 @@ import React from 'react';
 
 // Antd
 import {
-  Row, Col, Button, message,
+  Row, Col, Button,
 } from 'antd';
 
 // Components
@@ -31,11 +31,11 @@ const WaitConfirm = ({setModalShow}) => {
   // const { Tx_HASH: hash } = data || {};
 
   const cancelHandler = () => {
-    const token = localStorage.getItem('orderToken');
-    const id = localStorage.getItem('id');
-    if (!id || !token) {
-      message.error('session or token invalid');
-    }
+    // const token = localStorage.getItem('orderToken');
+    // const id = localStorage.getItem('id');
+    // if (!id || !token) {
+    //   message.error('session or token invalid');
+    // }
 
     setModalShow({
       type: 'cancel',
@@ -51,7 +51,12 @@ const WaitConfirm = ({setModalShow}) => {
         <Timer size="1.4rem" />
       </div>
 
-      <Row style={{ textAlign: 'center', color: variable['color-dark-grey'] }} align="center">
+      <Row
+        style={{
+          textAlign: 'center', color: variable['color-dark-grey'],
+        }}
+        align="center"
+      >
 
         <Col md={{ span: 24 }}>
           <img style={{ width: isMobile ? '7.3rem' : '20rem' }} src={waitImage} alt="wait" />
@@ -59,7 +64,7 @@ const WaitConfirm = ({setModalShow}) => {
         </Col>
 
         <Col style={{ }}>
-          <p>對方確認收款後，系統會自動將數字貨幣匯到您的帳戶內</p>
+          <p style={{ marginBottom: '0px' }}>對方確認收款後，系統會自動將數字貨幣匯到您的帳戶內</p>
           <Row direction={isMobile ? 'horizontal' : 'vertical'} style={{ width: '100%' }}>
             <Col md={24} sm={12} xs={12} order={isMobile && 2} style={{ }}>
               <Button
@@ -79,7 +84,7 @@ const WaitConfirm = ({setModalShow}) => {
                 type={!isMobile ? 'link' : 'default'}
                 block
                 onClick={cancelHandler}
-                style={{ height: isMobile && '4rem', maxWidth: isMobile && '17rem' }}
+                style={{ height: isMobile && '4rem', maxWidth: isMobile && '17rem', color: variable['color-primary'] }}
               >
                 取消交易
               </Button>

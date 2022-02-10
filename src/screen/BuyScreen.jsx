@@ -164,7 +164,7 @@ const BuyScreen = () => {
       />
 
       <Row
-        align="top"
+        align={isMobile ? 'bottom' : 'center'}
         style={{
           maxWidth: '1140px',
           margin: 'auto',

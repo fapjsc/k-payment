@@ -129,7 +129,7 @@ const Chat = ({
           fullScreen && isMobile
             ? window.innerHeight - 50 - 10
             : isMobile
-              ? refHeight || window.innerHeight - 140 - 50 - 5
+              ? refHeight || window.innerHeight - 140 - 41
               : '75rem',
       }}
     >
