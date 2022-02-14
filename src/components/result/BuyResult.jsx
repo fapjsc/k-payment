@@ -96,7 +96,7 @@ const BuyResult = () => {
   } = data || {};
 
   if (status === 1) type = 'success';
-  if (status === 99 || status === 98 || status === 35) type = 'cancel';
+  if (status === 99 || status === 98) type = 'cancel';
   // if (type !== 'success') type = 'cancel';
 
   useEffect(() => {

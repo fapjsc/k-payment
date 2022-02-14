@@ -64,8 +64,8 @@ import variable from '../sass/variable.module.scss';
 //Image
 import backImg from '../asset/back.png';
 
-const statusArr = [31, 33, 34];
-const resultArr = [1, 99, 98, 35];
+const statusArr = [31, 33, 34, 35];
+const resultArr = [1, 99, 98];
 
 const BuyScreen = () => {
   const query = useQuery();
@@ -219,13 +219,10 @@ const BuyScreen = () => {
               </Space>
             )}
 
-            {paymentStatus === 34 && (
-            <WaitConfirm setModalShow={setModalShow} />
+            {(paymentStatus === 34 || paymentStatus === 35) && (
+            <WaitConfirm setModalShow={setModalShow} paymentStatus={paymentStatus} />
             )}
 
-            {paymentStatus === 35 && (
-            <WaitConfirm setModalShow={setModalShow} appeal />
-            )}
           </Skeleton>
 
           <div>

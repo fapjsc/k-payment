@@ -20,7 +20,9 @@ import waitImage from '../asset/waiting.png';
 import warning from '../asset/warning.png';
 
 // eslint-disable-next-line
-const WaitConfirm = ({ setModalShow, appeal }) => {
+const WaitConfirm = ({ setModalShow, paymentStatus }) => {
+
+  console.log(paymentStatus);
   // appeal = true;
   const { isMobile } = useRwd();
 
@@ -44,7 +46,7 @@ const WaitConfirm = ({ setModalShow, appeal }) => {
     });
   };
 
-  if (appeal) {
+  if (paymentStatus === 35) {
     return (
       <>
         <div style={{ textAlign: 'right' }}>
@@ -121,14 +123,13 @@ const WaitConfirm = ({ setModalShow, appeal }) => {
         <Col style={{ }}>
           <p style={{ marginBottom: '0px' }}>對方確認收款後，系統會自動將數字貨幣匯到您的帳戶內</p>
           <Row direction={isMobile ? 'horizontal' : 'vertical'} style={{ width: '100%' }}>
-            <Col md={24} sm={12} xs={12} order={isMobile && 2} style={{ }}>
+            <Col md={24} sm={12} xs={12} order={isMobile && 2} style={{ margin: 'auto' }}>
               <Button
                 size="large"
                 type="default"
                 disabled
                 className="disable-easy-btn"
                 block
-                onClick={() => alert('not yet')}
                 style={{ height: isMobile && '4rem', maxWidth: isMobile && '17rem' }}
               >
                 對方確認中
