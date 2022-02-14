@@ -273,7 +273,7 @@ const BuyResult = () => {
               onKeyDown={() => setShowChat(false)}
               className="chat-back"
             />
-            <span className="txt-20-blue">查看匯款資料</span>
+            <span className="txt-20-blue">返回</span>
           </Space>
         </Col>
       )}
