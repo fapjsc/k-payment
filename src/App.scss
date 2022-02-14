@@ -1,11 +1,11 @@
 @import './sass/variable.module.scss';
 
-.avatar-p {
-  font-size: 1.6rem;
-  color: $color-secondary;
+.txt-16 {
+  font-size: 1.6rem !important;
+  color: $color-secondary !important;
 
   @media only screen and(max-width: 767px) {
-    font-size: 1.2rem;
+    font-size: 1.2rem !important;
   }
 }
 
@@ -137,4 +137,17 @@ button {
     transition: 0.3s;
     cursor: pointer;
   }
+}
+
+.disable-easy-btn {
+  background-color: #afb9cb !important;
+  border-radius: 5px;
+  color: #fff !important;
+  width: 50%;
+  padding: 15px;
+  margin: 10px auto 15px;
+  border: none !important;
+  transition: 0.3s;
+  font-size: 17px;
+  cursor: auto !important;
 }

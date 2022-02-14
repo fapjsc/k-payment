@@ -57,7 +57,7 @@ const BuyAction = ({ setModalShow, id, orderToken }) => {
       type: 'cancel',
       show: true,
       title: '取消本次交易？',
-      text: '若您已進行匯款，請不要取消本次交易，已匯款像不能拿回',
+      text: '若您已進行匯款，請不要取消本次交易，已匯款項不能拿回',
     });
   };
 

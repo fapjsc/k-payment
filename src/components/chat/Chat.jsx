@@ -68,7 +68,7 @@ const Chat = ({
   // const [messageText, setMessageText] = useState('');
   console.log(refHeight);
   // Hooks
-  const { isMobile } = useRwd();
+  const { isTablets } = useRwd();
 
   // Redux
   const dispatch = useDispatch();
@@ -119,23 +119,27 @@ const Chat = ({
 
   return (
     <div
-      onClick={() => { fullScreenHandler(true); }}
-      onKeyDown={() => { console.log('keydonw'); }}
+      onClick={() => {
+        fullScreenHandler(true);
+      }}
+      onKeyDown={() => {
+        console.log('keydonw');
+      }}
       role="presentation"
       style={{
         position: 'relative',
         height:
           // eslint-disable-next-line
-          fullScreen && isMobile
+          fullScreen && isTablets
             ? window.innerHeight - 50 - 10
-            : isMobile
+            : isTablets
               ? refHeight || window.innerHeight - 140 - 41
-              : '75rem',
+              : window.innerHeight - 90 - 100,
       }}
     >
-      <MainContainer>
+      <MainContainer style={{ }}>
         <ChatContainer>
-          {!isMobile && (
+          {!isTablets && (
             <ConversationHeader style={{ height: '6.3rem' }}>
               <ConversationHeader.Content>
                 <Space>
@@ -170,6 +174,7 @@ const Chat = ({
                   // eslint-disable-next-line
                   key={index}
                 >
+                  {role === 2 && <span style={{ marginLeft: '2px', color: '#242e47' }}>K100U-線上客服</span>}
                   {type === 1 && (
                     <Message
                       className="text-message"
@@ -222,7 +227,7 @@ const Chat = ({
             })}
             {loading && <Loader>Loading</Loader>}
             {(status === 1 || status > 90) && (
-              <MessageSeparator content="對話結束" />
+              <MessageSeparator content="對話已結束" />
             )}
           </MessageList>
 

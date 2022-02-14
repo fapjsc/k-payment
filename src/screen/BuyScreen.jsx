@@ -61,6 +61,9 @@ import { _decrypt } from '../utils/helpers';
 // eslint-disable-next-line
 import variable from '../sass/variable.module.scss';
 
+//Image
+import backImg from '../asset/back.png';
+
 const statusArr = [31, 33, 34];
 const resultArr = [1, 99, 98, 35];
 
@@ -219,6 +222,10 @@ const BuyScreen = () => {
             {paymentStatus === 34 && (
             <WaitConfirm setModalShow={setModalShow} />
             )}
+
+            {paymentStatus === 35 && (
+            <WaitConfirm setModalShow={setModalShow} appeal />
+            )}
           </Skeleton>
 
           <div>
@@ -242,6 +249,12 @@ const BuyScreen = () => {
             // backgroundColor: 'grey',
           }}
         >
+          {
+            isMobile && !fullScreen && (
+            <Divider style={{ margin: '2px' }} />
+            )
+          }
+
           <div
             onClick={() => { fullScreenHandler(false); }}
             onKeyDown={() => { console.log('keydown'); }}
@@ -257,21 +270,17 @@ const BuyScreen = () => {
               // maxWidth: '30rem',
             }}
           >
-            <span
-              style={{
-                fontSize: '3rem',
-              }}
-            >
-              V
-            </span>
+            <img src={backImg} alt="back" style={{ width: '1.5rem', height: '2rem' }} />
+
             <span
               style={{
                 fontSize: '2rem',
                 color: variable['color-dark-blue'],
+                marginLeft: '1rem',
                 // marginTop: '5px',
               }}
             >
-              查看匯款資料
+              返回
             </span>
           </div>
 

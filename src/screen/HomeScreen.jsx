@@ -20,6 +20,7 @@ import { buyConnectWs } from '../utils/webSocket';
 // import { chatConnectWs } from '../utils/chatSocket';
 
 // Components
+// eslint-disable-next-line
 import Payment from '../components/payment/Payment';
 import Note from '../components/Note';
 import PairModal from '../components/PairModal';

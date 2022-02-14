@@ -18,7 +18,7 @@ const ContentLayout = ({ children }) => {
 
   const { isMobile } = useRwd();
   return (
-    <Spin tip="訂單取消中..." spinning={loading}>
+    <Spin tip={loading ? '訂單取消中...' : 'Loading...'} spinning={loading}>
       <Layout
         style={{
           marginTop: !isMobile && '1.8rem',

@@ -235,7 +235,7 @@ const BuyResult = () => {
                   {' '}
                   {hash}
                 </p>
-)}
+              )}
             />
           </div>
         )}

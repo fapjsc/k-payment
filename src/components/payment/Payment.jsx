@@ -55,7 +55,8 @@ const Payment = ({ id }) => {
         <Title
           style={{
             color: variable['color-primary'],
-            fontSize: '2.6rem',
+            fontSize: '1.6rem',
+            marginTop: '1.6rem',
           }}
           level={3}
         >

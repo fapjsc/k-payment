@@ -127,7 +127,7 @@ const PaymentForm = ({
           }}
         >
           <ProFormText
-            label="您的姓名"
+            label="請填寫匯款人全名"
             name="clientName"
             fieldProps={{ size: 'large' }}
             initialValue={clientName}

@@ -54,16 +54,19 @@ const ConfirmModal = ({ visible, title, text, setModalShow, actionCall }) => {
         style={{ transform: 'translateY(-45%)', textAlign: 'center' }}
         justify={isMobile && 'space-between'}
       >
-        <Col span={24}>
+        <Col span={24} style={{ marginTop: isMobile && '-10px' }}>
           <p style={{
-            fontSize: '3rem', color: '#3e80f9', marginBottom: 10,
+            fontSize: '3rem',
+            color: '#3e80f9',
+            marginBottom: 10,
+            marginTop: isMobile && '-10px',
           }}
           >
             {title}
           </p>
         </Col>
         <Col span={24} style={{ textAlign: 'center', fontWeight: 700, color: '#212529' }}>
-          <p>{text}</p>
+          <p style={{ fontSize: isMobile && '14px' }}>{text}</p>
         </Col>
         <Col span={isMobile ? 11 : 24} order={isMobile && 1}>
           <Button

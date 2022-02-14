@@ -3,7 +3,7 @@
   border-top: none;
   border-color: #d7e2f3;
   max-width: 38rem;
-  @media only screen and(max-width: 767px) {
+  @media only screen and(max-width: 1036px) {
     border: none;
     max-width: 100%;
   }
@@ -39,13 +39,18 @@
 
 .cs-message--incoming {
   .cs-message__content {
-    background-color: #f6f6f6 !important;
+    border-radius: 5px !important;
+    background-color: #d7e2f3 !important;
+
   }
 }
 
 .cs-message--outgoing {
   .cs-message__content {
-    background-color: #d7e2f3 !important;
+    border-radius: 5px !important;
+    background-color: #f6f6f6 !important;
+
+
   }
 }
 
