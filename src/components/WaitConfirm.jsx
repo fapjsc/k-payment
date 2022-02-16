@@ -22,22 +22,9 @@ import warning from '../asset/warning.png';
 // eslint-disable-next-line
 const WaitConfirm = ({ setModalShow, paymentStatus }) => {
 
-  console.log(paymentStatus);
-  // appeal = true;
   const { isMobile } = useRwd();
 
-  // const {
-  //   sessions: { data },
-  // } = useSelector((state) => state.diOrderSession);
-  // const { Tx_HASH: hash } = data || {};
-
   const cancelHandler = () => {
-    // const token = localStorage.getItem('orderToken');
-    // const id = localStorage.getItem('id');
-    // if (!id || !token) {
-    //   message.error('session or token invalid');
-    // }
-
     setModalShow({
       type: 'cancel',
       show: true,
@@ -71,7 +58,7 @@ const WaitConfirm = ({ setModalShow, paymentStatus }) => {
             </h4>
           </Col>
 
-          <Col style={{}}>
+          <Col md={{ span: 24 }} style={{}}>
             <p style={{ marginBottom: '0px' }}>
               對方確認收款後，系統會自動將數字貨幣匯到您的帳戶內
             </p>
@@ -79,7 +66,7 @@ const WaitConfirm = ({ setModalShow, paymentStatus }) => {
               direction={isMobile ? 'horizontal' : 'vertical'}
               style={{ width: '100%' }}
             >
-              <Col md={24} sm={12} xs={12}>
+              <Col sm={24} xs={24}>
                 <Button
                   className={isMobile && 'easy-btn2'}
                   size="large"

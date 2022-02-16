@@ -124,16 +124,6 @@ const BuyResult = () => {
         duration: 0.5,
         ease: 'ease.out',
       });
-
-      // tl.from(chat1ColRef.current, {
-      //   x: 1000,
-      //   duration: 0.1,
-      //   ease: 'ease.out',
-      // }).to(chat1ColRef.current, {
-      //   x: 0,
-      //   duration: 0.1,
-      //   ease: 'ease.out',
-      // });
     }
 
     if (!showChat) {
@@ -162,7 +152,7 @@ const BuyResult = () => {
         gap: '3rem',
       }}
     >
-      <Col sm={10} md={24} lg={15} style={{ margin: isMobile && 'auto' }}>
+      <Col xs={24} sm={24} md={24} lg={15} style={{ margin: 'auto' }}>
         {!isMobile && (
           <Space
             size="large"
@@ -235,7 +225,7 @@ const BuyResult = () => {
                   {' '}
                   {hash}
                 </p>
-              )}
+)}
             />
           </div>
         )}

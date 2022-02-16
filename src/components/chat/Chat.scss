@@ -14,6 +14,19 @@
   border-color: #d7e2f3;
 }
 
+.cs-conversation-header__content .cs-conversation-header__info {
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #242e47;
+  background-color: transparent;
+  font-weight: normal;
+  font-size: 2em;
+  height: '50px';
+}
+
+
 .cs-message-separator {
   color: #707070;
   margin: 1rem 0;
@@ -41,7 +54,6 @@
   .cs-message__content {
     border-radius: 5px !important;
     background-color: #d7e2f3 !important;
-
   }
 }
 
@@ -49,8 +61,6 @@
   .cs-message__content {
     border-radius: 5px !important;
     background-color: #f6f6f6 !important;
-
-
   }
 }
 

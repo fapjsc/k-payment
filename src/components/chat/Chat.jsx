@@ -22,6 +22,7 @@ import { Space } from 'antd';
 // eslint-disable-next-line
 import styles from '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 
+//Image
 import {
   MainContainer,
   ChatContainer,
@@ -31,7 +32,7 @@ import {
   ConversationHeader,
   MessageSeparator,
   Loader,
-  //   Avatar,
+  // Avatar,
 } from '@chatscope/chat-ui-kit-react';
 
 // Actions
@@ -66,9 +67,9 @@ const Chat = ({
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomIndex, setZoomIndex] = useState(null);
   // const [messageText, setMessageText] = useState('');
-  console.log(refHeight);
   // Hooks
-  const { isTablets } = useRwd();
+  // eslint-disable-next-line
+  const { isTablets, isMobile } = useRwd();
 
   // Redux
   const dispatch = useDispatch();
@@ -117,6 +118,121 @@ const Chat = ({
     };
   }, []);
 
+  if (isMobile) {
+    return (
+      <div
+        onClick={() => {
+          fullScreenHandler(true);
+        }}
+        onKeyDown={() => {
+          console.log('keydonw');
+        }}
+        role="presentation"
+        style={{
+          height: '100%',
+        }}
+      >
+        <MainContainer>
+          <ChatContainer>
+            <MessageList autoScrollToBottomOnMount>
+              <MessageSeparator content={`今天${moment().format('HH:mm')}`} />
+
+              {chatSessions?.map((chat, index) => {
+                const {
+                  Message_Role: role,
+                  // eslint-disable-next-line
+                  Sysdate: time,
+                  Message_Type: type,
+                  Message: message,
+                } = chat || {};
+
+                return (
+                  <Fragment
+                    // eslint-disable-next-line
+                    key={index}
+                  >
+                    {role === 2 && (
+                      <span style={{ marginLeft: '2px', color: '#242e47' }}>
+                        K100U-線上客服
+                      </span>
+                    )}
+                    {type === 1 && (
+                      <Message
+                        className="text-message"
+                        style={{ width: '70%' }}
+                        model={{
+                          message: message,
+                          direction: role === 1 ? 'outgoing' : 'incoming',
+                        }}
+                      />
+                    )}
+
+                    {type === 2 && (
+                      <div
+                        onClick={() => setZoomIndexHandler(index)}
+                        onKeyDown={() => console.log('keydown')}
+                        role="presentation"
+                      >
+                        <ControlledZoom
+                          isZoomed={isZoomed && zoomIndex === index}
+                          onZoomChange={handleZoomChange}
+                        >
+                          <Message
+                            style={{ width: isZoomed ? '100%' : '70%' }}
+                            model={{
+                              direction: role === 1 ? 'outgoing' : 'incoming',
+                            }}
+                          >
+                            <Message.ImageContent
+                              width="100%"
+                              src={message}
+                              alt="avatar"
+                            />
+                          </Message>
+                        </ControlledZoom>
+                      </div>
+                    )}
+
+                    <p
+                      style={{
+                        color: variable['color-secondary'],
+                        textAlign: chat.Message_Role === 1 ? 'right' : 'left',
+                      }}
+                    >
+                      {time.split(' ')[1].split(':')[0]}
+                      :
+                      {time.split(' ')[1].split(':')[1]}
+                    </p>
+                  </Fragment>
+                );
+              })}
+              {loading && <Loader>Loading</Loader>}
+              {(status === 1 || status > 90) && (
+                <MessageSeparator content="對話已結束" />
+              )}
+            </MessageList>
+
+            <MessageInput
+              onClick={onChange}
+              onAttachClick={onAttachClickHandler}
+              placeholder="對話..."
+              onSend={onSend}
+              disabled={status === 1 || status > 90}
+            />
+          </ChatContainer>
+        </MainContainer>
+
+        <input
+          ref={imgInput}
+          id="upload_img"
+          style={{ display: 'none' }}
+          type="file"
+          onChange={imgOnChange}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       onClick={() => {
@@ -127,19 +243,12 @@ const Chat = ({
       }}
       role="presentation"
       style={{
-        position: 'relative',
-        height:
-          // eslint-disable-next-line
-          fullScreen && isTablets
-            ? window.innerHeight - 50 - 10
-            : isTablets
-              ? refHeight || window.innerHeight - 140 - 41
-              : window.innerHeight - 90 - 100,
+        height: refHeight && refHeight,
       }}
     >
-      <MainContainer style={{ }}>
+      <MainContainer style={{ height: !refHeight && (window.innerHeight - 140) / 2 }}>
         <ChatContainer>
-          {!isTablets && (
+          {!isMobile && (
             <ConversationHeader style={{ height: '6.3rem' }}>
               <ConversationHeader.Content>
                 <Space>
@@ -174,7 +283,11 @@ const Chat = ({
                   // eslint-disable-next-line
                   key={index}
                 >
-                  {role === 2 && <span style={{ marginLeft: '2px', color: '#242e47' }}>K100U-線上客服</span>}
+                  {role === 2 && (
+                    <span style={{ marginLeft: '2px', color: '#242e47' }}>
+                      K100U-線上客服
+                    </span>
+                  )}
                   {type === 1 && (
                     <Message
                       className="text-message"
