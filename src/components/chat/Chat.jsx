@@ -59,7 +59,7 @@ const Chat = ({
   // eslint-disable-next-line
   fullScreenHandler,
   // eslint-disable-next-line
-  fullScreen,
+  // fullScreen,
   // eslint-disable-next-line
   status,
 }) => {
@@ -122,6 +122,7 @@ const Chat = ({
     return (
       <div
         onClick={() => {
+          if (!fullScreenHandler) return;
           fullScreenHandler(true);
         }}
         onKeyDown={() => {
@@ -246,25 +247,25 @@ const Chat = ({
         height: refHeight && refHeight,
       }}
     >
-      <MainContainer style={{ height: !refHeight && (window.innerHeight - 140) / 2 }}>
+      <MainContainer
+        style={{ height: !refHeight && (window.innerHeight - 140) / 2 }}
+      >
         <ChatContainer>
-          {!isMobile && (
-            <ConversationHeader style={{ height: '6.3rem' }}>
-              <ConversationHeader.Content>
-                <Space>
-                  <img style={{ width: '4.2rem' }} src={chatImage} alt="chat" />
-                  <span
-                    style={{
-                      fontSize: '1.6rem',
-                      color: variable['color-primary'],
-                    }}
-                  >
-                    對話紀錄
-                  </span>
-                </Space>
-              </ConversationHeader.Content>
-            </ConversationHeader>
-          )}
+          <ConversationHeader style={{ height: '6.3rem' }}>
+            <ConversationHeader.Content>
+              <Space>
+                <img style={{ width: '4.2rem' }} src={chatImage} alt="chat" />
+                <span
+                  style={{
+                    fontSize: '1.6rem',
+                    color: variable['color-primary'],
+                  }}
+                >
+                  對話紀錄
+                </span>
+              </Space>
+            </ConversationHeader.Content>
+          </ConversationHeader>
 
           <MessageList autoScrollToBottomOnMount>
             <MessageSeparator content={`今天${moment().format('HH:mm')}`} />

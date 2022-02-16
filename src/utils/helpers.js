@@ -5,8 +5,8 @@ export const thousandsFormat = (data, tofixed = 2) => {
   if (!Number.isNaN(data) && data !== undefined) {
     if (data > 999 || data < -999) {
       let dataStr = data.toString();
-      let integer; let
-        decimals;
+      let integer;
+      let decimals;
       let newdata = '';
       const flg = ',';
       if (dataStr.indexOf('.') !== -1) {
@@ -63,4 +63,24 @@ export const _encrypt = (word) => {
     padding: CryptoJS.pad.Pkcs7,
   });
   return encrypted.ciphertext.toString().toUpperCase();
+};
+
+export const _iosWhite = () => {
+  const u = navigator.userAgent;
+  let flag;
+  let myFunction;
+  const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+
+  if (isIOS) {
+    window.addEventListener('focusin', () => {
+      flag = true;
+      clearTimeout(myFunction);
+    });
+    window.addEventListener('focusout', () => {
+      flag = false;
+      if (!flag) {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      }
+    });
+  }
 };

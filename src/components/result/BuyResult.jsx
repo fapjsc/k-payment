@@ -2,6 +2,7 @@ import React, {
   useEffect, useState, useRef, Fragment,
 } from 'react';
 
+// eslint-disable-next-line
 import { gsap } from 'gsap';
 
 // Router
@@ -47,6 +48,8 @@ import useRwd from '../../hooks/useRwd';
 // Styles
 import variable from '../../sass/variable.module.scss';
 
+import backImg from '../../asset/back.png';
+
 // eslint-disable-next-line
 const spanLayout = {
   span: 12,
@@ -57,6 +60,7 @@ let type;
 
 const BuyResult = () => {
   // Ref
+  // eslint-disable-next-line
   const chatColRef = useRef();
   const chat1ColRef = useRef();
   const resultRef = useRef();
@@ -111,20 +115,17 @@ const BuyResult = () => {
   useEffect(() => {
     if (!isMobile) return;
     const tl = gsap.timeline();
-
-    //headerRef
-
-    if (showChat) {
-      tl.from([chatColRef.current, chat1ColRef.current], {
-        x: 1000,
-        duration: 0.5,
-        ease: 'ease.out',
-      }).to([chatColRef.current, chat1ColRef.current], {
-        x: 0,
-        duration: 0.5,
-        ease: 'ease.out',
-      });
-    }
+    // if (showChat) {
+    //   tl.from([chatColRef.current, chat1ColRef.current], {
+    //     x: 1000,
+    //     duration: 0.5,
+    //     ease: 'ease.out',
+    //   }).to([chatColRef.current, chat1ColRef.current], {
+    //     x: 0,
+    //     duration: 0.5,
+    //     ease: 'ease.out',
+    //   });
+    // }
 
     if (!showChat) {
       tl.from(resultRef.current, {
@@ -143,144 +144,46 @@ const BuyResult = () => {
     return <LoadingScreen />;
   }
 
-  return (
-    <Row
-      style={{
-        margin: 'auto',
-        maxWidth: '1140px',
-        display: 'flex',
-        gap: '3rem',
-      }}
-    >
-      <Col xs={24} sm={24} md={24} lg={15} style={{ margin: 'auto' }}>
-        {!isMobile && (
-          <Space
-            size="large"
-            style={{
-              height: '6.3rem',
-              width: '100%',
-              borderBottom: '1px solid #D7E2F3',
-              paddingLeft: '20px',
-            }}
-          >
-            <Space>
-              <span style={{ color: variable['color-dark-blue'] }}>匯率:</span>
-              <span style={{ color: variable['color-primary'] }}>{rate}</span>
-            </Space>
+  const title = (
+    <h4 style={{ fontSize: '2rem', color: variable['color-primary'] }}>
+      {type === 'cancel' ? '交易取消' : '交易完成'}
+    </h4>
+  );
 
-            <Space>
-              <span style={{ color: variable['color-dark-blue'] }}>
-                購買數量:
-              </span>
-              <span style={{ color: variable['color-primary'] }}>
-                {`${thousandsFormat(usdt)}  USDT`}
-              </span>
-            </Space>
+  const icon = (
+    <img
+      style={{ width: isMobile ? '10rem' : '20rem' }}
+      src={type === 'cancel' ? cancelImage : successImage}
+      alt="success"
+    />
+  );
 
-            <Space>
-              <span style={{ color: variable['color-dark-blue'] }}>
-                支付金額:
-              </span>
-              <span style={{ color: variable['color-primary'] }}>
-                {`${thousandsFormat(cny)}  CNY`}
-              </span>
-            </Space>
-          </Space>
-        )}
+  const subTitle = (
+    <p style={{ fontSize: '1.2rem' }}>
+      交易回執 :
+      {' '}
+      {hash}
+    </p>
+  );
 
-        {!showChat && (
-          <div
-            ref={resultRef}
-            style={{
-              display: isMobile && showChat && 'none',
-              transform: isMobile && showChat && 'translateX(1000)',
-            }}
-          >
-            <Result
-              style={{ padding: isMobile && '1rem 0' }}
-              title={
-                data && (
-                  <h4
-                    style={{
-                      fontSize: '2rem',
-                      color: variable['color-primary'],
-                    }}
-                  >
-                    {type === 'cancel' ? '交易取消' : '交易完成'}
-                  </h4>
-                )
-              }
-              icon={
-                data && (
-                  <img
-                    style={{ width: isMobile ? '10rem' : '20rem' }}
-                    src={type === 'cancel' ? cancelImage : successImage}
-                    alt="success"
-                  />
-                )
-              }
-              subTitle={(
-                <p style={{ fontSize: '1.2rem' }}>
-                  交易回執 :
-                  {' '}
-                  {hash}
-                </p>
-)}
-            />
-          </div>
-        )}
-
-        {!isMobile && (
-          <>
-            <Divider />
-            <div style={{ padding: 20 }}>
-              <Note />
-            </div>
-          </>
-        )}
-      </Col>
-
-      {showChat && isMobile && (
-        <Col
-          onClick={() => setShowChat(false)}
-          ref={chatColRef}
-          style={{
-            width: '100%',
-            marginTop: '1rem',
-            borderBottom: '1px solid #D7E2F3',
-            paddingBottom: '5px',
-          }}
-        >
-          <Space
-            style={{
-              width: showChat && isMobile && '100%',
-              display: isMobile && !showChat && 'none',
-            }}
-          >
-            <div
-              role="presentation"
-              onClick={() => setShowChat(false)}
-              onKeyDown={() => setShowChat(false)}
-              className="chat-back"
-            />
-            <span className="txt-20-blue">返回</span>
-          </Space>
-        </Col>
-      )}
-
-      <Col ref={chat1ColRef} flex={1} style={{}}>
+  if (isMobile) {
+    return (
+      <>
         <div
+          ref={resultRef}
           style={{
-            display: isMobile && !showChat && 'none',
-            width: showChat && isMobile && '100%',
-            // backgroundColor: 'blue',
+            display: showChat && 'none',
+            transform: showChat && 'translateX(1000)',
           }}
         >
-          <Chat status={status} showChat={showChat} />
+          <Result
+            style={{ padding: '1rem 0' }}
+            title={title}
+            icon={icon}
+            subTitle={subTitle}
+          />
         </div>
-      </Col>
 
-      {isMobile && !showChat && (
         <button
           onClick={() => setShowChat(true)}
           className="fixed-btn"
@@ -288,7 +191,106 @@ const BuyResult = () => {
         >
           對話紀錄
         </button>
-      )}
+
+        <div
+          style={{
+            display: !showChat && 'none',
+            width: showChat && '100%',
+            height: window.innerHeight - 140 - 50,
+          }}
+        >
+          <div
+            onClick={() => {
+              setShowChat(false);
+            }}
+            onKeyDown={() => {}}
+            role="presentation"
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              gap: '1rem',
+              padding: '5px 0',
+              fontSize: '2rem',
+              height: '5rem',
+              borderBottom: `1px solid ${variable['color-light-grey']}`,
+            }}
+          >
+            <img
+              src={backImg}
+              alt="1234"
+              style={{ width: '2rem', height: '2.5rem' }}
+            />
+            <span>返回</span>
+          </div>
+          <Chat status={status} showChat={showChat} />
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <Row
+      style={{
+        margin: 'auto',
+        maxWidth: '1140px',
+        display: 'flex',
+        gap: '3rem',
+        // backgroundColor: 'green',
+      }}
+    >
+      <Col xs={24} sm={24} md={24} lg={15} style={{ marginTop: 0 }}>
+        <Space
+          size="large"
+          style={{
+            height: '6.3rem',
+            width: '100%',
+            borderBottom: '1px solid #D7E2F3',
+            paddingLeft: '20px',
+          }}
+        >
+          <Space style={{}}>
+            <span style={{ color: variable['color-dark-blue'] }}>匯率:</span>
+            <span style={{ color: variable['color-primary'] }}>{rate}</span>
+          </Space>
+
+          <Space>
+            <span style={{ color: variable['color-dark-blue'] }}>
+              購買數量:
+            </span>
+            <span style={{ color: variable['color-primary'] }}>
+              {`${thousandsFormat(usdt)}  USDT`}
+            </span>
+          </Space>
+
+          <Space>
+            <span style={{ color: variable['color-dark-blue'] }}>
+              支付金額:
+            </span>
+            <span style={{ color: variable['color-primary'] }}>
+              {`${thousandsFormat(cny)}  CNY`}
+            </span>
+          </Space>
+        </Space>
+
+        <div>
+          <Result
+            style={{ padding: isMobile && '1rem 0' }}
+            title={title}
+            icon={icon}
+            subTitle={subTitle}
+          />
+        </div>
+
+        <Divider />
+        <div style={{ padding: 20 }}>
+          <Note />
+        </div>
+      </Col>
+
+      <Col ref={chat1ColRef} flex={1} style={{ }}>
+        <Chat status={status} showChat={showChat} refHeight="85vh" />
+      </Col>
     </Row>
   );
 };

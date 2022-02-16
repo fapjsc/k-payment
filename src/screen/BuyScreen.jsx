@@ -45,7 +45,7 @@ import Chat from '../components/chat/Chat';
 import useQuery from '../hooks/useQuery';
 
 // Helpers
-import { _decrypt } from '../utils/helpers';
+import { _decrypt, _iosWhite } from '../utils/helpers';
 
 // Styles
 import variable from '../sass/variable.module.scss';
@@ -71,6 +71,8 @@ const BuyScreen = () => {
   // Init State
   const [modalShow, setModalShow] = useState({ show: false });
   const [height, setHeight] = useState();
+  // eslint-disable-next-line
+  const [viewPortHeight, setViewPortHeight] = useState();
 
   // Router props
   const history = useHistory();
@@ -131,12 +133,8 @@ const BuyScreen = () => {
     dispatch(cancelOrder(id, orderToken));
   };
 
-  const fullScreenHandler = (value) => {
-    if (!isMobile) return;
-    dispatch(setChatFullscreen(value));
-  };
-
   const getChatHight = () => {
+    console.log('resize');
     if (mobileChatHightRef.current) {
       const refHeight = mobileChatHightRef.current.clientHeight + 140;
       const chatHight = window.innerHeight - refHeight;
@@ -144,12 +142,31 @@ const BuyScreen = () => {
     }
   };
 
+  const fullScreenHandler = (value) => {
+    if (!isMobile) return;
+    dispatch(setChatFullscreen(value));
+  };
+
   useEffect(() => {
     getChatHight();
   }, [mobileChatHightRef]);
 
   useEffect(() => {
+    // iosWhite();
     window.addEventListener('resize', getChatHight);
+  }, [fullScreen]);
+
+  const { innerHeight } = window;
+
+  useEffect(() => {
+    if (innerHeight) {
+      console.log(innerHeight);
+      setViewPortHeight(innerHeight);
+    }
+  }, [innerHeight]);
+
+  useEffect(() => {
+    _iosWhite();
   }, []);
 
   if (isMobile) {
@@ -161,8 +178,10 @@ const BuyScreen = () => {
           visible={modalShow.show}
           setModalShow={setModalShow}
           actionCall={
-          modalShow.type === 'payment' ? confirmBuyHandler : cancelOrderHandler
-        }
+            modalShow.type === 'payment'
+              ? confirmBuyHandler
+              : cancelOrderHandler
+          }
         />
         <div
           ref={mobileChatHightRef}
@@ -199,7 +218,7 @@ const BuyScreen = () => {
         </div>
         <div
           style={{
-            height: fullScreen ? window.innerHeight - 50 : height,
+            height: fullScreen ? viewPortHeight - 50 : height,
           }}
         >
           {fullScreen && (
@@ -305,7 +324,7 @@ const BuyScreen = () => {
             height: '100%',
           }}
         >
-          <div style={{ height: '100%', backgroundColor: 'black' }}>
+          <div style={{ height: '100%' }}>
             <Chat
               refHeight="80vh"
               fullScreen={fullScreen}
