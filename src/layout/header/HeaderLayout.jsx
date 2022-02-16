@@ -10,6 +10,7 @@ import { Layout, Row } from 'antd';
 import useRwd from '../../hooks/useRwd';
 
 // Components
+// eslint-disable-next-line
 import BuyHeader from '../../components/Buy/BuyHeader';
 import NoteModal from '../../components/NoteModal';
 
@@ -103,7 +104,7 @@ const HeaderLayout = () => {
                 flexWrap: 'wrap',
                 padding: '0.5rem 0',
                 wordBreak: 'break-all',
-                width: '95vw',
+                width: '100%',
                 // transform:
                 //   (statusID === 1 || statusID > 90) && 'translateY(1.2rem)',
               }}

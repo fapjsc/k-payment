@@ -21,7 +21,6 @@ import warning from '../asset/warning.png';
 
 // eslint-disable-next-line
 const WaitConfirm = ({ setModalShow, paymentStatus }) => {
-
   const { isMobile } = useRwd();
 
   const cancelHandler = () => {
@@ -47,7 +46,7 @@ const WaitConfirm = ({ setModalShow, paymentStatus }) => {
           }}
           align="center"
         >
-          <Col md={{ span: 24 }}>
+          <Col xs={24} sm={24} style={{}}>
             <img
               style={{ width: isMobile ? '7.3rem' : '20rem' }}
               src={warning}
@@ -58,7 +57,7 @@ const WaitConfirm = ({ setModalShow, paymentStatus }) => {
             </h4>
           </Col>
 
-          <Col md={{ span: 24 }} style={{}}>
+          <Col xs={24} sm={24} style={{}}>
             <p style={{ marginBottom: '0px' }}>
               對方確認收款後，系統會自動將數字貨幣匯到您的帳戶內
             </p>
@@ -97,27 +96,47 @@ const WaitConfirm = ({ setModalShow, paymentStatus }) => {
 
       <Row
         style={{
-          textAlign: 'center', color: variable['color-dark-grey'],
+          textAlign: 'center',
+          color: variable['color-dark-grey'],
         }}
         align="center"
       >
-
         <Col md={{ span: 24 }}>
-          <img style={{ width: isMobile ? '7.3rem' : '20rem' }} src={waitImage} alt="wait" />
-          <h4 style={{ fontSize: '2rem', color: variable['color-primary'] }}>等候確定中</h4>
+          <img
+            style={{ width: isMobile ? '7.3rem' : '20rem' }}
+            src={waitImage}
+            alt="wait"
+          />
+          <h4 style={{ fontSize: '2rem', color: variable['color-primary'] }}>
+            等候確定中
+          </h4>
         </Col>
 
-        <Col style={{ }}>
-          <p style={{ marginBottom: '0px' }}>對方確認收款後，系統會自動將數字貨幣匯到您的帳戶內</p>
-          <Row direction={isMobile ? 'horizontal' : 'vertical'} style={{ width: '100%' }}>
-            <Col md={24} sm={12} xs={12} order={isMobile && 2} style={{ margin: 'auto' }}>
+        <Col style={{}}>
+          <p style={{ marginBottom: '0px' }}>
+            對方確認收款後，系統會自動將數字貨幣匯到您的帳戶內
+          </p>
+          <Row
+            direction={isMobile ? 'horizontal' : 'vertical'}
+            style={{ width: '100%' }}
+          >
+            <Col
+              md={24}
+              sm={12}
+              xs={12}
+              order={isMobile && 2}
+              style={{ margin: 'auto' }}
+            >
               <Button
                 size="large"
                 type="default"
                 disabled
                 className="disable-easy-btn"
                 block
-                style={{ height: isMobile && '4rem', maxWidth: isMobile && '17rem' }}
+                style={{
+                  height: isMobile && '4rem',
+                  maxWidth: isMobile && '17rem',
+                }}
               >
                 對方確認中
               </Button>
