@@ -2,7 +2,6 @@ import React, {
   useEffect, useState, useRef, Fragment,
 } from 'react';
 
-// eslint-disable-next-line
 import { gsap } from 'gsap';
 
 // Router
@@ -22,6 +21,7 @@ import {
 } from 'antd';
 
 // Components
+// eslint-disable-next-line
 import Note from '../Note';
 import LoadingScreen from '../../screen/LoadingScreen';
 // eslint-disable-next-line
@@ -70,7 +70,8 @@ const BuyResult = () => {
 
   // Hooks
   const query = useQuery();
-  const { isMobile } = useRwd();
+  // eslint-disable-next-line
+  const { isMobile , isTablets} = useRwd();
   const history = useHistory();
 
   const queryStr = query.get('session') || query.get('id');
@@ -113,19 +114,19 @@ const BuyResult = () => {
   }, [status, id, orderToken]);
 
   useEffect(() => {
-    if (!isMobile) return;
+    if (!isTablets) return;
     const tl = gsap.timeline();
-    // if (showChat) {
-    //   tl.from([chatColRef.current, chat1ColRef.current], {
-    //     x: 1000,
-    //     duration: 0.5,
-    //     ease: 'ease.out',
-    //   }).to([chatColRef.current, chat1ColRef.current], {
-    //     x: 0,
-    //     duration: 0.5,
-    //     ease: 'ease.out',
-    //   });
-    // }
+    if (showChat) {
+      tl.from([chatColRef.current, chat1ColRef.current], {
+        x: 1000,
+        duration: 0.5,
+        ease: 'ease.out',
+      }).to([chatColRef.current, chat1ColRef.current], {
+        x: 0,
+        duration: 0.5,
+        ease: 'ease.out',
+      });
+    }
 
     if (!showChat) {
       tl.from(resultRef.current, {
@@ -138,7 +139,7 @@ const BuyResult = () => {
         ease: 'ease.out',
       });
     }
-  }, [showChat, isMobile]);
+  }, [showChat, isTablets]);
 
   if (!data) {
     return <LoadingScreen />;
@@ -166,7 +167,7 @@ const BuyResult = () => {
     </p>
   );
 
-  if (isMobile) {
+  if (isTablets) {
     return (
       <>
         <div
@@ -193,6 +194,7 @@ const BuyResult = () => {
         </button>
 
         <div
+          ref={chatColRef}
           style={{
             display: !showChat && 'none',
             width: showChat && '100%',

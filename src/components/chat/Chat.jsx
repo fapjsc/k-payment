@@ -32,7 +32,6 @@ import {
   ConversationHeader,
   MessageSeparator,
   Loader,
-  // Avatar,
 } from '@chatscope/chat-ui-kit-react';
 
 // Actions
@@ -51,25 +50,14 @@ import useRwd from '../../hooks/useRwd';
 import variable from '../../sass/variable.module.scss';
 import './Chat.scss';
 
-// console.log(styles);
-
-const Chat = ({
-  // eslint-disable-next-line
-  refHeight,
-  // eslint-disable-next-line
-  fullScreenHandler,
-  // eslint-disable-next-line
-  // fullScreen,
-  // eslint-disable-next-line
-  status,
-}) => {
+// eslint-disable-next-line
+const Chat = ({ refHeight, fullScreenHandler, status, fullScreen }) => {
   // InitState
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomIndex, setZoomIndex] = useState(null);
-  // const [messageText, setMessageText] = useState('');
+
   // Hooks
-  // eslint-disable-next-line
-  const { isTablets, isMobile } = useRwd();
+  const { isTablets } = useRwd();
 
   // Redux
   const dispatch = useDispatch();
@@ -84,7 +72,6 @@ const Chat = ({
 
   const onSend = (values) => {
     if (!values) return;
-
     sendMessage(values);
   };
 
@@ -101,8 +88,9 @@ const Chat = ({
     setZoomIndex(index);
   };
 
-  const onChange = () => {
-    // console.log(e);
+  const onChange = (e) => {
+    console.log(e);
+    // e.preventDefault();
     // fullScreenHandler(true);
   };
 
@@ -118,20 +106,16 @@ const Chat = ({
     };
   }, []);
 
-  if (isMobile) {
+  if (isTablets) {
     return (
       <div
         onClick={() => {
-          if (!fullScreenHandler) return;
+          if (!fullScreenHandler || fullScreen) return;
           fullScreenHandler(true);
         }}
-        onKeyDown={() => {
-          console.log('keydonw');
-        }}
+        onKeyDown={() => {}}
         role="presentation"
-        style={{
-          height: '100%',
-        }}
+        style={{ height: '100%' }}
       >
         <MainContainer>
           <ChatContainer>
@@ -171,7 +155,7 @@ const Chat = ({
                     {type === 2 && (
                       <div
                         onClick={() => setZoomIndexHandler(index)}
-                        onKeyDown={() => console.log('keydown')}
+                        onKeyDown={() => {}}
                         role="presentation"
                       >
                         <ControlledZoom
@@ -239,13 +223,9 @@ const Chat = ({
       onClick={() => {
         fullScreenHandler(true);
       }}
-      onKeyDown={() => {
-        console.log('keydonw');
-      }}
+      onKeyDown={() => {}}
       role="presentation"
-      style={{
-        height: refHeight && refHeight,
-      }}
+      style={{ height: refHeight && refHeight }}
     >
       <MainContainer
         style={{ height: !refHeight && (window.innerHeight - 140) / 2 }}
@@ -303,7 +283,7 @@ const Chat = ({
                   {type === 2 && (
                     <div
                       onClick={() => setZoomIndexHandler(index)}
-                      onKeyDown={() => console.log('keydown')}
+                      onKeyDown={() => {}}
                       role="presentation"
                     >
                       <ControlledZoom

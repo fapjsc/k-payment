@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Router props
 import { useHistory } from 'react-router-dom';
@@ -21,18 +21,28 @@ const Timer = ({ size }) => {
   // Router
   const history = useHistory();
 
+  // InitState
+  const [deadline, setDeadline] = useState(0);
+
   // Redux
   const { sessions } = useSelector((state) => state.diOrderSession);
 
   const { data } = sessions || {};
   const { DeltaTime } = data || {};
 
-  const deadline = Date.now() + 1000 * 60 * 30 - DeltaTime * 1000; // Moment is also OK
+  // const deadline = Date.now() + 1000 * 60 * 30 - DeltaTime * 1000; // Moment is also OK
 
   const onFinish = () => {
     console.log('finished!');
     history.replace('/auth/result');
   };
+
+  useEffect(() => {
+    if (DeltaTime || DeltaTime === 0) {
+      const timer = Date.now() + 1000 * 60 * 30 - DeltaTime * 1000; // Moment is also OK
+      setDeadline(timer);
+    }
+  }, [DeltaTime]);
 
   return (
     <Space style={{}} align="baseline">

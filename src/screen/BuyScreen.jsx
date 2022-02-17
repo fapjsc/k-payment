@@ -45,7 +45,8 @@ import Chat from '../components/chat/Chat';
 import useQuery from '../hooks/useQuery';
 
 // Helpers
-import { _decrypt, _iosWhite } from '../utils/helpers';
+// eslint-disable-next-line
+import { _decrypt, _iosWhite, _isIOS15 } from '../utils/helpers';
 
 // Styles
 import variable from '../sass/variable.module.scss';
@@ -66,12 +67,11 @@ const BuyScreen = () => {
   const mobileChatHightRef = useRef();
 
   // Hooks
-  const { isMobile } = useRwd();
+  const { isMobile, isTablets } = useRwd();
 
   // Init State
   const [modalShow, setModalShow] = useState({ show: false });
   const [height, setHeight] = useState();
-  // eslint-disable-next-line
   const [viewPortHeight, setViewPortHeight] = useState();
 
   // Router props
@@ -134,7 +134,6 @@ const BuyScreen = () => {
   };
 
   const getChatHight = () => {
-    console.log('resize');
     if (mobileChatHightRef.current) {
       const refHeight = mobileChatHightRef.current.clientHeight + 140;
       const chatHight = window.innerHeight - refHeight;
@@ -160,7 +159,6 @@ const BuyScreen = () => {
 
   useEffect(() => {
     if (innerHeight) {
-      console.log(innerHeight);
       setViewPortHeight(innerHeight);
     }
   }, [innerHeight]);
@@ -169,7 +167,13 @@ const BuyScreen = () => {
     _iosWhite();
   }, []);
 
-  if (isMobile) {
+  // const ios15ChatHeight = () => {
+  //   const isIOS15 = _isIOS15();
+  //   console.log(navigator.userAgent);
+  //   console.log(isIOS15);
+  // };
+
+  if (isTablets) {
     return (
       <>
         <ConfirmModal
@@ -183,17 +187,18 @@ const BuyScreen = () => {
               : cancelOrderHandler
           }
         />
+
         <div
           ref={mobileChatHightRef}
           style={{
-            height: (window.innerHeight - 140) / 2,
+            height: fullScreen ? 0 : (window.innerHeight - 140) / 2,
             display: fullScreen && 'none',
           }}
         >
           <Skeleton
             paragraph={{ rows: 6 }}
             loading={!statusArr.includes(paymentStatus)}
-            style={{ height: (window.innerHeight - 140) / 2, padding: 0 }}
+            style={{ minHeight: (window.innerHeight - 140) / 2, padding: 0 }}
           >
             {(paymentStatus === 31 || paymentStatus === 33) && (
               <Space direction="vertical" style={{ width: '100%' }}>
@@ -215,7 +220,11 @@ const BuyScreen = () => {
           </Skeleton>
 
           <Divider style={{ margin: '5px' }} />
+
+          {/* <button type="button" onClick={() => ios15ChatHeight()}>test</button> */}
+
         </div>
+
         <div
           style={{
             height: fullScreen ? viewPortHeight - 50 : height,
@@ -242,9 +251,9 @@ const BuyScreen = () => {
               <img
                 src={backImg}
                 alt="1234"
-                style={{ width: '2rem', height: '2.5rem' }}
+                style={{ width: '2rem', height: '2.5rem', transform: 'rotate(-90deg)' }}
               />
-              <span>返回</span>
+              <span style={{ color: '#242e47' }}>查看匯款資料</span>
             </div>
           )}
 

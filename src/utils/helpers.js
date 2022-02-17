@@ -67,6 +67,7 @@ export const _encrypt = (word) => {
 
 export const _iosWhite = () => {
   const u = navigator.userAgent;
+
   let flag;
   let myFunction;
   const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
@@ -84,3 +85,6 @@ export const _iosWhite = () => {
     });
   }
 };
+
+// export const _isIOS15 = () => !!navigator.userAgent.indexOf('iPhone OS 15') !== -1;
+export const _isIOS15 = () => navigator.userAgent.indexOf('iPhone OS 15') !== -1;

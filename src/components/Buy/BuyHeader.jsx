@@ -21,7 +21,9 @@ import useRwd from '../../hooks/useRwd';
 
 const BuyHeader = () => {
   // Hooks
-  const { isMobile, isSmallScreen, isTinyScreen } = useRwd();
+  const {
+    isMobile, isTinyScreen, isTablets, isSmallScreen,
+  } = useRwd();
 
   // Redux
   const { sessions } = useSelector((state) => state.diOrderSession);
@@ -75,7 +77,7 @@ const BuyHeader = () => {
   }
 
   return (
-    <Row justify="start" gutter={[40, 8]} style={{ }}>
+    <Row justify="start" gutter={isTablets ? [20] : [40]} style={{}}>
       <Col style={{ ...colStyle, marginLeft: '1rem' }}>
         <Space>
           <span style={{ color: variable['color-dark-blue'] }}>匯率</span>

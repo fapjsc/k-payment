@@ -22,13 +22,16 @@ const { Header } = Layout;
 const HeaderLayout = () => {
   const [visible, setVisible] = useState(false);
 
-  const { isMobile, isSmallScreen, isTinyScreen } = useRwd();
+  const {
+    // eslint-disable-next-line
+    isMobile, isTablets, isSmallScreen, isTinyScreen,
+  } = useRwd();
 
   const { sessions } = useSelector((state) => state.diOrderSession);
   const { data } = sessions || {};
   const { Tx_HASH: hash, Order_StatusID: statusID } = data || {};
 
-  if (isMobile) {
+  if (isTablets) {
     return (
       <>
         <NoteModal visible={visible} setVisible={setVisible} />
@@ -39,14 +42,14 @@ const HeaderLayout = () => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent:
-              isMobile && (statusID === 1 || statusID >= 33)
-                ? 'center'
-                : 'center',
+            isTablets && (statusID === 1 || statusID >= 33)
+              ? 'center'
+              : 'center',
             alignItems: 'start',
             padding: isSmallScreen && '0.9rem',
             backgroundColor: '#242e47',
             minHeight: '90px',
-            height: isMobile && (statusID === 1 || statusID >= 33) && '14rem',
+            height: isTablets && (statusID === 1 || statusID >= 33) && '14rem',
             gap: '1rem',
           }}
         >
@@ -60,7 +63,8 @@ const HeaderLayout = () => {
                 (statusID === 1 || statusID > 90) && 'translateY(-.8rem)',
             }}
           >
-            <div className={styles.logo} style={{}} />
+            {/* <div className={styles.logo} style={{}} /> */}
+            <div className={styles.logo} />
 
             {(statusID === 1 || statusID >= 33) && (
               <span

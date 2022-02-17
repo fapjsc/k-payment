@@ -23,7 +23,8 @@ import { thousandsFormat } from '../../utils/helpers';
 // eslint-disable-next-line
 import copyIcon from '../../asset/copy.png';
 
-const BuyInfo = () => {
+// eslint-disable-next-line
+const BuyInfo = ({ timer = true }) => {
   const { isMobile } = useRwd();
 
   // Init State
@@ -78,14 +79,14 @@ const BuyInfo = () => {
     >
       <span
         style={{
-          fontSize: '1.6rem',
+          fontSize: isMobile ? '1.4rem' : '1.6rem',
           color: variable['color-dark-grey'],
           paddingLeft: '1rem',
         }}
       >
         匯款資料
       </span>
-      <Timer />
+      {timer && <Timer />}
     </div>
   );
 
@@ -94,8 +95,7 @@ const BuyInfo = () => {
       style={{
         backgroundColor: 'rgba(215,226,243,0.20)',
         borderRadius:
-            (item.id === 1 && '8px 8px 0 0')
-            || (item.id === 2 && '0 0 8px 8px '),
+          (item.id === 1 && '8px 8px 0 0') || (item.id === 2 && '0 0 8px 8px '),
         lineHeight: '1.2',
         // paddingTop: item.id === 1 && '1.5rem',
         letterSpacing: '1.5px',
@@ -112,7 +112,12 @@ const BuyInfo = () => {
         }}
       >
         <p
-          style={{ marginBottom: 0, width: isMobile ? '9rem' : '11rem' }}
+          style={{
+            // backgroundColor: 'red',
+            marginBottom: 0,
+            width: isMobile ? '9rem' : '12rem',
+            display: 'flex',
+          }}
           className="txt-16"
           mark
         >

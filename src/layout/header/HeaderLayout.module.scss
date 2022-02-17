@@ -1,7 +1,7 @@
 .header {
   display: flex;
   align-items: center;
-  
+
   .logo {
     width: 12rem;
     height: 3rem;
@@ -12,7 +12,7 @@
   }
 }
 
-@media only screen and(max-width: 767px) {
+@media only screen and(max-width: 991px) {
   .header {
     min-height: 12rem !important;
   }
