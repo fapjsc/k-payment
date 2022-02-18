@@ -56,7 +56,7 @@ const WaitConfirm = ({ setModalShow, paymentStatus }) => {
             <BuyInfo timer={false} />
           </Col>
 
-          <Col xs={24} sm={24}>
+          <Col xs={24} sm={24} style={{ }}>
             <div
               style={{
                 display: 'flex',
@@ -79,23 +79,23 @@ const WaitConfirm = ({ setModalShow, paymentStatus }) => {
               </h4>
             </div>
 
-            <p style={{ marginBottom: '0px', margin: shortScreen && 0, fontSize: shortScreen && '1rem' }}>
+            <p style={{
+              marginBottom: '0px',
+              margin: 0,
+              fontSize: shortScreen && '1rem',
+            }}
+            >
               對方確認收款後，系統會自動將數字貨幣匯到您的帳戶內
             </p>
 
             <Button
-              // size="small"
               type="link"
-              // type={!isMobile ? 'link' : 'default'}
-              // block
               onClick={cancelHandler}
               style={{
                 padding: '0',
-                height: shortScreen ? '2rem' : '3.5rem',
-                // height: isMobile && '4rem',
-                // maxWidth: '17rem',
+                height: shortScreen ? '2rem' : '3rem',
                 color: variable['color-primary'],
-                // backgroundColor: 'blue',
+                marginTop: '0px',
               }}
             >
               取消交易

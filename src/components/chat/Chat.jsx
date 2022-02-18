@@ -50,8 +50,16 @@ import useRwd from '../../hooks/useRwd';
 import variable from '../../sass/variable.module.scss';
 import './Chat.scss';
 
-// eslint-disable-next-line
-const Chat = ({ refHeight, fullScreenHandler, status, fullScreen }) => {
+const Chat = ({
+  // eslint-disable-next-line
+  refHeight,
+  // eslint-disable-next-line
+  fullScreenHandler,
+  // eslint-disable-next-line
+  status,
+  // eslint-disable-next-line
+  fullScreen,
+}) => {
   // InitState
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomIndex, setZoomIndex] = useState(null);
@@ -115,7 +123,9 @@ const Chat = ({ refHeight, fullScreenHandler, status, fullScreen }) => {
         }}
         onKeyDown={() => {}}
         role="presentation"
-        style={{ height: '100%' }}
+        style={{
+          height: '100%',
+        }}
       >
         <MainContainer>
           <ChatContainer>

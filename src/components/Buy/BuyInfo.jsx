@@ -119,7 +119,7 @@ const BuyInfo = ({ timer = true }) => {
             display: 'flex',
           }}
           className="txt-16"
-          mark
+          // mark
         >
           {Object.keys(item)[0]}
           ：

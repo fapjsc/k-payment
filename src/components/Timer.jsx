@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Router props
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -19,7 +19,7 @@ const { Countdown } = Statistic;
 // eslint-disable-next-line
 const Timer = ({ size }) => {
   // Router
-  const history = useHistory();
+  // const history = useHistory();
 
   // InitState
   const [deadline, setDeadline] = useState(0);
@@ -34,7 +34,7 @@ const Timer = ({ size }) => {
 
   const onFinish = () => {
     console.log('finished!');
-    history.replace('/auth/result');
+    // history.replace('/auth/result');
   };
 
   useEffect(() => {

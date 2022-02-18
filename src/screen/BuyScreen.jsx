@@ -57,7 +57,12 @@ import backImg from '../asset/back.png';
 const statusArr = [31, 33, 34, 35];
 const resultArr = [1, 99, 98];
 
+// eslint-disable-next-line
+// let flag = false;
+
 const BuyScreen = () => {
+  const { innerHeight } = window;
+
   const query = useQuery();
   const sessionStr = query.get('session');
 
@@ -73,6 +78,7 @@ const BuyScreen = () => {
   const [modalShow, setModalShow] = useState({ show: false });
   const [height, setHeight] = useState();
   const [viewPortHeight, setViewPortHeight] = useState();
+  const [isIOS15Issue, setIsIOS15ISsue] = useState(false);
 
   // Router props
   const history = useHistory();
@@ -93,6 +99,8 @@ const BuyScreen = () => {
 
   useEffect(() => {
     if (resultArr.includes(paymentStatus)) {
+      console.log(sessionStr);
+      console.log(paymentStatus);
       history.replace(`/auth/result?session=${sessionStr}`);
     }
   }, [paymentStatus, history, sessionStr]);
@@ -151,11 +159,8 @@ const BuyScreen = () => {
   }, [mobileChatHightRef]);
 
   useEffect(() => {
-    // iosWhite();
     window.addEventListener('resize', getChatHight);
   }, [fullScreen]);
-
-  const { innerHeight } = window;
 
   useEffect(() => {
     if (innerHeight) {
@@ -167,11 +172,10 @@ const BuyScreen = () => {
     _iosWhite();
   }, []);
 
-  // const ios15ChatHeight = () => {
-  //   const isIOS15 = _isIOS15();
-  //   console.log(navigator.userAgent);
-  //   console.log(isIOS15);
-  // };
+  useEffect(() => {
+    const isIOS15 = _isIOS15();
+    setIsIOS15ISsue(isIOS15);
+  }, []);
 
   if (isTablets) {
     return (
@@ -220,14 +224,17 @@ const BuyScreen = () => {
           </Skeleton>
 
           <Divider style={{ margin: '5px' }} />
-
-          {/* <button type="button" onClick={() => ios15ChatHeight()}>test</button> */}
-
         </div>
 
         <div
           style={{
-            height: fullScreen ? viewPortHeight - 50 : height,
+            height:
+              // eslint-disable-next-line
+              fullScreen && isIOS15Issue
+                ? viewPortHeight - 100
+                : fullScreen
+                  ? viewPortHeight - 50
+                  : height,
           }}
         >
           {fullScreen && (
@@ -251,7 +258,11 @@ const BuyScreen = () => {
               <img
                 src={backImg}
                 alt="1234"
-                style={{ width: '2rem', height: '2.5rem', transform: 'rotate(-90deg)' }}
+                style={{
+                  width: '2rem',
+                  height: '2.5rem',
+                  transform: 'rotate(-90deg)',
+                }}
               />
               <span style={{ color: '#242e47' }}>查看匯款資料</span>
             </div>

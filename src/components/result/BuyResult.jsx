@@ -12,12 +12,7 @@ import { useSelector } from 'react-redux';
 
 // Antd
 import {
-  // eslint-disable-next-line
-  Result,
-  Space,
-  Divider,
-  Row,
-  Col,
+  Result, Space, Divider, Row, Col,
 } from 'antd';
 
 // Components
@@ -60,7 +55,6 @@ let type;
 
 const BuyResult = () => {
   // Ref
-  // eslint-disable-next-line
   const chatColRef = useRef();
   const chat1ColRef = useRef();
   const resultRef = useRef();
@@ -70,8 +64,7 @@ const BuyResult = () => {
 
   // Hooks
   const query = useQuery();
-  // eslint-disable-next-line
-  const { isMobile , isTablets} = useRwd();
+  const { isMobile, isTablets } = useRwd();
   const history = useHistory();
 
   const queryStr = query.get('session') || query.get('id');
@@ -101,8 +94,8 @@ const BuyResult = () => {
   } = data || {};
 
   if (status === 1) type = 'success';
-  if (status === 99 || status === 98) type = 'cancel';
-  // if (type !== 'success') type = 'cancel';
+  if (status === 99) type = 'cancel';
+  if (status === 98) type = 'overTime';
 
   useEffect(() => {
     if (status) return;
@@ -147,14 +140,16 @@ const BuyResult = () => {
 
   const title = (
     <h4 style={{ fontSize: '2rem', color: variable['color-primary'] }}>
-      {type === 'cancel' ? '交易取消' : '交易完成'}
+      {type === 'success' && '交易完成'}
+      {type === 'cancel' && '交易取消'}
+      {type === 'overTime' && '交易超時'}
     </h4>
   );
 
   const icon = (
     <img
       style={{ width: isMobile ? '10rem' : '20rem' }}
-      src={type === 'cancel' ? cancelImage : successImage}
+      src={type === 'success' ? successImage : cancelImage}
       alt="success"
     />
   );
@@ -290,7 +285,7 @@ const BuyResult = () => {
         </div>
       </Col>
 
-      <Col ref={chat1ColRef} flex={1} style={{ }}>
+      <Col ref={chat1ColRef} flex={1} style={{}}>
         <Chat status={status} showChat={showChat} refHeight="85vh" />
       </Col>
     </Row>

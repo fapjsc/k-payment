@@ -65,6 +65,12 @@ export const _encrypt = (word) => {
   return encrypted.ciphertext.toString().toUpperCase();
 };
 
+// export const _isIOS15 = () => !!navigator.userAgent.indexOf('iPhone OS 15') !== -1;
+export const _isIOS15 = () => navigator.userAgent.indexOf('iPhone OS 15_0') !== -1
+  || navigator.userAgent.indexOf('iPhone OS 15_1') !== -1
+  || navigator.userAgent.indexOf('iPhone OS 15_2') !== -1;
+  // || navigator.userAgent.indexOf('iPhone OS 14_7') !== -1;
+
 export const _iosWhite = () => {
   const u = navigator.userAgent;
 
@@ -85,6 +91,3 @@ export const _iosWhite = () => {
     });
   }
 };
-
-// export const _isIOS15 = () => !!navigator.userAgent.indexOf('iPhone OS 15') !== -1;
-export const _isIOS15 = () => navigator.userAgent.indexOf('iPhone OS 15') !== -1;
