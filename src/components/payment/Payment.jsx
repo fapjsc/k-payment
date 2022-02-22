@@ -37,6 +37,8 @@ const Payment = ({ id }) => {
   const { orderInfo } = useSelector((state) => state.openOrder);
   const { Client_CName: clientName, RequestedAmt } = orderInfo || {};
 
+  // console.log(id, clientName, rmbBuy, RequestedAmt);
+
   return (
     <>
       <Col
@@ -89,10 +91,10 @@ const Payment = ({ id }) => {
           margin: '0 auto',
         }}
       >
-        {id && clientName && rmbBuy && RequestedAmt ? (
+        {id && rmbBuy && RequestedAmt ? (
           <PaymentForm
             buyRate={rmbBuy}
-            clientName={clientName}
+            clientName={clientName || ''}
             RequestedAmt={RequestedAmt}
             id={id}
           />
