@@ -35,6 +35,7 @@ const BuyHeader = () => {
   const { orderInfo } = useSelector((state) => state.openOrder);
   const { RequestedAmt: amount } = orderInfo || {};
 
+  // eslint-disable-next-line
   const { D2: cny, D1: exRate, UsdtAmt: usdt } = data || {};
 
   const colStyle = {
@@ -50,12 +51,12 @@ const BuyHeader = () => {
         style={{ fontSize: '1.2rem' }}
         size={isSmallScreen ? 'small' : 'middle'}
       >
-        <Space size={2}>
+        {/* <Space size={2}>
           <span style={{ color: variable['color-dark-blue'] }}>匯率</span>
           <span style={{ color: variable['color-primary'] }}>
             {exRate || rate}
           </span>
-        </Space>
+        </Space> */}
         <Space size={2}>
           <span style={{ color: variable['color-dark-blue'] }}>購買數量</span>
           <img width="12px" src={usdtImage} alt="usdt" />
@@ -78,12 +79,12 @@ const BuyHeader = () => {
 
   return (
     <Row justify="start" gutter={isTablets ? [20] : [40]} style={{}}>
-      <Col style={{ ...colStyle, marginLeft: '1rem' }}>
+      {/* <Col style={{ ...colStyle, marginLeft: '1rem' }}>
         <Space>
           <span style={{ color: variable['color-dark-blue'] }}>匯率</span>
           <span style={{ color: variable['color-primary'] }}>{exRate}</span>
         </Space>
-      </Col>
+      </Col> */}
 
       <Col style={colStyle}>
         <Space size={4}>

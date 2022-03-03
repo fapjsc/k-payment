@@ -89,7 +89,8 @@ const PaymentForm = ({
             // style={{ backgroundColor: 'red' }}
           >
             <ProFormText
-              label={`購買數量 (匯率：${buyRate || 'loading..'})`}
+              // label={`購買數量 (匯率：${buyRate || 'loading..'})`}
+              label="購買數量"
               name="buyAmount"
               suffix="USDT"
               disabled

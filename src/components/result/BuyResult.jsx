@@ -90,7 +90,7 @@ const BuyResult = () => {
     Tx_HASH: hash,
     UsdtAmt: usdt,
     D2: cny,
-    D1: rate,
+    // D1: rate,
   } = data || {};
 
   if (status === 1) type = 'success';
@@ -246,10 +246,10 @@ const BuyResult = () => {
             paddingLeft: '20px',
           }}
         >
-          <Space style={{}}>
+          {/* <Space style={{}}>
             <span style={{ color: variable['color-dark-blue'] }}>匯率:</span>
             <span style={{ color: variable['color-primary'] }}>{rate}</span>
-          </Space>
+          </Space> */}
 
           <Space>
             <span style={{ color: variable['color-dark-blue'] }}>
