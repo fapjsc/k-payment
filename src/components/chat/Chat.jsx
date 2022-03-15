@@ -103,14 +103,16 @@ const Chat = ({
   };
 
   useEffect(() => {
-    document.addEventListener('paste', (e) => {
+    const paste = (e) => {
       e.preventDefault();
       const text = e.clipboardData.getData('text/plain');
       document.execCommand('insertText', false, text);
-    });
+    };
+
+    document.addEventListener('paste', paste);
 
     return () => {
-      document.removeEventListener('paste');
+      document.removeEventListener('paste', paste);
     };
   }, []);
 
@@ -121,7 +123,6 @@ const Chat = ({
           if (!fullScreenHandler || fullScreen) return;
           fullScreenHandler(true);
         }}
-        onKeyDown={() => {}}
         role="presentation"
         style={{
           height: '100%',

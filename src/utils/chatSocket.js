@@ -19,8 +19,6 @@ export const chatConnectWs = (id, orderToken) => {
   //   const uri = `wss://chat.k100u.com/WS_ChatOrder.ashx?di_order=${id}&order_token=${orderToken}`;
   const uri = `wss://chat.k100u.com/WS_ChatOrder.ashx?order_token=${orderToken}`;
 
-  console.log(uri);
-
   client = new ReconnectingWebSocket(uri);
 
   // 1.建立連接

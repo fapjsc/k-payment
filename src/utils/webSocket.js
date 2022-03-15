@@ -9,7 +9,15 @@ let client;
 export const buyConnectWs = (id, orderToken) => {
   if (!id || !orderToken) return;
 
-  const uri = `wss://${window.location.host}/j/ws_orderstatus.ashx?di_order=${id}&order_token=${orderToken}`;
+  let uri;
+
+  if (window.location.host.includes('k100u')) {
+    uri = `wss://${window.location.host}/j/ws_orderstatus.ashx?di_order=${id}&order_token=${orderToken}`;
+  } else {
+    uri = `wss://demo.k100u.com/j/ws_orderstatus.ashx?di_order=${id}&order_token=${orderToken}`;
+  }
+
+  console.log(uri);
 
   client = new ReconnectingWebSocket(uri);
 
