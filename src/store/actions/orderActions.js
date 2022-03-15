@@ -34,6 +34,7 @@ export const getExRate = (id) => async (dispatch) => {
     const headers = getHeaders(id);
     const url = '/j/DI_exrate.aspx';
     const response = await fetch(url, { headers });
+
     const data = await response.json();
     if (!response.ok) {
       throw new Error(data.msg || 'Could not fetch exRage');
@@ -70,6 +71,8 @@ export const getOrderToken = (id, orderData) => async (dispatch) => {
       headers,
       body,
     });
+
+    console.log(response);
 
     const data = await response.json();
 

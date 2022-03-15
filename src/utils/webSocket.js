@@ -17,8 +17,6 @@ export const buyConnectWs = (id, orderToken) => {
     uri = `wss://demo.k100u.com/j/ws_orderstatus.ashx?di_order=${id}&order_token=${orderToken}`;
   }
 
-  console.log(uri);
-
   client = new ReconnectingWebSocket(uri);
 
   // 1.建立連接
