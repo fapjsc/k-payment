@@ -105,7 +105,6 @@ const BuyInfo = ({ timer = true }) => {
     >
       <List.Item
         style={{
-          // backgroundColor: 'red',
           display: 'flex',
           justifyContent: 'flex-start',
           alignContent: 'center',
@@ -113,7 +112,6 @@ const BuyInfo = ({ timer = true }) => {
       >
         <p
           style={{
-            // backgroundColor: 'red',
             marginBottom: 0,
             width: isMobile ? '9rem' : '12rem',
             display: 'flex',
@@ -150,44 +148,6 @@ const BuyInfo = ({ timer = true }) => {
             ? thousandsFormat(Object.values(item)[0])
             : Object.values(item)[0]}
         </Typography.Text>
-
-        {/* <List.Item.Meta
-          // style={{ backgroundColor: 'blue' }}
-          avatar={(
-            <p className="avatar-p"
-            style={{ width: c ? '8.2rem' : '11rem', height: '100%' }}>
-              {`${Object.keys(item)[0]}：`}
-            </p>
-          )}
-          description={(
-            <div style={{ }}>
-              {item.id === 1 && <span style={{ color: '#242e47' }}>¥</span>}
-              <Typography.Text
-                style={{}}
-                copyable={{
-                  tooltips: ['複製', '已複製!'],
-                  onCopy: (e) => console.log(e),
-                  icon: (
-                    <img
-                      style={{
-                        // marginLeft: '1rem',
-                        marginBottom: '.5rem',
-                        width: '1.6rem',
-                        height: '1.6rem',
-                      }}
-                      src={copyIcon}
-                      alt="copy"
-                    />
-                  ),
-                }}
-              >
-                {item?.id === 1
-                  ? thousandsFormat(Object.values(item)[0])
-                  : Object.values(item)[0]}
-              </Typography.Text>
-            </div>
-          )}
-        /> */}
       </List.Item>
     </div>
   );

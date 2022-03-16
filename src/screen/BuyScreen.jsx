@@ -40,25 +40,16 @@ import Note from '../components/Note';
 import ConfirmModal from '../components/ConfirmModal';
 import WaitConfirm from '../components/WaitConfirm';
 import Chat from '../components/chat/Chat';
+import BuyScreenTablets from './BuyScreenTablets';
 
 // Hooks
 import useQuery from '../hooks/useQuery';
 
 // Helpers
-// eslint-disable-next-line
 import { _decrypt, _iosWhite, _isIOS15 } from '../utils/helpers';
-
-// Styles
-import variable from '../sass/variable.module.scss';
-
-//Image
-import backImg from '../asset/back.png';
 
 const statusArr = [31, 33, 34, 35];
 const resultArr = [1, 99, 98];
-
-// eslint-disable-next-line
-// let flag = false;
 
 const BuyScreen = () => {
   const { innerHeight } = window;
@@ -99,8 +90,6 @@ const BuyScreen = () => {
 
   useEffect(() => {
     if (resultArr.includes(paymentStatus)) {
-      console.log(sessionStr);
-      console.log(paymentStatus);
       history.replace(`/auth/result?session=${sessionStr}`);
     }
   }, [paymentStatus, history, sessionStr]);
@@ -177,103 +166,29 @@ const BuyScreen = () => {
     setIsIOS15ISsue(isIOS15);
   }, []);
 
+  // 手機版
   if (isTablets) {
     return (
-      <>
-        <ConfirmModal
-          title={modalShow.title}
-          text={modalShow.text}
-          visible={modalShow.show}
-          setModalShow={setModalShow}
-          actionCall={
-            modalShow.type === 'payment'
-              ? confirmBuyHandler
-              : cancelOrderHandler
-          }
-        />
-
-        <div
-          ref={mobileChatHightRef}
-          style={{
-            height: fullScreen ? 0 : (window.innerHeight - 140) / 2,
-            display: fullScreen && 'none',
-          }}
-        >
-          <Skeleton
-            paragraph={{ rows: 6 }}
-            loading={!statusArr.includes(paymentStatus)}
-            style={{ minHeight: (window.innerHeight - 140) / 2, padding: 0 }}
-          >
-            {(paymentStatus === 31 || paymentStatus === 33) && (
-              <Space direction="vertical" style={{ width: '100%' }}>
-                <BuyInfo />
-                <BuyAction
-                  setModalShow={setModalShow}
-                  id={id}
-                  orderToken={orderToken}
-                />
-              </Space>
-            )}
-
-            {(paymentStatus === 34 || paymentStatus === 35) && (
-              <WaitConfirm
-                setModalShow={setModalShow}
-                paymentStatus={paymentStatus}
-              />
-            )}
-          </Skeleton>
-
-          <Divider style={{ margin: '5px' }} />
-        </div>
-
-        <div
-          style={{
-            height:
-              // eslint-disable-next-line
-              fullScreen && isIOS15Issue
-                ? viewPortHeight - 100
-                : fullScreen
-                  ? viewPortHeight - 50
-                  : height,
-          }}
-        >
-          {fullScreen && (
-            <div
-              onClick={() => {
-                fullScreenHandler(false);
-              }}
-              onKeyDown={() => {}}
-              role="presentation"
-              style={{
-                display: 'flex',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                gap: '1rem',
-                padding: '5px 0',
-                fontSize: '2rem',
-                height: '5rem',
-                borderBottom: `1px solid ${variable['color-light-grey']}`,
-              }}
-            >
-              <img
-                src={backImg}
-                alt="1234"
-                style={{
-                  width: '2rem',
-                  height: '2.5rem',
-                  transform: 'rotate(-90deg)',
-                }}
-              />
-              <span style={{ color: '#242e47' }}>查看匯款資料</span>
-            </div>
-          )}
-
-          <Chat fullScreen={fullScreen} fullScreenHandler={fullScreenHandler} />
-        </div>
-      </>
+      <BuyScreenTablets
+        fullScreen={fullScreen}
+        modalShow={modalShow}
+        setModalShow={setModalShow}
+        paymentStatus={paymentStatus}
+        confirmBuyHandler={confirmBuyHandler}
+        cancelOrderHandler={cancelOrderHandler}
+        mobileChatHightRef={mobileChatHightRef}
+        statusArr={statusArr}
+        orderToken={orderToken}
+        id={id}
+        fullScreenHandler={fullScreenHandler}
+        viewPortHeight={viewPortHeight}
+        height={height}
+        isIOS15Issue={isIOS15Issue}
+      />
     );
   }
 
+  // 桌面版
   return (
     <>
       <ConfirmModal
@@ -342,6 +257,7 @@ const BuyScreen = () => {
             transform: !isMobile && 'translateY(-1.6rem)',
             marginTop: fullScreen && isMobile && '1rem',
             height: '100%',
+            backgroundColor: 'red',
           }}
         >
           <div style={{ height: '100%' }}>

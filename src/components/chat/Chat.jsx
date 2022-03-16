@@ -125,7 +125,7 @@ const Chat = ({
         }}
         role="presentation"
         style={{
-          height: '100%',
+          height: fullScreen ? 'calc(100% - 5rem)' : '100%',
         }}
       >
         <MainContainer>
@@ -231,15 +231,18 @@ const Chat = ({
 
   return (
     <div
-      onClick={() => {
-        fullScreenHandler(true);
-      }}
+      // onClick={() => {
+      //   fullScreenHandler(true);
+      // }}
       onKeyDown={() => {}}
       role="presentation"
       style={{ height: refHeight && refHeight }}
     >
       <MainContainer
-        style={{ height: !refHeight && (window.innerHeight - 140) / 2 }}
+        style={{
+          height: !refHeight && (window.innerHeight - 140) / 2,
+
+        }}
       >
         <ChatContainer>
           <ConversationHeader style={{ height: '6.3rem' }}>

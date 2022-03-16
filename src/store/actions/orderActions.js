@@ -72,8 +72,6 @@ export const getOrderToken = (id, orderData) => async (dispatch) => {
       body,
     });
 
-    console.log(response);
-
     const data = await response.json();
 
     if (!response.ok) {

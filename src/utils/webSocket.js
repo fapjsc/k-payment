@@ -14,6 +14,7 @@ export const buyConnectWs = (id, orderToken) => {
   if (window.location.host.includes('k100u')) {
     uri = `wss://${window.location.host}/j/ws_orderstatus.ashx?di_order=${id}&order_token=${orderToken}`;
   } else {
+    alert('connect to demo');
     uri = `wss://demo.k100u.com/j/ws_orderstatus.ashx?di_order=${id}&order_token=${orderToken}`;
   }
 

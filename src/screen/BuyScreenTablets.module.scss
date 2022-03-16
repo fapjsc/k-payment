@@ -1,0 +1,73 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+
+  .content-box {
+    height: 50%;
+  }
+
+  .chat-box {
+    position: absolute;
+    bottom: 0;
+    height: 45%;
+    width: 100%;
+  }
+}
+
+.move-out-100 {
+  animation: move-out-100 0.3s ease 0s 1 normal forwards;
+}
+
+.move-in-100 {
+  animation: move-in-100 0.3s ease 0s 1 normal forwards;
+}
+
+.height-100 {
+  animation: height-100 0.3s ease 0s 1 normal forwards;
+}
+
+.height-45 {
+  animation: height-45 0.3s ease 0s 1 normal forwards;
+}
+
+@keyframes move-out-100 {
+  0% {
+    transform: translateY(0%);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes move-in-100 {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes height-100 {
+  0% {
+    height: 45%;
+  }
+
+  100% {
+    height: 100%;
+  }
+}
+
+@keyframes height-45 {
+  0% {
+    height: 100%;
+  }
+
+  100% {
+    height: 45%;
+  }
+}

@@ -26,3 +26,31 @@
     height: 3rem;
   }
 }
+
+@keyframes move-up-100 {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes move-in-100 {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.move-out-100 {
+  animation: move-out-100 0.3s ease 0s 1 normal forwards;
+}
+
+.move-in-100 {
+  animation: move-in-100 0.3s ease 0s 1 normal forwards;
+}

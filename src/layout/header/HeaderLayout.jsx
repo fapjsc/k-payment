@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import classnames from 'classnames';
+
 // Redux
 import { useSelector } from 'react-redux';
 
@@ -22,6 +24,8 @@ const { Header } = Layout;
 const HeaderLayout = () => {
   const [visible, setVisible] = useState(false);
 
+  const { fullScreen } = useSelector((state) => state.chatFullScreen);
+
   const {
     // eslint-disable-next-line
     isMobile, isTablets, isSmallScreen, isTinyScreen,
@@ -33,7 +37,11 @@ const HeaderLayout = () => {
 
   if (isTablets) {
     return (
-      <>
+      <div className={classnames({
+        [styles['move-out-100']]: fullScreen,
+        [styles['move-in-100']]: !fullScreen,
+      })}
+      >
         <NoteModal visible={visible} setVisible={setVisible} />
         <Header
           className=""
@@ -51,6 +59,7 @@ const HeaderLayout = () => {
             minHeight: '90px',
             height: isTablets && (statusID === 1 || statusID >= 33) && '14rem',
             gap: '1rem',
+
           }}
         >
           <Row
@@ -63,7 +72,6 @@ const HeaderLayout = () => {
                 (statusID === 1 || statusID > 90) && 'translateY(-.8rem)',
             }}
           >
-            {/* <div className={styles.logo} style={{}} /> */}
             <div className={styles.logo} />
 
             {(statusID === 1 || statusID >= 33) && (
@@ -88,7 +96,6 @@ const HeaderLayout = () => {
                 flexWrap: 'wrap',
                 wordBreak: 'break-all',
                 transform: statusID > 90 && 'translateY(.5rem)',
-                // backgroundColor: 'red',
               }}
             >
               <span style={{}}>訂單編號：</span>
@@ -109,15 +116,13 @@ const HeaderLayout = () => {
                 padding: '0.5rem 0',
                 wordBreak: 'break-all',
                 width: '100%',
-                // transform:
-                //   (statusID === 1 || statusID > 90) && 'translateY(1.2rem)',
               }}
             >
               <BuyHeader />
             </div>
           )}
         </Header>
-      </>
+      </div>
     );
   }
   return (

@@ -38,7 +38,6 @@ import {
 } from '../layout/layout-span';
 
 const HomeScreen = () => {
-  console.log('home');
   const query = useQuery();
   const queryStr = query.get('id');
 
