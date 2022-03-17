@@ -99,7 +99,7 @@ const BuyInfo = ({ timer = true }) => {
         lineHeight: '1.2',
         // paddingTop: item.id === 1 && '1.5rem',
         letterSpacing: '1.5px',
-        padding: isMobile ? '1px' : '1rem',
+        padding: isMobile ? '3px 0px' : '1rem',
         paddingLeft: '1rem',
       }}
     >
@@ -157,6 +157,7 @@ const BuyInfo = ({ timer = true }) => {
       header={header}
       dataSource={listData}
       renderItem={(item) => list(item)}
+      style={{ }}
     />
   );
 };

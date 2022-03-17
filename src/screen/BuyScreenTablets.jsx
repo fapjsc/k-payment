@@ -1,8 +1,9 @@
 // eslint-disable-next-line
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Antd
 import {
+  // eslint-disable-next-line
   Divider, Skeleton, Space,
 } from 'antd';
 
@@ -12,6 +13,7 @@ import BuyInfo from '../components/Buy/BuyInfo';
 import BuyAction from '../components/Buy/BuyAction';
 import ConfirmModal from '../components/ConfirmModal';
 import WaitConfirm from '../components/WaitConfirm';
+// eslint-disable-next-line
 import Chat from '../components/chat/Chat';
 
 // Helpers
@@ -68,9 +70,26 @@ const BuyScreenTablets = ({
 
   const [height] = useViewportSize();
 
+  // const [vHeight, setHeight] = useState();
+
   const clickHandler = () => {
     fullScreenHandler(true);
   };
+
+  const getHight = (value) => {
+    let vHight = height;
+
+    if (!fullScreen) {
+      vHight = height - 141;
+    }
+
+    if (value) {
+      vHight = height - value;
+    }
+
+    return vHight;
+  };
+
   return (
     <>
       <ConfirmModal
@@ -81,7 +100,12 @@ const BuyScreenTablets = ({
         actionCall={type === 'payment' ? confirmBuyHandler : cancelOrderHandler}
       />
 
-      <div style={{ height: fullScreen ? height - 1 : height - 141 }} className={styles.container}>
+      <div
+        style={{
+          height: getHight(),
+        }}
+        className={styles.container}
+      >
 
         <div
           className={`${styles['content-box']} ${classnames({
@@ -90,11 +114,12 @@ const BuyScreenTablets = ({
           })}`}
         >
           <Skeleton
-            paragraph={{ rows: 4 }}
-        // eslint-disable-next-line
-          loading={!statusArr?.includes(paymentStatus)}
+            paragraph={{ rows: 6 }}
+            // eslint-disable-next-line
+            loading={!statusArr?.includes(paymentStatus)}
             style={{ minHeight: (window.innerHeight - 140) / 2, padding: 0 }}
           >
+
             {(paymentStatus === 31 || paymentStatus === 33) && (
             <Space direction="vertical" style={{ width: '100%' }}>
               <BuyInfo />
@@ -120,6 +145,9 @@ const BuyScreenTablets = ({
         <div
           role="presentation"
           onClick={clickHandler}
+          style={{
+            '--height': 'calc(100% - 240px)',
+          }}
           className={`${styles['chat-box']} ${classnames({
             [styles['height-100']]: fullScreen,
             [styles['height-45']]: !fullScreen,
@@ -139,7 +167,7 @@ const BuyScreenTablets = ({
                 justifyContent: 'flex-start',
                 alignItems: 'center',
                 gap: '1rem',
-                padding: '5px 0',
+                padding: '5px 15px',
                 fontSize: '2rem',
                 height: '5rem',
                 borderBottom: `1px solid ${variable['color-light-grey']}`,

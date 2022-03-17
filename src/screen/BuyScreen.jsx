@@ -50,6 +50,7 @@ import { _decrypt, _iosWhite, _isIOS15 } from '../utils/helpers';
 
 const statusArr = [31, 33, 34, 35];
 const resultArr = [1, 99, 98];
+// const resultArr = [];
 
 const BuyScreen = () => {
   const { innerHeight } = window;

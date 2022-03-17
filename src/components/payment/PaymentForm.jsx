@@ -128,6 +128,7 @@ const PaymentForm = ({
           }}
         >
           <ProFormText
+            disabled
             label="請填寫匯款人全名"
             name="clientName"
             fieldProps={{ size: 'large' }}

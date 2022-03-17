@@ -29,7 +29,6 @@ export const chatConnectWs = (id, orderToken) => {
   // 2.收到server回復
   client.onmessage = (message) => {
     const dataFromServer = JSON.parse(message.data);
-    console.log(dataFromServer);
     store.dispatch(setChatSession(dataFromServer));
   };
 

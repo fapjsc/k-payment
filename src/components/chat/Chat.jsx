@@ -96,8 +96,9 @@ const Chat = ({
     setZoomIndex(index);
   };
 
+  // eslint-disable-next-line
   const onChange = (e) => {
-    console.log(e);
+    // console.log(e);
     // e.preventDefault();
     // fullScreenHandler(true);
   };
@@ -119,10 +120,10 @@ const Chat = ({
   if (isTablets) {
     return (
       <div
-        onClick={() => {
-          if (!fullScreenHandler || fullScreen) return;
-          fullScreenHandler(true);
-        }}
+        // onClick={() => {
+        //   if (!fullScreenHandler || fullScreen) return;
+        //   fullScreenHandler(true);
+        // }}
         role="presentation"
         style={{
           height: fullScreen ? 'calc(100% - 5rem)' : '100%',
