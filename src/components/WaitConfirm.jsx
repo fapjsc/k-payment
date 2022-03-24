@@ -22,7 +22,6 @@ import warning from '../asset/warning.png';
 
 // eslint-disable-next-line
 const WaitConfirm = ({ setModalShow, paymentStatus }) => {
-
   // eslint-disable-next-line
   const { isMobile, isTablets } = useRwd();
 
@@ -56,7 +55,7 @@ const WaitConfirm = ({ setModalShow, paymentStatus }) => {
             <BuyInfo timer={false} />
           </Col>
 
-          <Col xs={24} sm={24} style={{ }}>
+          <Col xs={24} sm={24} style={{}}>
             <div
               style={{
                 display: 'flex',
@@ -66,7 +65,11 @@ const WaitConfirm = ({ setModalShow, paymentStatus }) => {
                 // backgroundColor: 'blue',
               }}
             >
-              <img style={{ width: shortScreen ? '2rem' : '3rem' }} src={warning} alt="wait" />
+              <img
+                style={{ width: shortScreen ? '2rem' : '3rem' }}
+                src={warning}
+                alt="wait"
+              />
               <h4
                 style={{
                   marginBottom: 0,
@@ -75,15 +78,16 @@ const WaitConfirm = ({ setModalShow, paymentStatus }) => {
                   fontWeight: 'bold',
                 }}
               >
-                賣方申訴中
+                申訴中
               </h4>
             </div>
 
-            <p style={{
-              marginBottom: '0px',
-              margin: 0,
-              fontSize: shortScreen && '1rem',
-            }}
+            <p
+              style={{
+                marginBottom: '0px',
+                margin: 0,
+                fontSize: shortScreen && '1rem',
+              }}
             >
               對方確認收款後，系統會自動將數字貨幣匯到您的帳戶內
             </p>
@@ -146,7 +150,12 @@ const WaitConfirm = ({ setModalShow, paymentStatus }) => {
             src={waitImage}
             alt="wait"
           />
-          <h4 style={{ fontSize: isMobile ? '1.8rem' : '2rem', color: variable['color-primary'] }}>
+          <h4
+            style={{
+              fontSize: isMobile ? '1.8rem' : '2rem',
+              color: variable['color-primary'],
+            }}
+          >
             等候確定中
           </h4>
         </Col>
