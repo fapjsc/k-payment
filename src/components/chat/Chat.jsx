@@ -9,6 +9,8 @@ import React, {
 // Moment
 import moment from 'moment';
 
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
 import { Controlled as ControlledZoom } from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 
@@ -120,10 +122,6 @@ const Chat = ({
   if (isTablets) {
     return (
       <div
-        // onClick={() => {
-        //   if (!fullScreenHandler || fullScreen) return;
-        //   fullScreenHandler(true);
-        // }}
         role="presentation"
         style={{
           height: fullScreen ? 'calc(100% - 5rem)' : '100%',
@@ -133,7 +131,17 @@ const Chat = ({
           <ChatContainer>
             <MessageList autoScrollToBottomOnMount>
               <MessageSeparator content={`今天${moment().format('HH:mm')}`} />
-              <MessageSeparator content="點擊確認付款按鈕前請先上傳水單" />
+              <MessageSeparator
+                content={(
+                  <Space size={2}>
+                    <ExclamationCircleOutlined style={{ fontSize: '1.3rem', color: '#ff4d4f' }} />
+                    <span style={{ color: '#ff4d4f' }}>
+                      點擊確認付款按鈕前請先上傳水單
+                    </span>
+                  </Space>
+              )}
+
+              />
               {chatSessions?.map((chat, index) => {
                 const {
                   Message_Role: role,
@@ -155,9 +163,9 @@ const Chat = ({
                     )}
 
                     {role === 3 && (
-                    <span style={{ marginLeft: '2px', color: '#242e47' }}>
-                      K100U-賣方
-                    </span>
+                      <span style={{ marginLeft: '2px', color: '#242e47' }}>
+                        K100U-賣方
+                      </span>
                     )}
 
                     {type === 1 && (
@@ -250,7 +258,6 @@ const Chat = ({
       <MainContainer
         style={{
           height: !refHeight && (window.innerHeight - 140) / 2,
-
         }}
       >
         <ChatContainer>
@@ -272,7 +279,16 @@ const Chat = ({
 
           <MessageList autoScrollToBottomOnMount>
             <MessageSeparator content={`今天${moment().format('HH:mm')}`} />
-            <MessageSeparator content="點擊確認付款按鈕前請先上傳水單" />
+            <MessageSeparator
+              content={(
+                <Space size={2}>
+                  <ExclamationCircleOutlined style={{ fontSize: '1.3rem', color: '#ff4d4f' }} />
+                  <span style={{ color: '#ff4d4f' }}>
+                    點擊確認付款按鈕前請先上傳水單
+                  </span>
+                </Space>
+              )}
+            />
 
             {chatSessions?.map((chat, index) => {
               const {
@@ -295,9 +311,9 @@ const Chat = ({
                   )}
 
                   {role === 3 && (
-                  <span style={{ marginLeft: '2px', color: '#242e47' }}>
-                    K100U-賣方
-                  </span>
+                    <span style={{ marginLeft: '2px', color: '#242e47' }}>
+                      K100U-賣方
+                    </span>
                   )}
 
                   {type === 1 && (
