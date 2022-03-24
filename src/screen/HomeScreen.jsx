@@ -40,7 +40,6 @@ import {
 const HomeScreen = () => {
   const query = useQuery();
   const queryStr = query.get('id');
-
   const id = _decrypt(queryStr);
 
   // Ref
@@ -125,17 +124,6 @@ const HomeScreen = () => {
       history.replace(`/auth/result?session=${tokenRef.current}`);
     }
   }, [cancelData, cancelError, history, queryStr]);
-
-  // function quickHideAddressBar() {
-  //   setTimeout(() => {
-  //     if (window.pageYOffset !== 0) return;
-  //     window.scrollTo(0, window.pageYOffset + 1);
-  //   }, 1000);
-  // }
-
-  // useEffect(() => {
-  //   quickHideAddressBar();
-  // }, []);
 
   const cancelHandler = () => {
     dispatch(cancelOrder(id, orderToken));

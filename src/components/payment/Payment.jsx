@@ -20,9 +20,6 @@ import useRwd from '../../hooks/useRwd';
 // Layout
 import { wrapLayout, mobileWrapLayout, dividerLayout } from '../../layout/layout-span';
 
-// Helpers
-// import { _decrypt } from '../../utils/helpers';
-
 // Styles
 import variable from '../../sass/variable.module.scss';
 
@@ -36,8 +33,6 @@ const Payment = ({ id }) => {
 
   const { orderInfo } = useSelector((state) => state.openOrder);
   const { Client_CName: clientName, RequestedAmt } = orderInfo || {};
-
-  // console.log(id, clientName, rmbBuy, RequestedAmt);
 
   return (
     <>

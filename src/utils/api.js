@@ -1,6 +1,7 @@
 // Get Headers
 export const getHeaders = (token = null) => {
   const headers = new Headers();
+  console.log(token);
   headers.append('di_order', token);
   headers.append('Content-Type', 'application/json');
 

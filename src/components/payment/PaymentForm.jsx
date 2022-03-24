@@ -18,9 +18,6 @@ import { getOrderToken } from '../../store/actions/orderActions';
 // Hooks
 import useRwd from '../../hooks/useRwd';
 
-// Image
-// import towWayImage from '../../asset/i_twoways.png';
-
 const PaymentForm = ({
   // eslint-disable-next-line
   buyRate,

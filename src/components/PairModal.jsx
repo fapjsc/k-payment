@@ -14,7 +14,7 @@ import { thousandsFormat } from '../utils/helpers';
 
 // Image
 import searchImage from '../asset/icon_search.gif';
-// import closeImage from '../asset/close.png';
+import closeImage from '../asset/close.png';
 
 // Actions
 
@@ -39,13 +39,12 @@ const PairModal = ({ isModalVisible, cancelHandler }) => {
       style={{ borderRadius: '30px' }}
       maskClosable={false}
       keyboard={false}
-      closable={false}
       bodyStyle={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
       }}
-      // closeIcon={<img style={{ width: '1.6rem' }} src={closeImage} alt="134" />}
+      closeIcon={<img style={{ width: '1.6rem' }} src={closeImage} alt="134" />}
       onCancel={cancelHandler}
     >
       <Avatar

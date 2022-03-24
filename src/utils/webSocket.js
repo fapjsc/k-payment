@@ -27,7 +27,8 @@ export const buyConnectWs = (id, orderToken) => {
 
   // 2.收到server回復
   client.onmessage = (message) => {
-    if (!message.data) return;
+    console.log(message);
+    if (!message?.data) return;
     const dataFromServer = JSON.parse(message.data);
     console.log('got reply!', dataFromServer);
 
@@ -35,8 +36,9 @@ export const buyConnectWs = (id, orderToken) => {
   };
 
   // 3. 連線關閉
+  // eslint-disable-next-line
   client.onclose = (message) => {
-    console.log('關閉連線', message);
+    console.log('order 關閉連線');
   };
 
   client.onerror = (error) => {

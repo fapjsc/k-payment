@@ -33,8 +33,9 @@ export const chatConnectWs = (id, orderToken) => {
   };
 
   // 3. 連線關閉
+  // eslint-disable-next-line
   client.onclose = (message) => {
-    console.log('chat 關閉連線', message);
+    console.log('chat 關閉連線');
   };
 
   client.onerror = (error) => {

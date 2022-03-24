@@ -149,3 +149,39 @@ export const confirmBuyReducer = (state = {}, action) => {
       return state;
   }
 };
+
+const appealInitialState = {
+  loading: false,
+  orderToken: null,
+  error: '',
+};
+
+export const appealReducer = (state = appealInitialState, action) => {
+  switch (action.type) {
+    case orderActionTypes.APPEAL_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case orderActionTypes.APPEAL_SUCCESS:
+      return {
+        loading: false,
+        data: action.payload.appealData,
+        error: '',
+      };
+
+    case orderActionTypes.APPEAL_FAIL:
+      return {
+        loading: false,
+        data: null,
+        error: action.payload.error,
+      };
+
+    case orderActionTypes.APPEAL_STATUS_CLEAR:
+      return appealInitialState;
+
+    default:
+      return state;
+  }
+};

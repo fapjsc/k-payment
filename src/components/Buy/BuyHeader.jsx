@@ -51,12 +51,7 @@ const BuyHeader = () => {
         style={{ fontSize: '1.2rem' }}
         size={isSmallScreen ? 'small' : 'middle'}
       >
-        {/* <Space size={2}>
-          <span style={{ color: variable['color-dark-blue'] }}>匯率</span>
-          <span style={{ color: variable['color-primary'] }}>
-            {exRate || rate}
-          </span>
-        </Space> */}
+
         <Space size={2}>
           <span style={{ color: variable['color-dark-blue'] }}>購買數量</span>
           <img width="12px" src={usdtImage} alt="usdt" />

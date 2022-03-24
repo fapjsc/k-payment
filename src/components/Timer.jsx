@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-// Router props
-// import { useHistory } from 'react-router-dom';
-
 // Redux
 import { useSelector } from 'react-redux';
-
-// moment
-// import moment from 'moment';
 
 // Antd
 import { Space, Statistic } from 'antd';
@@ -18,8 +12,6 @@ const { Countdown } = Statistic;
 
 // eslint-disable-next-line
 const Timer = ({ size }) => {
-  // Router
-  // const history = useHistory();
 
   // InitState
   const [deadline, setDeadline] = useState(0);
@@ -29,8 +21,6 @@ const Timer = ({ size }) => {
 
   const { data } = sessions || {};
   const { DeltaTime } = data || {};
-
-  // const deadline = Date.now() + 1000 * 60 * 30 - DeltaTime * 1000; // Moment is also OK
 
   const onFinish = () => {
     console.log('finished!');

@@ -93,6 +93,41 @@ export const getOrderToken = (id, orderData) => async (dispatch) => {
   }
 };
 
+export const orderAppeal = ({ id, orderToken }) => async (dispatch) => {
+  dispatch({ type: orderActionTypes.APPEAL_REQUEST });
+
+  const headers = getHeaders(id);
+  console.log(headers);
+  const appealUrl = '/j/DI_Appeal.aspx';
+
+  try {
+    const response = await fetch(appealUrl, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        Token: orderToken,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) throw new Error('Fetch Fail');
+
+    if (data.code !== 200) throw new Error('appeal fail');
+
+    dispatch({
+      type: orderActionTypes.APPEAL_SUCCESS,
+      payload: { appealData: data.data },
+    });
+    // console.log(data);
+  } catch (error) {
+    dispatch({
+      type: orderActionTypes.APPEAL_FAIL,
+      payload: error.message || 'Some thing went wrong',
+    });
+  }
+};
+
 export const setDiOrder = (sessions) => ({
   type: orderActionTypes.DI_ORDER_SESSION,
   payload: sessions,

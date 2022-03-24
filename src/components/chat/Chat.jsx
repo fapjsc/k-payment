@@ -133,7 +133,7 @@ const Chat = ({
           <ChatContainer>
             <MessageList autoScrollToBottomOnMount>
               <MessageSeparator content={`今天${moment().format('HH:mm')}`} />
-
+              <MessageSeparator content="點擊確認付款按鈕前請先上傳水單" />
               {chatSessions?.map((chat, index) => {
                 const {
                   Message_Role: role,
@@ -153,6 +153,13 @@ const Chat = ({
                         K100U-線上客服
                       </span>
                     )}
+
+                    {role === 3 && (
+                    <span style={{ marginLeft: '2px', color: '#242e47' }}>
+                      K100U-賣方
+                    </span>
+                    )}
+
                     {type === 1 && (
                       <Message
                         className="text-message"
@@ -203,8 +210,9 @@ const Chat = ({
                   </Fragment>
                 );
               })}
-              {loading && <Loader>Loading</Loader>}
-              {(status === 1 || status > 90) && (
+              {loading && <Loader>Loading...</Loader>}
+
+              {(status === 1 || status === 99) && (
                 <MessageSeparator content="對話已結束" />
               )}
             </MessageList>
@@ -214,7 +222,7 @@ const Chat = ({
               onAttachClick={onAttachClickHandler}
               placeholder="對話..."
               onSend={onSend}
-              disabled={status === 1 || status > 90}
+              disabled={status === 1 || status === 99}
             />
           </ChatContainer>
         </MainContainer>
@@ -264,6 +272,7 @@ const Chat = ({
 
           <MessageList autoScrollToBottomOnMount>
             <MessageSeparator content={`今天${moment().format('HH:mm')}`} />
+            <MessageSeparator content="點擊確認付款按鈕前請先上傳水單" />
 
             {chatSessions?.map((chat, index) => {
               const {
@@ -284,6 +293,13 @@ const Chat = ({
                       K100U-線上客服
                     </span>
                   )}
+
+                  {role === 3 && (
+                  <span style={{ marginLeft: '2px', color: '#242e47' }}>
+                    K100U-賣方
+                  </span>
+                  )}
+
                   {type === 1 && (
                     <Message
                       className="text-message"
@@ -335,6 +351,7 @@ const Chat = ({
               );
             })}
             {loading && <Loader>Loading</Loader>}
+
             {(status === 1 || status > 90) && (
               <MessageSeparator content="對話已結束" />
             )}

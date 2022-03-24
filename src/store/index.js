@@ -10,6 +10,7 @@ import {
   orderTokenReducer,
   diOrderSessionReducer,
   confirmBuyReducer,
+  appealReducer,
 } from './reducers/orderReducers';
 
 import { cancelOrderReducer } from './reducers/cancelOrderReducer';
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   confirmBuy: confirmBuyReducer,
   chat: chatReducers,
   chatFullScreen: chatFullScreenReducers,
+  appeal: appealReducer,
 });
 
 const middleware = [thunk];

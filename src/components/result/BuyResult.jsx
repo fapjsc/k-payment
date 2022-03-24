@@ -8,20 +8,17 @@ import { gsap } from 'gsap';
 import { useHistory } from 'react-router-dom';
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Antd
 import {
-  Result, Space, Divider, Row, Col,
+  Result, Space, Divider, Row, Col, Button, message,
 } from 'antd';
 
 // Components
-// eslint-disable-next-line
 import Note from '../Note';
 import LoadingScreen from '../../screen/LoadingScreen';
-// eslint-disable-next-line
 import Chat from '../chat/Chat';
-// import BuyHeader from '../Buy/BuyHeader';
 
 // Hooks
 import useQuery from '../../hooks/useQuery';
@@ -39,6 +36,9 @@ import { chatConnectWs } from '../../utils/chatSocket';
 
 // Hooks
 import useRwd from '../../hooks/useRwd';
+
+// Actions
+import { orderAppeal } from '../../store/actions/orderActions';
 
 // Styles
 import variable from '../../sass/variable.module.scss';
@@ -67,6 +67,8 @@ const BuyResult = () => {
   const { isMobile, isTablets } = useRwd();
   const history = useHistory();
 
+  const sessionStr = query.get('session');
+
   const queryStr = query.get('session') || query.get('id');
 
   let id;
@@ -81,9 +83,13 @@ const BuyResult = () => {
   }
 
   // Redux
+  const dispatch = useDispatch();
+
   const {
     sessions: { data },
   } = useSelector((state) => state.diOrderSession);
+
+  const { loading: appealLoading, error: appealError } = useSelector((state) => state.appeal);
 
   const {
     Order_StatusID: status,
@@ -97,18 +103,40 @@ const BuyResult = () => {
   if (status === 99) type = 'cancel';
   if (status === 98) type = 'overTime';
 
+  const appealHandler = () => {
+    if (!orderToken || !orderToken) {
+      message.error('沒有session id 或 order token');
+      return;
+    }
+
+    dispatch(orderAppeal({ id, orderToken }));
+  };
+
+  useEffect(() => {
+    if (status === 35) {
+      history.replace(`/auth/payment?session=${sessionStr}`);
+    }
+  }, [status, history, sessionStr]);
+
+  useEffect(() => {
+    if (!appealError) return;
+    message.error('訂單取消失敗');
+  }, [appealError]);
+
   useEffect(() => {
     if (status) return;
 
-    if (id && orderToken) {
-      buyConnectWs(id, orderToken);
-      chatConnectWs(id, orderToken);
-    }
+    if (!id || !orderToken) return;
+
+    buyConnectWs(id, orderToken);
+    chatConnectWs(id, orderToken);
   }, [status, id, orderToken]);
 
   useEffect(() => {
     if (!isTablets) return;
+
     const tl = gsap.timeline();
+
     if (showChat) {
       tl.from([chatColRef.current, chat1ColRef.current], {
         x: 1000,
@@ -177,6 +205,11 @@ const BuyResult = () => {
             title={title}
             icon={icon}
             subTitle={subTitle}
+            extra={type === 'overTime' && (
+              <Button style={{ width: '80%' }} loading={appealLoading} type="primary" key="console" onClick={appealHandler}>
+                申訴
+              </Button>
+            )}
           />
         </div>
 
@@ -200,7 +233,6 @@ const BuyResult = () => {
             onClick={() => {
               setShowChat(false);
             }}
-            onKeyDown={() => {}}
             role="presentation"
             style={{
               display: 'flex',
@@ -215,7 +247,7 @@ const BuyResult = () => {
           >
             <img
               src={backImg}
-              alt="1234"
+              alt="返回"
               style={{ width: '2rem', height: '2.5rem' }}
             />
             <span>返回</span>
@@ -228,12 +260,12 @@ const BuyResult = () => {
 
   return (
     <Row
+      gutter={[32, 0]}
       style={{
         margin: 'auto',
         maxWidth: '1140px',
         display: 'flex',
-        gap: '3rem',
-        // backgroundColor: 'green',
+        // gap: '3rem',
       }}
     >
       <Col xs={24} sm={24} md={24} lg={15} style={{ marginTop: 0 }}>
@@ -246,10 +278,6 @@ const BuyResult = () => {
             paddingLeft: '20px',
           }}
         >
-          {/* <Space style={{}}>
-            <span style={{ color: variable['color-dark-blue'] }}>匯率:</span>
-            <span style={{ color: variable['color-primary'] }}>{rate}</span>
-          </Space> */}
 
           <Space>
             <span style={{ color: variable['color-dark-blue'] }}>
@@ -270,14 +298,17 @@ const BuyResult = () => {
           </Space>
         </Space>
 
-        <div>
-          <Result
-            style={{ padding: isMobile && '1rem 0' }}
-            title={title}
-            icon={icon}
-            subTitle={subTitle}
-          />
-        </div>
+        <Result
+          style={{ padding: isMobile && '1rem 0' }}
+          title={title}
+          icon={icon}
+          subTitle={subTitle}
+          extra={type === 'overTime' && (
+          <Button style={{ width: '50%' }} loading={appealLoading} type="primary" key="console" onClick={appealHandler}>
+            申訴
+          </Button>
+          )}
+        />
 
         <Divider />
         <div style={{ padding: 20 }}>
