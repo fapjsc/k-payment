@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 // Antd
-// eslint-disable-next-line
 import { List, Typography } from 'antd';
 
 // Hooks
@@ -15,24 +14,21 @@ import variable from '../../sass/variable.module.scss';
 
 // Components
 import Timer from '../Timer';
+import LoadingScreen from '../../screen/LoadingScreen';
 
 // Helpers
-// eslint-disable-next-line
 import { thousandsFormat } from '../../utils/helpers';
 
-// eslint-disable-next-line
 import copyIcon from '../../asset/copy.png';
 
 // eslint-disable-next-line
 const BuyInfo = ({ timer = true }) => {
-  const { isMobile } = useRwd();
 
+  const { isMobile } = useRwd();
   // Init State
   const [listData, setListData] = useState([]);
 
-  const {
-    sessions: { data },
-  } = useSelector((state) => state.diOrderSession);
+  const { data } = useSelector((state) => state.orderDetail);
 
   const {
     D2: cnyAmount,
@@ -151,6 +147,12 @@ const BuyInfo = ({ timer = true }) => {
       </List.Item>
     </div>
   );
+
+  if (!data) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <List

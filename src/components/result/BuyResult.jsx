@@ -38,7 +38,7 @@ import { chatConnectWs } from '../../utils/chatSocket';
 import useRwd from '../../hooks/useRwd';
 
 // Actions
-import { orderAppeal } from '../../store/actions/orderActions';
+import { orderAppeal, getOrderDetail } from '../../store/actions/orderActions';
 
 // Styles
 import variable from '../../sass/variable.module.scss';
@@ -89,22 +89,29 @@ const BuyResult = () => {
     sessions: { data },
   } = useSelector((state) => state.diOrderSession);
 
+  const {
+    data: orderData,
+  } = useSelector((state) => state.orderDetail);
+
   const { loading: appealLoading, error: appealError } = useSelector((state) => state.appeal);
 
   const {
     Order_StatusID: status,
+  } = data || {};
+
+  const {
     Tx_HASH: hash,
     UsdtAmt: usdt,
     D2: cny,
     // D1: rate,
-  } = data || {};
+  } = orderData || {};
 
   if (status === 1) type = 'success';
   if (status === 99) type = 'cancel';
   if (status === 98) type = 'overTime';
 
   const appealHandler = () => {
-    if (!orderToken || !orderToken) {
+    if (!orderToken || !id) {
       message.error('沒有session id 或 order token');
       return;
     }
@@ -122,6 +129,14 @@ const BuyResult = () => {
     if (!appealError) return;
     message.error('訂單取消失敗');
   }, [appealError]);
+
+  useEffect(() => {
+    if (!orderToken || !id) return;
+
+    if (orderData) return;
+
+    dispatch(getOrderDetail({ id, token: orderToken }));
+  }, [orderData, id, orderToken, dispatch]);
 
   useEffect(() => {
     if (status) return;

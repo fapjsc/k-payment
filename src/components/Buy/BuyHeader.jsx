@@ -26,8 +26,7 @@ const BuyHeader = () => {
   } = useRwd();
 
   // Redux
-  const { sessions } = useSelector((state) => state.diOrderSession);
-  const { data } = sessions || {};
+  const { data } = useSelector((state) => state.orderDetail);
 
   const { rateInfo } = useSelector((state) => state.exRate);
   const { RMB_BUY: rate } = rateInfo || {};
@@ -65,7 +64,7 @@ const BuyHeader = () => {
             支付金額(CNY)
           </span>
           <span style={{ color: variable['color-primary'] }}>
-            {thousandsFormat(cny) || thousandsFormat(rate * amount)}
+            {thousandsFormat(cny)}
           </span>
         </Space>
       </Space>

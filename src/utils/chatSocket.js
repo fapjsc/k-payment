@@ -4,7 +4,7 @@ import ReconnectingWebSocket from 'reconnecting-websocket';
 import Resizer from 'react-image-file-resizer'; // 圖片壓縮
 
 // Redux
-import store from '../store';
+import { store } from '../store';
 
 // actions
 import { setChatSession } from '../store/actions/chatActions';

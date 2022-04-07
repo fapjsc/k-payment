@@ -185,3 +185,39 @@ export const appealReducer = (state = appealInitialState, action) => {
       return state;
   }
 };
+
+const orderDetailInitialState = {
+  loading: false,
+  orderDetail: null,
+  error: '',
+};
+
+export const orderDetailReducer = (state = orderDetailInitialState, action) => {
+  switch (action.type) {
+    case orderActionTypes.ORDER_DETAIL_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case orderActionTypes.ORDER_DETAIL_SUCCESS:
+      return {
+        loading: false,
+        data: action.payload,
+        error: '',
+      };
+
+    case orderActionTypes.ORDER_DETAIL_FAIL:
+      return {
+        loading: false,
+        data: null,
+        error: action.payload,
+      };
+
+    case orderActionTypes.CLEAR_ORDER_DETAIL_STATUS:
+      return orderDetailInitialState;
+
+    default:
+      return state;
+  }
+};

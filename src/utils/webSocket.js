@@ -1,7 +1,7 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 // import { w3cwebsocket as W3CWebsocket } from 'websocket';
 
-import store from '../store';
+import { store } from '../store';
 import { setDiOrder } from '../store/actions/orderActions';
 
 let client;

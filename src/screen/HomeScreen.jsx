@@ -12,7 +12,9 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 // Actions
-import { getExRate, openOrder, setOrderToken } from '../store/actions/orderActions';
+import {
+  getExRate, openOrder, setOrderToken,
+} from '../store/actions/orderActions';
 import { cancelOrder } from '../store/actions/cancelActions';
 
 // websocket

@@ -28,6 +28,43 @@ export const openOrder = (id) => async (dispatch) => {
   }
 };
 
+export const getOrderDetail = ({ token, id }) => async (dispatch) => {
+  dispatch({ type: orderActionTypes.ORDER_DETAIL_REQUEST });
+  try {
+    const headers = getHeaders(id);
+    const url = '/j/DI_TxDetail.aspx';
+
+    const body = JSON.stringify({
+      Token: token,
+    });
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers,
+      body,
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.msg || 'Could not fetch order detail api');
+    }
+    if (data.code !== 200) {
+      throw new Error(data.msg || 'Fetch order detail fail.');
+    }
+
+    dispatch({
+      type: orderActionTypes.ORDER_DETAIL_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: orderActionTypes.ORDER_DETAIL_FAIL,
+      payload: error.message || 'Something went wrong.',
+    });
+  }
+};
+
 export const getExRate = (id) => async (dispatch) => {
   dispatch({ type: orderActionTypes.EX_RATE_REQUEST });
   try {

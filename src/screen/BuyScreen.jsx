@@ -16,6 +16,7 @@ import {
   getExRate,
   openOrder,
   confirmBuy,
+  getOrderDetail,
 } from '../store/actions/orderActions';
 
 import {
@@ -41,9 +42,12 @@ import ConfirmModal from '../components/ConfirmModal';
 import WaitConfirm from '../components/WaitConfirm';
 import Chat from '../components/chat/Chat';
 import BuyScreenTablets from './BuyScreenTablets';
+import LoadingScreen from './LoadingScreen';
 
 // Hooks
 import useQuery from '../hooks/useQuery';
+// eslint-disable-next-line
+import useGetIdToken from '../hooks/useGetIdToken';
 
 // Helpers
 import { _decrypt, _iosWhite, _isIOS15 } from '../utils/helpers';
@@ -78,7 +82,10 @@ const BuyScreen = () => {
   // Redux
   const dispatch = useDispatch();
   const { orderInfo } = useSelector((state) => state.openOrder);
+  // const { order_token: token } = orderInfo || {};
+
   const { rateInfo } = useSelector((state) => state.exRate);
+
   const { fullScreen } = useSelector((state) => state.chatFullScreen);
 
   const { error: cancelError, data: cancelData } = useSelector(
@@ -88,6 +95,15 @@ const BuyScreen = () => {
   const { sessions } = useSelector((state) => state.diOrderSession);
   const { data } = sessions || {};
   const { Order_StatusID: paymentStatus } = data || {};
+
+  const { data: orderData } = useSelector((state) => state.orderDetail);
+
+  // useGetIdToken();
+
+  useEffect(() => {
+    if (!id || !orderToken) return;
+    dispatch(getOrderDetail({ id, token: orderToken }));
+  }, [dispatch, id, orderToken]);
 
   useEffect(() => {
     if (resultArr.includes(paymentStatus)) {
@@ -166,6 +182,12 @@ const BuyScreen = () => {
     const isIOS15 = _isIOS15();
     setIsIOS15ISsue(isIOS15);
   }, []);
+
+  if (!orderData) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   // 手機版
   if (isTablets) {

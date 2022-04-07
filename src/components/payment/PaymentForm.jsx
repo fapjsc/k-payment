@@ -111,7 +111,7 @@ const PaymentForm = ({
               suffix="CNY"
               disabled
               fieldProps={{ suffix: 'CNY', size: 'large', precision: 2 }}
-              initialValue={(RequestedAmt * buyRate).toFixed(2)}
+              initialValue={`${(RequestedAmt * buyRate).toFixed(0)}.00`}
             />
           </Col>
         </Row>

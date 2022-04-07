@@ -89,7 +89,7 @@ const PairModal = ({ isModalVisible, cancelHandler }) => {
               fontWeight: 700,
             }}
           >
-            {`支付金額: ${thousandsFormat(RequestedAmt * RMB_BUY)} CNY`}
+            {`支付金額: ${thousandsFormat((RequestedAmt * RMB_BUY).toFixed(0))} CNY`}
           </Text>
         </Space>
       </div>

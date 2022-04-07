@@ -3,22 +3,27 @@ import CryptoJS from 'crypto-js';
 // 千分位加上小數點
 export const thousandsFormat = (data, tofixed = 2) => {
   if (!Number.isNaN(data) && data !== undefined) {
+    let dataStr = data.toString();
+
     if (data > 999 || data < -999) {
-      let dataStr = data.toString();
       let integer;
       let decimals;
       let newdata = '';
       const flg = ',';
+
+      // 負數
       if (dataStr.indexOf('.') !== -1) {
         dataStr = Number(dataStr).toFixed(tofixed);
         integer = dataStr.split('.')[0];
         decimals = dataStr.split('.')[1];
+
         for (let i = integer.length; i > 0; i -= 3) {
           const tmp = integer.substring(i - 3, i);
           if (i - 3 <= 0) {
             newdata = tmp + newdata;
           } else newdata = flg + tmp + newdata;
         }
+
         newdata = `${newdata}.${decimals}`;
       } else {
         integer = dataStr;
@@ -29,11 +34,17 @@ export const thousandsFormat = (data, tofixed = 2) => {
           } else newdata = flg + tmp + newdata;
         }
       }
+
       return newdata; // 傳入的數字
     }
-    return data?.toFixed(2);
+
+    // 整數的話加上.00
+    if (dataStr.indexOf('.') === -1) {
+      return `${data}.00`;
+    }
+    return `${data}`;
   }
-  return data?.toFixed(2);
+  return data;
 };
 // export const thousandsFormat =
 //(text) => (text * 1).toFixed(2).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
