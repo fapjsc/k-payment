@@ -5,13 +5,14 @@ export const thousandsFormat = (data, tofixed = 2) => {
   if (!Number.isNaN(data) && data !== undefined) {
     let dataStr = data.toString();
 
+    // 千分位加分號邏輯
     if (data > 999 || data < -999) {
       let integer;
       let decimals;
       let newdata = '';
       const flg = ',';
 
-      // 負數
+      // 小數
       if (dataStr.indexOf('.') !== -1) {
         dataStr = Number(dataStr).toFixed(tofixed);
         integer = dataStr.split('.')[0];
@@ -25,6 +26,8 @@ export const thousandsFormat = (data, tofixed = 2) => {
         }
 
         newdata = `${newdata}.${decimals}`;
+
+        // 整數
       } else {
         integer = dataStr;
         for (let i = integer.length; i > 0; i -= 3) {
@@ -42,7 +45,7 @@ export const thousandsFormat = (data, tofixed = 2) => {
     if (dataStr.indexOf('.') === -1) {
       return `${data}.00`;
     }
-    return `${data}`;
+    return `${data.toFixed(2)}`;
   }
   return data;
 };
