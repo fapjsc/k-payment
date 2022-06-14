@@ -11,7 +11,7 @@ import useQuery from './useQuery';
 import { getOrderDetail } from '../store/actions/orderActions';
 
 // Helper
-import { _decrypt } from '../utils/helpers';
+// import { _decrypt } from '../utils/helpers';
 
 const useGetIdToken = () => {
   const [id, setId] = useState('');
@@ -26,7 +26,8 @@ const useGetIdToken = () => {
   useEffect(() => {
     const queryStr = query.get('session') || query.get('id');
     try {
-      const { id: idStr, orderToken: token } = JSON.parse(_decrypt(queryStr));
+      // const { id: idStr, orderToken: token } = JSON.parse(_decrypt(queryStr));
+      const { id: idStr, orderToken: token } = JSON.parse(queryStr);
       setId(idStr);
       setOrderToken(token);
     } catch (error) {

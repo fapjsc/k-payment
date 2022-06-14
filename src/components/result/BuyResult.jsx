@@ -24,7 +24,7 @@ import Chat from '../chat/Chat';
 import useQuery from '../../hooks/useQuery';
 
 // Helper
-import { _decrypt, thousandsFormat } from '../../utils/helpers';
+import { thousandsFormat } from '../../utils/helpers';
 
 // Image
 import successImage from '../../asset/success.png';
@@ -67,18 +67,13 @@ const BuyResult = () => {
   const { isMobile, isTablets } = useRwd();
   const history = useHistory();
 
-  const sessionStr = query.get('session');
+  // const sessionStr = query.get('session');
 
-  const queryStr = query.get('session') || query.get('id');
+  // const queryStr = query.get('session') || query.get('id');
+  const id = query.get('id');
+  const orderToken = query.get('orderToken');
 
-  let id;
-  let orderToken;
-
-  try {
-    const { id: idStr, orderToken: token } = JSON.parse(_decrypt(queryStr));
-    id = idStr;
-    orderToken = token;
-  } catch (error) {
+  if (!id || !orderToken) {
     history.replace('/not-found');
   }
 
@@ -90,7 +85,7 @@ const BuyResult = () => {
   } = useSelector((state) => state.diOrderSession);
 
   const {
-    data: orderData,
+    data: orderData, error: orderDataError,
   } = useSelector((state) => state.orderDetail);
 
   const { loading: appealLoading, error: appealError } = useSelector((state) => state.appeal);
@@ -120,10 +115,18 @@ const BuyResult = () => {
   };
 
   useEffect(() => {
-    if (status === 35) {
-      history.replace(`/auth/payment?session=${sessionStr}`);
+    if (!orderDataError) return;
+
+    if (orderDataError === 'Invalid Token') {
+      history.replace('/not-found');
     }
-  }, [status, history, sessionStr]);
+  }, [orderDataError, history]);
+
+  useEffect(() => {
+    if (status === 35) {
+      history.replace(`/auth/payment?id=${id}&orderToken=${orderToken}`);
+    }
+  }, [status, history, id, orderToken]);
 
   useEffect(() => {
     if (!appealError) return;

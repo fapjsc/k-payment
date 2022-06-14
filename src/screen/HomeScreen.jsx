@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Router
 import { useHistory } from 'react-router-dom';
@@ -42,11 +42,6 @@ import {
 const HomeScreen = () => {
   const query = useQuery();
   const id = query.get('id');
-  // const queryStr = query.get('id');
-  // const id = _decrypt(queryStr);
-
-  // Ref
-  const tokenRef = useRef();
 
   // Router
   const history = useHistory();
@@ -97,7 +92,7 @@ const HomeScreen = () => {
     if ((openToken && id) || (orderToken && id)) {
       setShowModal(true);
       // tokenRef.current = _encrypt(JSON.stringify({ orderToken, id }));
-      tokenRef.current = id;
+      // tokenRef.current = id;
     }
   }, [orderToken, id, openToken]);
 
@@ -110,12 +105,12 @@ const HomeScreen = () => {
 
   // 配對成功
   useEffect(() => {
-    if (!data || !tokenRef.current) return;
+    if (!data || !orderToken) return;
     const { Order_StatusID: orderStatus } = data || {};
     if (orderStatus >= 1 && orderStatus !== 31) {
-      history.replace(`/auth/payment?session=${tokenRef.current}`);
+      history.replace(`/auth/payment?id=${id}&orderToken=${orderToken}`);
     }
-  }, [data, history, tokenRef, id]);
+  }, [data, history, id, orderToken]);
 
   // 取消訂單
   useEffect(() => {
@@ -125,9 +120,9 @@ const HomeScreen = () => {
     }
 
     if (cancelData) {
-      history.replace(`/auth/result?session=${tokenRef.current}`);
+      history.replace(`/auth/result?id=${id}&orderToken=${orderToken}`);
     }
-  }, [cancelData, cancelError, history]);
+  }, [cancelData, cancelError, history, id, orderToken]);
 
   const cancelHandler = () => {
     dispatch(cancelOrder(id, orderToken));

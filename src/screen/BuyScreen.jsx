@@ -50,7 +50,8 @@ import useQuery from '../hooks/useQuery';
 import useGetIdToken from '../hooks/useGetIdToken';
 
 // Helpers
-import { _decrypt, _iosWhite, _isIOS15 } from '../utils/helpers';
+// eslint-disable-next-line
+import {  _iosWhite, _isIOS15 } from '../utils/helpers';
 
 const statusArr = [31, 33, 34, 35];
 const resultArr = [1, 99, 98];
@@ -60,9 +61,8 @@ const BuyScreen = () => {
   const { innerHeight } = window;
 
   const query = useQuery();
-  const sessionStr = query.get('session');
-
-  const { orderToken, id } = JSON.parse(_decrypt(sessionStr));
+  const id = query.get('id');
+  const orderToken = query.get('orderToken');
 
   // Ref
   const mobileChatHightRef = useRef();
@@ -96,7 +96,7 @@ const BuyScreen = () => {
   const { data } = sessions || {};
   const { Order_StatusID: paymentStatus } = data || {};
 
-  const { data: orderData } = useSelector((state) => state.orderDetail);
+  const { data: orderData, error: orderDataError } = useSelector((state) => state.orderDetail);
 
   // useGetIdToken();
 
@@ -107,9 +107,17 @@ const BuyScreen = () => {
 
   useEffect(() => {
     if (resultArr.includes(paymentStatus)) {
-      history.replace(`/auth/result?session=${sessionStr}`);
+      history.replace(`/auth/result?id=${id}&orderToken=${orderToken}`);
     }
-  }, [paymentStatus, history, sessionStr]);
+  }, [paymentStatus, history, id, orderToken]);
+
+  useEffect(() => {
+    if (!orderDataError) return;
+
+    if (orderDataError === 'Invalid Token') {
+      history.replace('/not-found');
+    }
+  }, [orderDataError, history]);
 
   useEffect(() => {
     if (!orderInfo) {
@@ -136,8 +144,8 @@ const BuyScreen = () => {
 
   useEffect(() => {
     if (!cancelData) return;
-    history.replace(`/auth/result?session=${sessionStr}`);
-  }, [cancelData, history, sessionStr]);
+    history.replace(`/auth/result?id=${id}&orderToken=${orderToken}`);
+  }, [cancelData, history, id, orderToken]);
 
   const confirmBuyHandler = () => {
     dispatch(confirmBuy(id, orderToken));
