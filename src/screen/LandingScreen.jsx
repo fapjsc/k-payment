@@ -13,7 +13,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { openOrder } from '../store/actions/orderActions';
 
 // Helpers
-import { _encrypt } from '../utils/helpers';
+// import { _encrypt } from '../utils/helpers';
 
 const LandingScreen = () => {
   const params = useParams();
@@ -32,8 +32,9 @@ const LandingScreen = () => {
 
   useEffect(() => {
     if (!orderInfo) return;
-    const encryptId = _encrypt(id);
-    history.replace(`/auth/home?id=${encryptId}`);
+    // const encryptId = _encrypt(id);
+    // history.replace(`/auth/home?id=${encryptId}`);
+    history.replace(`/auth/home?id=${id}`);
   }, [orderInfo, id, history]);
 
   useEffect(() => {

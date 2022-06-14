@@ -31,7 +31,7 @@ import PairModal from '../components/PairModal';
 import useQuery from '../hooks/useQuery';
 
 // Helpers
-import { _encrypt, _decrypt } from '../utils/helpers';
+// import { _encrypt, _decrypt } from '../utils/helpers';
 
 import {
   mobileWrapLayout,
@@ -41,8 +41,9 @@ import {
 
 const HomeScreen = () => {
   const query = useQuery();
-  const queryStr = query.get('id');
-  const id = _decrypt(queryStr);
+  const id = query.get('id');
+  // const queryStr = query.get('id');
+  // const id = _decrypt(queryStr);
 
   // Ref
   const tokenRef = useRef();
@@ -95,7 +96,8 @@ const HomeScreen = () => {
   useEffect(() => {
     if ((openToken && id) || (orderToken && id)) {
       setShowModal(true);
-      tokenRef.current = _encrypt(JSON.stringify({ orderToken, id }));
+      // tokenRef.current = _encrypt(JSON.stringify({ orderToken, id }));
+      tokenRef.current = id;
     }
   }, [orderToken, id, openToken]);
 
@@ -125,7 +127,7 @@ const HomeScreen = () => {
     if (cancelData) {
       history.replace(`/auth/result?session=${tokenRef.current}`);
     }
-  }, [cancelData, cancelError, history, queryStr]);
+  }, [cancelData, cancelError, history]);
 
   const cancelHandler = () => {
     dispatch(cancelOrder(id, orderToken));
