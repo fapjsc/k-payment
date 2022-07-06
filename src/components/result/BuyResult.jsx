@@ -74,6 +74,7 @@ const BuyResult = () => {
   const orderToken = query.get('orderToken');
 
   if (!id || !orderToken) {
+    alert('no id or no order token');
     history.replace('/not-found');
   }
 
@@ -118,6 +119,7 @@ const BuyResult = () => {
     if (!orderDataError) return;
 
     if (orderDataError === 'Invalid Token') {
+      alert('Invalid Token');
       history.replace('/not-found');
     }
   }, [orderDataError, history]);

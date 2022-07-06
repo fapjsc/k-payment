@@ -113,7 +113,7 @@ const BuyScreen = () => {
 
   useEffect(() => {
     if (!orderDataError) return;
-
+    alert(orderDataError);
     if (orderDataError === 'Invalid Token') {
       history.replace('/not-found');
     }
