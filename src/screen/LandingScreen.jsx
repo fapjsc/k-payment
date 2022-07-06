@@ -39,7 +39,7 @@ const LandingScreen = () => {
 
   useEffect(() => {
     if (!error) return;
-    alert(error);
+    alert(`Error: ${error}`);
     history.replace('/not-found');
   }, [error, history]);
 

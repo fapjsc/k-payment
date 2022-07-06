@@ -119,7 +119,7 @@ const BuyResult = () => {
     if (!orderDataError) return;
 
     if (orderDataError === 'Invalid Token') {
-      alert('Invalid Token');
+      alert('OrderDataError: Invalid Token');
       history.replace('/not-found');
     }
   }, [orderDataError, history]);

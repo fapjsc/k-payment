@@ -79,7 +79,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     if (!orderInfoError) return;
-    alert(orderInfoError);
+    alert(`Order info error:${orderInfoError}`);
     history.replace('/not-found');
   }, [orderInfoError, history]);
 

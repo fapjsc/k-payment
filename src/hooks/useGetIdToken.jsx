@@ -31,6 +31,7 @@ const useGetIdToken = () => {
       setId(idStr);
       setOrderToken(token);
     } catch (error) {
+      alert('get id or token fail');
       history.replace('/not-found');
     }
   }, [history, query]);
