@@ -5,7 +5,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 // Antd
 import {
-  Row, Col, Divider, Skeleton, Space, message,
+  Row, Col, Divider, Skeleton, Space, Modal,
 } from 'antd';
 
 // Redux
@@ -21,10 +21,11 @@ import {
 
 import {
   cancelOrder,
-  cancelOrderStatusClear,
 } from '../store/actions/cancelActions';
 
 import { setChatFullscreen } from '../store/actions/chatActions';
+
+import { errorCode } from '../error-code';
 
 // websocket
 import { buyConnectWs } from '../utils/webSocket';
@@ -44,14 +45,8 @@ import Chat from '../components/chat/Chat';
 import BuyScreenTablets from './BuyScreenTablets';
 import LoadingScreen from './LoadingScreen';
 
-// Hooks
-// import useQuery from '../hooks/useQuery';
-// eslint-disable-next-line
-// import useGetIdToken from '../hooks/useGetIdToken';
-
 // Helpers
-// eslint-disable-next-line
-import {  _iosWhite, _isIOS15 } from '../utils/helpers';
+import { _iosWhite, _isIOS15 } from '../utils/helpers';
 
 const statusArr = [31, 33, 34, 35];
 const resultArr = [1, 99, 98];
@@ -61,10 +56,8 @@ const BuyScreen = () => {
   const { innerHeight } = window;
   const location = useLocation();
 
-  // const query = useQuery();
-  // const id = query.get('id');
-  const id = location.search.split('&')[0].split('=')[1];
-  const orderToken = location.search.split('&')[1].split('=')[1];
+  const id = location?.search?.split('&')[0]?.split('=')[1];
+  const orderToken = location?.search?.split('&')[1]?.split('=')[1];
 
   // Ref
   const mobileChatHightRef = useRef();
@@ -83,11 +76,8 @@ const BuyScreen = () => {
 
   // Redux
   const dispatch = useDispatch();
-  const { orderInfo } = useSelector((state) => state.openOrder);
-  // const { order_token: token } = orderInfo || {};
-
-  const { rateInfo } = useSelector((state) => state.exRate);
-
+  const { orderInfo, error: orderInfoError } = useSelector((state) => state.openOrder);
+  const { rateInfo, error: rateError } = useSelector((state) => state.exRate);
   const { fullScreen } = useSelector((state) => state.chatFullScreen);
 
   const { error: cancelError, data: cancelData } = useSelector(
@@ -114,22 +104,55 @@ const BuyScreen = () => {
   }, [paymentStatus, history, id, orderToken]);
 
   useEffect(() => {
-    if (!orderDataError) return;
-    alert(`OrderDataError: ${orderDataError}`);
-    if (orderDataError === 'Invalid Token') {
-      history.replace('/not-found');
+    if (!orderInfoError) return;
+    Modal.error({
+      title: `開啟訂單失敗： ${orderInfoError}`,
+      content: `${errorCode[orderInfoError] || errorCode[0]}: ${id}`,
+      onOk: () => { dispatch(openOrder(id)); },
+    });
+  }, [orderInfoError, history, dispatch, id]);
+
+  useEffect(() => {
+    if (rateError) {
+      Modal.error({
+        title: `無法獲取匯率：${rateError}`,
+        content: errorCode[rateError] || errorCode[0],
+      });
     }
-  }, [orderDataError, history]);
+  }, [rateError]);
+
+  useEffect(() => {
+    if (!orderDataError) return;
+
+    Modal.error({
+      title: `無法獲取訂單訊息： ${orderDataError}`,
+      content: `${errorCode[orderDataError] || errorCode[0]}: ${orderToken}`,
+      onOk: () => {
+        Modal.destroyAll();
+        dispatch(getOrderDetail({ id, token: orderToken }));
+      },
+    });
+  }, [orderDataError, history, orderToken, dispatch, id]);
+
+  useEffect(() => {
+    if (!cancelError) return;
+    Modal.error({
+      title: `取消訂單失敗：${cancelError}`,
+      content: `${errorCode[cancelError] || errorCode[0]}: ${orderToken}`,
+    });
+  }, [cancelError, dispatch, orderToken]);
 
   useEffect(() => {
     if (!orderInfo) {
       dispatch(openOrder(id));
     }
+  }, [orderInfo, dispatch, id]);
 
+  useEffect(() => {
     if (!rateInfo) {
       dispatch(getExRate(id));
     }
-  }, [orderInfo, rateInfo, dispatch, id]);
+  }, [rateInfo, id, dispatch]);
 
   useEffect(() => {
     chatConnectWs(id, orderToken);
@@ -137,12 +160,6 @@ const BuyScreen = () => {
       buyConnectWs(id, orderToken);
     }
   }, [data, orderToken, id]);
-
-  useEffect(() => {
-    if (!cancelError) return;
-    message.error('訂單取消失敗');
-    dispatch(cancelOrderStatusClear());
-  }, [cancelError, dispatch]);
 
   useEffect(() => {
     if (!cancelData) return;

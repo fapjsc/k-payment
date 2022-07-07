@@ -6,23 +6,12 @@ const openOrderInitialState = {
   error: '',
 };
 
-const exRateInitialState = {
-  loading: false,
-  rateInfo: null,
-  error: '',
-};
-
-const getOrderInitialState = {
-  loading: false,
-  orderToken: null,
-  error: '',
-};
-
 export const orderReducer = (state = openOrderInitialState, action) => {
   switch (action.type) {
     case orderActionTypes.OPEN_ORDER_REQUEST:
       return {
-        ...state,
+        orderInfo: null,
+        error: '',
         loading: true,
       };
 
@@ -47,11 +36,17 @@ export const orderReducer = (state = openOrderInitialState, action) => {
   }
 };
 
+const exRateInitialState = {
+  loading: false,
+  rateInfo: null,
+  error: '',
+};
 export const exRateReducer = (state = exRateInitialState, action) => {
   switch (action.type) {
     case orderActionTypes.EX_RATE_REQUEST:
       return {
-        ...state,
+        rateInfo: null,
+        error: '',
         loading: true,
       };
 
@@ -76,11 +71,17 @@ export const exRateReducer = (state = exRateInitialState, action) => {
   }
 };
 
+const getOrderInitialState = {
+  loading: false,
+  orderToken: null,
+  error: '',
+};
 export const orderTokenReducer = (state = getOrderInitialState, action) => {
   switch (action.type) {
     case orderActionTypes.ORDER_TOKEN_REQUEST:
       return {
-        ...state,
+        orderToken: null,
+        error: '',
         loading: true,
       };
 
@@ -160,7 +161,8 @@ export const appealReducer = (state = appealInitialState, action) => {
   switch (action.type) {
     case orderActionTypes.APPEAL_REQUEST:
       return {
-        ...state,
+        orderToken: null,
+        error: '',
         loading: true,
       };
 
@@ -175,7 +177,7 @@ export const appealReducer = (state = appealInitialState, action) => {
       return {
         loading: false,
         data: null,
-        error: action.payload.error,
+        error: action.payload,
       };
 
     case orderActionTypes.APPEAL_STATUS_CLEAR:
@@ -196,8 +198,9 @@ export const orderDetailReducer = (state = orderDetailInitialState, action) => {
   switch (action.type) {
     case orderActionTypes.ORDER_DETAIL_REQUEST:
       return {
-        ...state,
         loading: true,
+        orderDetail: null,
+        error: '',
       };
 
     case orderActionTypes.ORDER_DETAIL_SUCCESS:

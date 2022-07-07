@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useState, useRef, Fragment,
+  useEffect, useState, useRef,
 } from 'react';
 
 import { gsap } from 'gsap';
@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // Antd
 import {
-  Result, Space, Divider, Row, Col, Button, message,
+  Result, Space, Divider, Row, Col, Button, message, Modal,
 } from 'antd';
 
 // Components
@@ -20,8 +20,7 @@ import Note from '../Note';
 import LoadingScreen from '../../screen/LoadingScreen';
 import Chat from '../chat/Chat';
 
-// Hooks
-// import useQuery from '../../hooks/useQuery';
+import { errorCode } from '../../error-code';
 
 // Helper
 import { thousandsFormat } from '../../utils/helpers';
@@ -45,11 +44,6 @@ import variable from '../../sass/variable.module.scss';
 
 import backImg from '../../asset/back.png';
 
-// const spanLayout = {
-//   span: 12,
-//   offset: 6,
-// };
-
 let type;
 
 const BuyResult = () => {
@@ -67,15 +61,14 @@ const BuyResult = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const id = location.search.split('&')[0].split('=')[1];
-  const orderToken = location.search.split('&')[1].split('=')[1];
-
-  // const id = query.get('id');
-  // const orderToken = query.get('orderToken');
+  const id = location?.search?.split('&')[0]?.split('=')[1];
+  const orderToken = location?.search?.split('&')[1]?.split('=')[1];
 
   if (!id || !orderToken) {
-    alert('no id or no order token');
-    history.replace('/not-found');
+    Modal.error({
+      title: '沒有 id 或是 token',
+      onOk: () => history.replace('/not-found'),
+    });
   }
 
   // Redux
@@ -117,23 +110,29 @@ const BuyResult = () => {
 
   useEffect(() => {
     if (!orderDataError) return;
+    Modal.error({
+      title: `無法獲取訂單訊息： ${orderDataError}`,
+      content: `${errorCode[orderDataError] || errorCode[0]}: ${orderToken}`,
+      onOk: () => {
+        Modal.destroyAll();
+        dispatch(getOrderDetail({ id, token: orderToken }));
+      },
+    });
+  }, [orderDataError, history, orderToken, id, dispatch]);
 
-    if (orderDataError === 'Invalid Token') {
-      alert('OrderDataError: Invalid Token');
-      history.replace('/not-found');
-    }
-  }, [orderDataError, history]);
+  useEffect(() => {
+    if (!appealError) return;
+    Modal.error({
+      title: `申訴請求發生錯誤： ${appealError}`,
+      content: `${errorCode[appealError] || errorCode[0]}: ${orderToken}`,
+    });
+  }, [appealError, orderToken, history]);
 
   useEffect(() => {
     if (status === 35) {
       history.replace(`/auth/payment?id=${id}&orderToken=${orderToken}`);
     }
   }, [status, history, id, orderToken]);
-
-  useEffect(() => {
-    if (!appealError) return;
-    message.error('訂單取消失敗');
-  }, [appealError]);
 
   useEffect(() => {
     if (!orderToken || !id) return;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -9,8 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
 
 import {
-  Row, Col, Button, message,
+  Row, Col, Button, Modal,
 } from 'antd';
+import { errorCode } from '../../error-code';
 
 // Actions
 import { getOrderToken } from '../../store/actions/orderActions';
@@ -28,19 +29,22 @@ const PaymentForm = ({
   // Redux
   const dispatch = useDispatch();
 
-  const { loading, error } = useSelector((state) => state.orderToken);
+  const { loading, error: getOrderTokenError } = useSelector((state) => state.orderToken);
 
   const { isMobile } = useRwd();
 
-  const onFinish = (values) => {
+  const onFinish = useCallback((values) => {
     dispatch(getOrderToken(id, values));
-  };
+  }, [id, dispatch]);
 
   useEffect(() => {
-    if (!error) return;
-    message.destroy();
-    message.error(error);
-  }, [error]);
+    if (!getOrderTokenError) return;
+    Modal.error({
+      title: `無法獲取Order Token： ${getOrderTokenError}`,
+      content: `${errorCode[getOrderTokenError] || errorCode[0]}: ${id}`,
+    });
+    // eslint-disable-next-line
+  }, [getOrderTokenError, id]);
   return (
     <ProForm
       style={{}}

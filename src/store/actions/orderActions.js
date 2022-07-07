@@ -9,11 +9,13 @@ export const openOrder = (id) => async (dispatch) => {
     const url = '/j/DI_OpenOrder.aspx';
     const response = await fetch(url, { headers });
     const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.msg || 'Could not fetch open order api');
-    }
+
     if (data.code !== 200) {
-      throw new Error(data.msg || 'Fetch open order fail.');
+      throw new Error(data.code);
+    }
+
+    if (!response.ok) {
+      throw new Error(data.code);
     }
 
     dispatch({
@@ -23,7 +25,7 @@ export const openOrder = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: orderActionTypes.OPEN_ORDER_FAIL,
-      payload: error.message || 'Something went wrong.',
+      payload: error.message,
     });
   }
 };
@@ -46,11 +48,12 @@ export const getOrderDetail = ({ token, id }) => async (dispatch) => {
 
     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.msg || 'Could not fetch order detail api');
-    }
     if (data.code !== 200) {
-      throw new Error(data.msg || 'Fetch order detail fail.');
+      throw new Error(data.code);
+    }
+
+    if (!response.ok) {
+      throw new Error(data.code);
     }
 
     dispatch({
@@ -60,7 +63,7 @@ export const getOrderDetail = ({ token, id }) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: orderActionTypes.ORDER_DETAIL_FAIL,
-      payload: error.message || 'Something went wrong.',
+      payload: error.message,
     });
   }
 };
@@ -73,11 +76,13 @@ export const getExRate = (id) => async (dispatch) => {
     const response = await fetch(url, { headers });
 
     const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.msg || 'Could not fetch exRage');
-    }
+
     if (data.code !== 200) {
-      throw new Error(data.msg || 'Fetch exRate fail.');
+      throw new Error(data.code);
+    }
+
+    if (!response.ok) {
+      throw new Error(0);
     }
 
     dispatch({
@@ -87,7 +92,7 @@ export const getExRate = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: orderActionTypes.EX_RATE_FAIL,
-      payload: error.message || 'Something went wrong.',
+      payload: error.message,
     });
   }
 };
@@ -111,11 +116,12 @@ export const getOrderToken = (id, orderData) => async (dispatch) => {
 
     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.msg || 'Could not fetch exRage');
-    }
     if (data.code !== 200) {
-      throw new Error(data.msg || 'Fetch exRate fail.');
+      throw new Error(data.code);
+    }
+
+    if (!response.ok) {
+      throw new Error(data.code);
     }
 
     dispatch({
@@ -125,7 +131,7 @@ export const getOrderToken = (id, orderData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: orderActionTypes.ORDER_TOKEN_FAIL,
-      payload: error.message || 'Something went wrong.',
+      payload: error.message,
     });
   }
 };
@@ -147,9 +153,13 @@ export const orderAppeal = ({ id, orderToken }) => async (dispatch) => {
 
     const data = await response.json();
 
-    if (!response.ok) throw new Error('Fetch Fail');
+    if (data.code !== 200) {
+      throw new Error(data.code);
+    }
 
-    if (data.code !== 200) throw new Error('appeal fail');
+    if (!response.ok) {
+      throw new Error(0);
+    }
 
     dispatch({
       type: orderActionTypes.APPEAL_SUCCESS,
@@ -158,7 +168,7 @@ export const orderAppeal = ({ id, orderToken }) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: orderActionTypes.APPEAL_FAIL,
-      payload: error.message || 'Some thing went wrong',
+      payload: error.message,
     });
   }
 };
@@ -184,12 +194,12 @@ export const confirmBuy = (id, orderToken) => async (dispatch) => {
 
     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.msg || 'Could not fetch buy2');
+    if (data.code !== 200) {
+      throw new Error(data.code);
     }
 
-    if (data.code !== 200) {
-      throw new Error(data.msg || 'Fetch buy2 fail.');
+    if (!response.ok) {
+      throw new Error(0);
     }
 
     dispatch({
@@ -199,7 +209,7 @@ export const confirmBuy = (id, orderToken) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: orderActionTypes.CONFIRM_BUY_FAIL,
-      payload: error.message || 'Something went wrong.',
+      payload: error.message,
     });
   }
 };

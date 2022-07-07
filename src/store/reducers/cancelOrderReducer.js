@@ -12,7 +12,8 @@ export const cancelOrderReducer = (state = initialState, action) => {
   switch (action.type) {
     case cancelActionTypes.CANCEL_ORDER_REQUEST:
       return {
-        ...state,
+        data: null,
+        error: '',
         loading: true,
       };
 

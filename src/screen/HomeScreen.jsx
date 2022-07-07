@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 // Antd
 import {
-  Row, Col, message, Divider,
+  Row, Col, Divider, Modal,
 } from 'antd';
 
 // Redux
@@ -19,19 +19,16 @@ import { cancelOrder } from '../store/actions/cancelActions';
 
 // websocket
 import { buyConnectWs } from '../utils/webSocket';
-// import { chatConnectWs } from '../utils/chatSocket';
+
+import { errorCode } from '../error-code';
 
 // Components
-// eslint-disable-next-line
 import Payment from '../components/payment/Payment';
 import Note from '../components/Note';
 import PairModal from '../components/PairModal';
 
 // Hooks
 import useQuery from '../hooks/useQuery';
-
-// Helpers
-// import { _encrypt, _decrypt } from '../utils/helpers';
 
 import {
   mobileWrapLayout,
@@ -48,18 +45,17 @@ const HomeScreen = () => {
 
   // Redux
   const dispatch = useDispatch();
+
   const { orderInfo, error: orderInfoError } = useSelector(
     (state) => state.openOrder,
   );
+  const { order_token: openToken } = orderInfo || {};
 
   const { data: cancelData, error: cancelError } = useSelector(
     (state) => state.cancelOrder,
   );
 
-  const { orderInfo: openOrderInfo } = useSelector((state) => state.openOrder);
-  const { order_token: openToken } = openOrderInfo || {};
-
-  const { rateInfo } = useSelector((state) => state.exRate);
+  const { rateInfo, error: rateError } = useSelector((state) => state.exRate);
   const { orderToken } = useSelector((state) => state.orderToken);
   const { sessions } = useSelector((state) => state.diOrderSession);
   const { data } = sessions || {};
@@ -68,20 +64,41 @@ const HomeScreen = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    if (!orderInfo) {
-      dispatch(openOrder(id));
-    }
-
     if (!rateInfo) {
       dispatch(getExRate(id));
     }
-  }, [dispatch, id, orderInfo, rateInfo]);
+  }, [dispatch, id, rateInfo]);
+
+  useEffect(() => {
+    if (!orderInfo) {
+      dispatch(openOrder(id));
+    }
+  }, [dispatch, id, orderInfo]);
 
   useEffect(() => {
     if (!orderInfoError) return;
-    alert(`Order info error:${orderInfoError}`);
-    history.replace('/not-found');
-  }, [orderInfoError, history]);
+    Modal.error({
+      title: `開啟訂單失敗： ${orderInfoError}`,
+      content: `${errorCode[orderInfoError] || errorCode[0]}: ${id}`,
+      onOk: () => { dispatch(openOrder(id)); },
+    });
+  }, [orderInfoError, history, dispatch, id]);
+
+  useEffect(() => {
+    if (!rateError) return;
+    Modal.error({
+      title: `無法獲取匯率：${rateError}`,
+      content: errorCode[rateError] || errorCode[0],
+    });
+  }, [rateError]);
+
+  useEffect(() => {
+    if (!cancelError) return;
+    Modal.error({
+      title: `取消訂單失敗：${cancelError}`,
+      content: `${errorCode[cancelError] || errorCode[0]}: ${orderToken}`,
+    });
+  }, [cancelError, dispatch, orderToken]);
 
   useEffect(() => {
     if (!openToken) return;
@@ -92,9 +109,6 @@ const HomeScreen = () => {
   useEffect(() => {
     if ((openToken && id) || (orderToken && id)) {
       setShowModal(true);
-      console.log(orderToken);
-      // tokenRef.current = _encrypt(JSON.stringify({ orderToken, id }));
-      // tokenRef.current = id;
     }
   }, [orderToken, id, openToken]);
 
@@ -116,15 +130,10 @@ const HomeScreen = () => {
 
   // 取消訂單
   useEffect(() => {
-    if (cancelError) {
-      message.error('訂單取消失敗');
-      return;
-    }
-
     if (cancelData) {
       history.replace(`/auth/result?id=${id}&orderToken=${orderToken}`);
     }
-  }, [cancelData, cancelError, history, id, orderToken]);
+  }, [cancelData, history, id, orderToken]);
 
   const cancelHandler = () => {
     dispatch(cancelOrder(id, orderToken));

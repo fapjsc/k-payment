@@ -74,6 +74,6 @@
     "stylelint": "^14.1.0",
     "stylelint-config-standard": "^24.0.0"
   },
-  "proxy": "https://demo.k100u.com",
-  "homepage": "."
+  "homepage": ".",
+   "proxy": "https://demo.k100u.com"
 }

@@ -2,17 +2,21 @@ import React, { useEffect } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
+// React Router
+import { useHistory } from 'react-router-dom';
 
 // Media Query
 import { useMediaQuery } from 'react-responsive';
 
 // Antd
 import {
-  Button, Row, Col, message,
+  Button, Row, Col, message, Modal,
 } from 'antd';
 
 // Actions
 import { confirmBuyStatusClear } from '../../store/actions/orderActions';
+
+import { errorCode } from '../../error-code';
 
 // Styles
 import variable from '../../sass/variable.module.scss';
@@ -21,7 +25,9 @@ import variable from '../../sass/variable.module.scss';
 const BuyAction = ({ setModalShow, id, orderToken }) => {
   // Redux
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.confirmBuy);
+  const { loading, error: confirmBuyError } = useSelector((state) => state.confirmBuy);
+
+  const history = useHistory();
 
   // Media query
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -32,10 +38,11 @@ const BuyAction = ({ setModalShow, id, orderToken }) => {
   };
 
   const confirmHandler = () => {
-    // const token = localStorage.getItem('orderToken');
-    // const id = localStorage.getItem('id');
     if (!id || !orderToken) {
-      message.error('session or orderToken invalid');
+      Modal.error({
+        title: '沒有 id 或是 token',
+        onOk: () => history.replace('/not-found'),
+      });
     }
 
     setModalShow({
@@ -47,8 +54,6 @@ const BuyAction = ({ setModalShow, id, orderToken }) => {
   };
 
   const cancelHandler = () => {
-    // const token = localStorage.getItem('orderToken');
-    // const id = localStorage.getItem('id');
     if (!id || !orderToken) {
       message.error('session or orderToken invalid');
     }
@@ -62,11 +67,14 @@ const BuyAction = ({ setModalShow, id, orderToken }) => {
   };
 
   useEffect(() => {
-    if (error) {
-      message.error(error);
-      dispatch(confirmBuyStatusClear());
+    if (confirmBuyError) {
+      Modal.error({
+        title: `無法獲取訂單訊息： ${confirmBuyError}`,
+        content: `${errorCode[confirmBuyError] || errorCode[0]}: ${orderToken}`,
+        onOk: () => dispatch(confirmBuyStatusClear()),
+      });
     }
-  }, [error, dispatch]);
+  }, [confirmBuyError, dispatch, orderToken]);
 
   if (isMobile) {
     return (

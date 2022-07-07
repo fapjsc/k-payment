@@ -3,6 +3,8 @@ import React, { useEffect } from 'react';
 // Redux
 import { useDispatch } from 'react-redux';
 
+import { useLocation } from 'react-router-dom';
+
 // Antd
 import { Result } from 'antd';
 
@@ -22,10 +24,11 @@ import variable from '../sass/variable.module.scss';
 const NotfoundImg = () => <img src={notFoundImage} alt="not found" />;
 
 const NoFoundPage = () => {
+  const query = useLocation()?.query;
+  console.log(query);
   // Redux
   const dispatch = useDispatch();
 
-  // eslint-disable-next-line
   const { isMobile } = useRwd();
 
   useEffect(() => {
@@ -37,9 +40,16 @@ const NoFoundPage = () => {
     <>
       <Result
         title={(
-          <h4 style={{ fontSize: '20px', color: variable['color-primary'] }}>
-            找不到訂單
-          </h4>
+          <div style={{ fontSize: '20px', color: variable['color-primary'] }}>
+            <h4
+              style={{ fontSize: '20px', color: variable['color-primary'] }}
+            >
+              發生錯誤
+              {query && `CODE: ${query?.code}`}
+            </h4>
+            <p>{query && query?.message}</p>
+            <p>{query && query?.orderToken}</p>
+          </div>
         )}
         icon={
           <img style={{ width: isMobile && '10.2rem' }} src={notFoundImage} alt="not found" />

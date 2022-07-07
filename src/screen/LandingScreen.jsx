@@ -4,13 +4,15 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Antd
-import { Spin } from 'antd';
+import { Spin, Modal } from 'antd';
 
 // Router
 import { useParams, useHistory } from 'react-router-dom';
 
 // Actions
 import { openOrder } from '../store/actions/orderActions';
+
+import { errorCode } from '../error-code';
 
 // Helpers
 // import { _encrypt } from '../utils/helpers';
@@ -23,7 +25,7 @@ const LandingScreen = () => {
 
   // Redux
   const dispatch = useDispatch();
-  const { orderInfo, error } = useSelector((state) => state.openOrder);
+  const { orderInfo, error: orderInfoError } = useSelector((state) => state.openOrder);
 
   useEffect(() => {
     if (!id) return;
@@ -38,10 +40,14 @@ const LandingScreen = () => {
   }, [orderInfo, id, history]);
 
   useEffect(() => {
-    if (!error) return;
-    alert(`Error: ${error}`);
-    history.replace('/not-found');
-  }, [error, history]);
+    if (!orderInfoError) return;
+    Modal.error({
+      title: `開啟訂單失敗： ${orderInfoError}`,
+      content: `${errorCode[orderInfoError] || errorCode[0]}: ${id}`,
+      onOk: () => { dispatch(openOrder(id)); },
+
+    });
+  }, [orderInfoError, history, dispatch, id]);
 
   return (
     <div

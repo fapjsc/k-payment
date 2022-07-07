@@ -12,20 +12,19 @@ export const cancelOrder = (id, orderToken) => async (dispatch) => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        Token: orderToken,
+        Token: `${orderToken}`,
       }),
     });
 
     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.msg || 'Could not fetch cancel api');
-    }
-
     if (data.code !== 200) {
-      throw new Error(data.msg || 'cancel order fail.');
+      throw new Error(data.code);
     }
 
+    if (!response.ok) {
+      throw new Error(0);
+    }
     dispatch({
       type: cancelActionTypes.CANCEL_ORDER_SUCCESS,
       payload: data,
@@ -33,7 +32,7 @@ export const cancelOrder = (id, orderToken) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: cancelActionTypes.CANCEL_ORDER_FAIL,
-      payload: error.message || 'Something went wrong.',
+      payload: error.message,
     });
   }
 };
