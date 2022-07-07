@@ -92,6 +92,7 @@ const HomeScreen = () => {
   useEffect(() => {
     if ((openToken && id) || (orderToken && id)) {
       setShowModal(true);
+      console.log(orderToken);
       // tokenRef.current = _encrypt(JSON.stringify({ orderToken, id }));
       // tokenRef.current = id;
     }

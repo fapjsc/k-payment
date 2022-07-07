@@ -134,7 +134,6 @@ export const orderAppeal = ({ id, orderToken }) => async (dispatch) => {
   dispatch({ type: orderActionTypes.APPEAL_REQUEST });
 
   const headers = getHeaders(id);
-  console.log(headers);
   const appealUrl = '/j/DI_Appeal.aspx';
 
   try {
@@ -156,7 +155,6 @@ export const orderAppeal = ({ id, orderToken }) => async (dispatch) => {
       type: orderActionTypes.APPEAL_SUCCESS,
       payload: { appealData: data.data },
     });
-    // console.log(data);
   } catch (error) {
     dispatch({
       type: orderActionTypes.APPEAL_FAIL,

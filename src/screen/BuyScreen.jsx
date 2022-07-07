@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 // Router props
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 // Antd
 import {
@@ -45,9 +45,9 @@ import BuyScreenTablets from './BuyScreenTablets';
 import LoadingScreen from './LoadingScreen';
 
 // Hooks
-import useQuery from '../hooks/useQuery';
+// import useQuery from '../hooks/useQuery';
 // eslint-disable-next-line
-import useGetIdToken from '../hooks/useGetIdToken';
+// import useGetIdToken from '../hooks/useGetIdToken';
 
 // Helpers
 // eslint-disable-next-line
@@ -59,10 +59,12 @@ const resultArr = [1, 99, 98];
 
 const BuyScreen = () => {
   const { innerHeight } = window;
+  const location = useLocation();
 
-  const query = useQuery();
-  const id = query.get('id');
-  const orderToken = query.get('orderToken');
+  // const query = useQuery();
+  // const id = query.get('id');
+  const id = location.search.split('&')[0].split('=')[1];
+  const orderToken = location.search.split('&')[1].split('=')[1];
 
   // Ref
   const mobileChatHightRef = useRef();

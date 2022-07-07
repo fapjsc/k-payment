@@ -5,7 +5,7 @@ import React, {
 import { gsap } from 'gsap';
 
 // Router
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,7 +21,7 @@ import LoadingScreen from '../../screen/LoadingScreen';
 import Chat from '../chat/Chat';
 
 // Hooks
-import useQuery from '../../hooks/useQuery';
+// import useQuery from '../../hooks/useQuery';
 
 // Helper
 import { thousandsFormat } from '../../utils/helpers';
@@ -45,11 +45,10 @@ import variable from '../../sass/variable.module.scss';
 
 import backImg from '../../asset/back.png';
 
-// eslint-disable-next-line
-const spanLayout = {
-  span: 12,
-  offset: 6,
-};
+// const spanLayout = {
+//   span: 12,
+//   offset: 6,
+// };
 
 let type;
 
@@ -63,15 +62,16 @@ const BuyResult = () => {
   const [showChat, setShowChat] = useState(false);
 
   // Hooks
-  const query = useQuery();
+  // const query = useQuery();
   const { isMobile, isTablets } = useRwd();
   const history = useHistory();
+  const location = useLocation();
 
-  // const sessionStr = query.get('session');
+  const id = location.search.split('&')[0].split('=')[1];
+  const orderToken = location.search.split('&')[1].split('=')[1];
 
-  // const queryStr = query.get('session') || query.get('id');
-  const id = query.get('id');
-  const orderToken = query.get('orderToken');
+  // const id = query.get('id');
+  // const orderToken = query.get('orderToken');
 
   if (!id || !orderToken) {
     alert('no id or no order token');

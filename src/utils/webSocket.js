@@ -27,7 +27,6 @@ export const buyConnectWs = (id, orderToken) => {
 
   // 2.收到server回復
   client.onmessage = (message) => {
-    console.log(message);
     if (!message?.data) return;
     const dataFromServer = JSON.parse(message.data);
     console.log('got reply!', dataFromServer);
