@@ -34,7 +34,7 @@ html {
   font-size: 1.6rem;
   margin-bottom: 0 !important;
 
-  @media only screen and(max-width: 767px) {
+  @media only screen and (max-width: 767px) {
     font-size: 1.2rem;
   }
 }
@@ -64,7 +64,7 @@ html {
   padding: 1.5rem;
   height: 56px;
   border-radius: 5px;
-  @media only screen and(max-width: 767px) {
+  @media only screen and (max-width: 767px) {
     padding: .8rem
   }
 }

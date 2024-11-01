@@ -4,7 +4,7 @@
   font-size: 1.6rem !important;
   color: $color-secondary !important;
 
-  @media only screen and(max-width: 767px) {
+  @media only screen and (max-width: 767px) {
     font-size: 1.2rem !important;
   }
 }
@@ -57,7 +57,7 @@
   background-color: #3e80f9 !important;
   border-radius: 5px !important;
 
-  @media only screen and(max-width: 767px) {
+  @media only screen and (max-width: 767px) {
     font-size: 1.4rem !important;
   }
 }
@@ -67,13 +67,13 @@
   border-color: #3e80f9 !important;
   transition: all 3s ease;
 
-  @media only screen and(max-width: 767px) {
+  @media only screen and (max-width: 767px) {
     font-size: 1.4rem !important;
   }
 }
 
 button {
-  @media only screen and(max-width: 767px) {
+  @media only screen and (max-width: 767px) {
     font-size: 1.4rem !important;
   }
 }
@@ -90,7 +90,7 @@ button {
   cursor: pointer;
   background-color: #568ef4;
 
-  @media only screen and(max-width: 767px) {
+  @media only screen and (max-width: 767px) {
     font-size: 1.4rem !important;
   }
 }
